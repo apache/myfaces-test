@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<document>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to you under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+  <properties>
+    <title>Shale Test Framework</title>
+  </properties>
+
+  <body>
+    
+    <section name="Shale Test Framework">
+    <a name="test"/>
+    
+      <a name="test-introduction"/>
+      <subsection name="Introduction">
+
+        <p>Modern application development processes have embraced the idea of
+        <em>unit testing</em> as an integral step in creating high quality
+        software.  In the Java world, a popular framework for building and
+        executing such unit tests is the <a href="http://junit.org">JUnit</a>
+        framework.  It is straightforward for an application developer to
+        create a corresponding <em>test case</em> class for each class in the
+        application itsef, and ensure that the tests contained in the test case
+        get executed as part of the normal application build process.</p>
+
+        <p>One of the tenets of unit testing is that a test case should focus
+        <em>only</em> on the methods of the class under test, in isolation from
+        related application classes, or APIs provided by any container that the
+        class under test might be installed into at runtime.  But, how do you
+        test an application class that has dependencies on such APIs (such as
+        depending on the Servlet API to provide an <code>HttpServletRequest</code>
+        object representing an incoming HTTP request)?</p>
+
+        <p>A popular answer to this dilemma is to utilize a library of
+        <em>mock objects</em> -- classes that implement and emulate the container
+        APIs, but still run in the isolated environment of a JUnit test case.
+        Shale provides mock object implementations for its own features, as
+        well as features of the underlying container (Servlet
+        and JavaServer Faces) environment.  In addition, convenient base classes
+        are provided to make it very easy to build your own test cases utilizing
+        these mock objects.  This library is used to create unit tests for Shale
+        components itself, but it is primarily focused on making it easy to
+        build unit tests for application classes such as
+        <code>ViewController</code>s.</p>
+
+      </subsection>
+
+      <a name="test-services"/>
+      <subsection name="Provided Services">
+
+        <p>The Shale Test Framework provides mock object libraries, plus base
+        classes for creating your own JUnit <code>TestCase</code>s.</p>
+
+        <p>Mock objects are provided in package <code>org.apache.shale.test.mock</code>
+        for the following container APIs:</p>
+        <ul>
+        <li>JavaServer Faces</li>
+        <li>Servlet</li>
+        </ul>
+        <p>These mock object classes implement the majority of the functionality
+        defined by the container API Javadocs (although some methods currently
+        throw <code>UnsupportedOperationException</code>).  In addition, many
+        of these classes support public methods, outside of the defined API,
+        for configuring the object in a test environment.  For example,
+        <code>MockServletContext</code> includes <code>addInitParameter()</code>
+        and <code>setDocumentRoot()</code> methods, to add context initialization
+        parameters to the set returned via <code>getInitParameter()</code> and
+        <code>getInitParameterNames()</code>, and to establish the base directory
+        for resolving servlet context resources, respectively.</p>
+
+        <p>The <code>org.apache.shale.test.base</code> package contains abstract
+        base classes that wire together instances of the various container API
+        mock objects, in a manner similar to the way they would become available
+        at runtime.  The following base classes are available:</p>
+        <ul>
+        <li><code>AbstractJsfTestCase</code> - Base class for unit tests that
+            require Servlet and JavaServer Faces objects to be available.</li>
+        <li><code>AbstractViewControllerTestCase</code> - Extension of
+            <code>AbstractJsfTestCase</code> that also provides convenient
+            utility methods needed to test common scenarios in unit tests for
+            <code>ViewController</code> implementation classes.</li>
+        </ul>
+
+        <p>If you use one of these base classes, the <code>setUp()</code> method
+        found there will initialize a set of <code>protected</code> instance
+        variables for the container-managed objects you might need to access.
+        The set of initialized variables includes (variable name and type):</p>
+        <ul>
+        <li><code>application</code> (<code>MockApplication</code>)</li>
+        <li><code>config</code> (<code>MockServletConfig</code>)</li>
+        <li><code>externalContext</code> (<code>MockExternalContext</code>)</li>
+        <li><code>facesContext</code> (<code>MockFacesContext</code>)</li>
+        <li><code>lifecycle</code> (<code>MockLifecycle</code>)</li>
+        <li><code>request</code> (<code>MockHttpServletRequest</code>)</li>
+        <li><code>response</code> (<code>MockHttpServletResonse</code>)</li>
+        <li><code>servletContext</code> (<code>MockServletContext</code>)</li>
+        <li><code>session</code> (<code>MockHttpSession</code>)</li>
+        </ul>
+
+      </subsection>
+
+      <a name="test-using"/>
+      <subsection name="Using The Test Framework">
+
+        <p>The most common scenario for using the Test Framework is to construct
+        test cases for <code>ViewController</code> implementation classes.
+        Because the runtime environment of a <code>ViewController</code> is
+        quite constrained, it is easy to construct isolated unit tests that
+        exercise the methods exposed by a <code>ViewController</code> class.
+        The <em>Shale Use Cases</em> web application (included in the distribution)
+        contains many examples of such test cases, in the <code>src/test</code>
+        directory.  We will use <code>org.apache.shale.usecases.locale.SelectTestCase</code>
+        (which tests the <code>org.apache.shale.usecases.locale.Select</code>
+        implementation) as an example of how such a test case can be constructed.</p>
+
+        <ol>
+        <li>Create a new Java class <code>SelectTestCase</code>, in a package
+            directory (typically under <code>src/test</code> in your project)
+            that is the same as the package directory for the class you will be
+            testing.  This allows your test case to access package private and
+            protected variables and methods in the class being tested.</li>
+        <li>Make sure that the package declaration matches that of the class to
+            be tested (in this case, <code>org.apache.shale.usecases.locale</code>.</li>
+        <li>Declare your class to extend <code>AbstractViewControllerTestCase</code>
+            (or, if you are not testing a <code>ViewController</code> implementation,
+            extend <code>AbstractJsfTestCase</code>):
+<source>
+public class SelectTestCase extends AbstractViewControllerTestCase {
+  ...
+}
+</source></li>
+        <li>Create a constructor that takes a <code>String</code> parameter, and
+            passes it to the superclass constructor:
+<source>
+public SelectTestCase(String name) {
+    super(name);
+}
+</source></li>
+        <li>Create a <code>setUp()</code> method and <strong>be sure</strong>
+            to call <code>super.setUp()</code> at the beginning.  This method
+            will be called by JUnit immediately before it executes each
+            test method.
+<source>
+public void setUp() {
+    super.setUp();
+    // Customization will go here
+}
+</source></li>
+        <li>After the call to the superclass <code>setUp()</code> method,
+            perform any other initialization required to execute the tests
+            in this test case.  In our example case, a configuration method
+            on the <code>MockApplication</code> instance will be used to
+            define the default and supported <code>Locale</code>s for this
+            set of tests.  This corresponds to what would happen at runtime,
+            when the JavaServer Faces initialization process used the contents
+            of the <code>/WEB-INF/faces-config.xml</code> resource to initialize
+            these values.  In addition, we will create a new instance of the
+            <code>Select</code> class to be tested.  It is important to create
+            a new instance for each test, to ensure that execution of one test
+            does not get influenced by the leftover property settings from a
+            previous test.
+<source>
+public void setUp() {
+    super.setUp();
+
+    // Configure the supported locales for this application
+    List list = new ArrayList();
+    list.add(new Locale("en"));
+    list.add(new Locale("fr"));
+    list.add(new Locale("de"));
+    list.add(new Locale("es"));
+    application.setSupportedLocales(list);
+
+    // Construct a new ViewController instance
+    vc = new Select();
+
+}
+</source></li>
+        <li>Create a <code>tearDown()</code> method that cleans up any custom
+            variables you allocated in your <code>setUp()</code> method, and
+            then calls the <code>super.tearDown()</code> method.  This will be
+            called by JUnit after each test is executed.
+<source>
+public void tearDown() {
+    vc = null;
+    super.tearDown();
+}
+</source></li>
+        <li>Declare the custom instance variable(s) that you are setting up
+            in your <code>setUp()</code> method.  In this case, we create an
+            instance of the <code>ViewController</code> class to be tested.
+            A new instance will be created (via a call from JUnit to the
+            <code>setUp()</code> method) before each test method is executed.
+<source>
+// The instance to be tested
+Select vc = null;
+</source></li>
+        <li>Create one or more individual test methods (which must be
+            <code>public</code>, return <code>void</code>, take no arguments,
+            and have a method name of the form <code>testXXXX</code>.  For
+            advice on how to construct such methods, consult the
+            <a href="http://junit.org/">JUnit Web Site</a>, or any of the
+            large number of resources on the web describing how to use JUnit
+            to build unit tests.  The following example tests what happens
+            when the <code>select()</code> method (which is executed when
+            the <em>Go</em> button is pressed), but the value entered is not
+            one of the valid options.  <strong>NOTE</strong> that the test
+            method must emulate the runtime calls to the <code>ViewController</code>
+            event methods, because there is no actual runtime container
+            available to perform these tasks automatically:
+<source>
+// Test behavior of select() with an invalid value
+public void testSelectInvalid() {
+
+    Locale locale = new Locale("en");
+    facesContext.getViewRoot().setLocale(locale);
+    vc.init();
+    vc.preprocess();
+    vc.setLocale("it");
+    String result = vc.select();
+    assertEquals(Select.FAILURE, result);
+    checkMessageCount(1);
+    assertEquals(locale, facesContext.getViewRoot().getLocale());
+
+}
+</source>
+            The test case sets the <code>locale</code> property (which is
+            bound to a dropdown component at runtime, but we are simulating
+            the behavior of Update Model Values here) to an invalid value,
+            then calls the <code>select()</code> method.  The test then
+            verifies that the logical outcome returned matches that which
+            is expected (<code>Select.FAILURE</code>), that there was an error
+            message queued to be displayed, and that the <code>locale</code>
+            for the current view was <strong>NOT</strong> actually changed.
+            <br/></li>
+        <li>Finally, integrate the execution of this test case into your
+            build script.  Many IDEs will take care of this for you; however,
+            if you are creating an Ant build script by hand, you might find
+            the <code>test</code> target from the Shale Use Cases example
+            a useful starting point.  It locates <em>all</em> the test cases
+            related to the entire application, and executes them:
+<source>
+  &lt;target name="test" depends="test.compile"
+   description="Execute unit tests">
+
+    &lt;mkdir          dir="${build.home}/test-results"/>
+
+    &lt;echo       message="Running unit tests ..."/>
+    &lt;junit printSummary="no" fork="yes"
+          haltonfailure="yes" haltonerror="yes">
+      &lt;classpath  refid="test.classpath"/>
+      &lt;formatter   type="plain"
+                usefile="false"/>
+      &lt;formatter   type="xml"
+                usefile="true"/>
+      &lt;batchtest todir="${build.home}/test-results">
+        &lt;fileset    dir="${build.home}/test-classes"
+               includes="org/apache/shale/usecases/*/*TestCase.class"/>
+      &lt;/batchtest>
+    &lt;/junit>
+
+  &lt;/target>
+</source></li>
+        </ol>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>

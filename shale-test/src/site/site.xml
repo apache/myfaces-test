@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to you under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<project name="Apache Shale Framework - Test Framework">
+
+  <bannerLeft>
+        <name>Apache Software Foundation</name>
+        <src>http://www.apache.org/images/asf-logo.gif</src>
+        <href>http://www.apache.org</href>
+  </bannerLeft>
+  <bannerRight>
+        <name>Apache Shale</name>
+        <src>../images/shale-logo.jpg</src>
+        <href>http://shale.apache.org</href>
+  </bannerRight>
+
+  <body>
+
+    <menu name="Sub-Project Documentation">
+        <item name="Application Controller"
+                                        href="../shale-application/index.html"/>
+        <item name="Clay Plug-In"       href="../shale-clay/index.html"/>
+        <item name="Core Library"       href="../shale-core/index.html"/>
+        <item name="Dialog Manager"     href="../shale-dialog/index.html"/>
+        <item name="Dialog Manager (Basic Implementation)"
+                                        href="../shale-dialog-basic/index.html"/>
+        <item name="Dialog Manager (SCXML Implementation)"
+                                        href="../shale-dialog-scxml/index.html"/>
+        <item name="Remoting"           href="../shale-remoting/index.html"/>
+        <item name="Spring Integration" href="../shale-spring/index.html"/>
+        <item name="Test Framework"     href="../shale-test/index.html"/>
+        <item name="Tiger Extensions"   href="../shale-tiger/index.html"/>
+        <item name="Validator Support"  href="../shale-validator/index.html"/>
+        <item name="View Controller"    href="../shale-view/index.html"/>
+    </menu>
+
+    <menu name="Sample Apps Documentation">
+        <item name="Blank Starter"      href="../shale-apps/shale-blank/index.html"/>
+        <item name="Clay Use Cases"     href="../shale-apps/shale-clay-usecases/index.html"/>
+        <item name="Mail Reader"        href="../shale-apps/shale-mailreader/index.html"/>
+        <item name="SQL Browser"        href="../shale-apps/shale-sql-browser/index.html"/>
+        <item name="Use Cases"          href="../shale-apps/shale-usecases/index.html"/>
+    </menu>
+
+    <menu name="Quick Links">
+        <item name="JavaServer Faces"
+              href="http://java.sun.com/javaee/javaserverfaces/"/>
+        <item name="MyFaces"
+              href="http://myfaces.apache.org"/>
+        <item name="Shale"
+              href="http://shale.apache.org"/>
+        <item name="Shale Sandbox"
+              href="http://shale.apache.org/sandbox"/>
+        <item name="Struts"
+              href="http://struts.apache.org"/>
+        <item name="Struts-Faces Integration Library"
+              href="http://struts.apache.org/1.x/struts-faces"/>
+    </menu>
+
+    ${reports}
+    
+  </body>
+
+</project>
+
+
+
+
+
