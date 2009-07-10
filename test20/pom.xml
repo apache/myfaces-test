@@ -28,9 +28,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>myfaces-test12</artifactId>
+    <artifactId>myfaces-test20</artifactId>
     <packaging>jar</packaging>
-    <name>Myfaces Test Framework for JSF 1.1 and 1.2</name>
+    <name>Myfaces Test Framework for JSF 2.0</name>
 
     <dependencies>
 
