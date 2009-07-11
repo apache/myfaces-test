@@ -31,7 +31,7 @@
     <artifactId>myfaces-test20</artifactId>
     <packaging>jar</packaging>
     <name>Myfaces Test Framework for JSF 2.0</name>
-
+    
     <dependencies>
 
         <!-- Required only for using the org.apache.shale.test.config package -->
@@ -93,128 +93,111 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <version>${jsf-myfaces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
+            <version>${jsf-myfaces.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
-    <!-- Allow building with JDK 1.4 as well as JDK 1.5,
-         the 1.4 profile caters only to JSF 1.1 -->
-    <profiles>
-
-        <profile>
-            <id>myfaces-test-jdk14</id>
-            <activation>
-                <jdk>1.4</jdk>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.apache.myfaces.core</groupId>
-                    <artifactId>myfaces-api</artifactId>
-                    <version>1.1.4</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.myfaces.core</groupId>
-                    <artifactId>myfaces-impl</artifactId>
-                    <version>1.1.4</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                    <version>2.4</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jsp-api</artifactId>
-                    <version>2.0</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- 
+                  - Add a new source directory to the compile path. 
+                  -
+                  -   test12_sources: contains all the source code from the "main" branch of test,
+                  -   which is written to be JSF1.2 and JSF1.1-compatible.
+                  -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
                         <configuration>
-                            <excludes>
-                                <exclude>org/apache/shale/test/el/**</exclude>
-                                <exclude>org/apache/shale/test/mock/*12.java</exclude>
-                            </excludes>
-                            <testExcludes>
-                                <testExclude>org/apache/shale/test/el/**</testExclude>
-                            </testExcludes>
+                            <sources>
+                                <source>
+                                    ${project.build.directory}/test12_sources
+                                </source>
+                            </sources>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>myfaces-test-jdk15</id>
-            <activation>
-                <jdk>1.5</jdk>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.faces</groupId>
-                    <artifactId>jsf-api</artifactId>
-                    <version>1.2_03</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.faces</groupId>
-                    <artifactId>jsf-impl</artifactId>
-                    <version>1.2_03</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                    <version>2.5</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                    <version>2.1</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>myfaces-test-jdk16</id>
-            <activation>
-                <jdk>1.6</jdk>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.faces</groupId>
-                    <artifactId>jsf-api</artifactId>
-                    <version>1.2_03</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.faces</groupId>
-                    <artifactId>jsf-impl</artifactId>
-                    <version>1.2_03</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                    <version>2.5</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet.jsp</groupId>
-                    <artifactId>jsp-api</artifactId>
-                    <version>2.1</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-    </profiles>
-
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.myfaces.buildtools</groupId>
+                <artifactId>myfaces-builder-plugin</artifactId>
+                <version>1.0.3</version>
+                <executions>
+                  <execution>
+                    <id>unpack-test12</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                      <goal>unpack</goal>
+                    </goals>
+                    <configuration>
+                      <scanModel>false</scanModel>
+                      <artifactItems>
+                        <artifactItem>
+                          <groupId>org.apache.myfaces.test</groupId>
+                          <artifactId>myfaces-test12</artifactId>
+                          <version>${pom.version}</version>
+                          <classifier>sources</classifier>                   
+                          <outputDirectory>${project.build.directory}/test12_sources</outputDirectory>
+                          <includes>**/*.java</includes>
+                          <excludes>**/*.class,**/META-INF/**</excludes>
+                        </artifactItem>
+                      </artifactItems>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin>            
+        </plugins>    
+    </build>
+    <properties>
+        <jsf-ri.version>2.0.0-SNAPSHOT</jsf-ri.version>
+        <jsf-myfaces.version>2.0.0-SNAPSHOT</jsf-myfaces.version>
+    </properties>
 </project>

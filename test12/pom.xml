@@ -95,6 +95,21 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
     <!-- Allow building with JDK 1.4 as well as JDK 1.5,
          the 1.4 profile caters only to JSF 1.1 -->
     <profiles>
@@ -216,5 +231,4 @@
         </profile>
 
     </profiles>
-
 </project>
