@@ -30,7 +30,12 @@ public class MockResponseWriter extends ResponseWriter {
 
     // ------------------------------------------------------------ Constructors
 
-
+    public MockResponseWriter(Writer writer) {
+        this.writer = writer;
+        this.contentType = "text/html";
+        this.characterEncoding = "UTF-8";
+    }
+    
     /**
      * <p>Construct an instance wrapping the specified writer.</p>
      *

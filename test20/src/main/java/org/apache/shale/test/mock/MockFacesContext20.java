@@ -20,7 +20,10 @@ package org.apache.shale.test.mock;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.FactoryFinder;
 import javax.faces.context.ExternalContext;
+import javax.faces.context.PartialViewContext;
+import javax.faces.context.PartialViewContextFactory;
 import javax.faces.event.PhaseId;
 import javax.faces.lifecycle.Lifecycle;
 
@@ -84,6 +87,21 @@ public class MockFacesContext20 extends MockFacesContext12 {
             attributes = new HashMap<Object,Object>();
         }
         return attributes;
+    }
+    
+    private PartialViewContext _partialViewContext = null;
+    
+    @Override
+    public PartialViewContext getPartialViewContext()
+    {
+        if (_partialViewContext == null)
+        {
+            //Get through factory finder
+            PartialViewContextFactory factory = (PartialViewContextFactory)
+                FactoryFinder.getFactory(FactoryFinder.PARTIAL_VIEW_CONTEXT_FACTORY);
+            _partialViewContext = factory.getPartialViewContext(this);
+        }
+        return _partialViewContext;
     }
     
     // ------------------------------------------------- ExternalContext Methods
