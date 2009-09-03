@@ -31,6 +31,8 @@ public class MockFacesContext20 extends MockFacesContext12 {
 
     // ------------------------------------------------------------ Constructors
 
+    private boolean _processingEvents = true;
+    
     public MockFacesContext20() {
         super();
         setCurrentInstance(this);
@@ -102,6 +104,17 @@ public class MockFacesContext20 extends MockFacesContext12 {
             _partialViewContext = factory.getPartialViewContext(this);
         }
         return _partialViewContext;
+    }
+    
+    public boolean isProcessingEvents()
+    {
+        return _processingEvents;
+    }
+    
+    @Override
+    public void setProcessingEvents(boolean processingEvents)
+    {
+        _processingEvents = processingEvents;
     }
     
     // ------------------------------------------------- ExternalContext Methods

@@ -32,6 +32,12 @@ public class MockExternalContext20 extends MockExternalContext12
         super(context, request, response);
     }
 
+    @Override
+    public String getMimeType(String file)
+    {
+        return context.getMimeType(file);
+    }
+
     // ------------------------------------------------------ Instance Variables
 
     // ----------------------------------------------------- Mock Object Methods

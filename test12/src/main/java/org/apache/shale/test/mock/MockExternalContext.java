@@ -76,7 +76,7 @@ public class MockExternalContext extends ExternalContext {
 
 
     private Map applicationMap = null;
-    private ServletContext context = null;
+    protected ServletContext context = null;
     protected HttpServletRequest request = null;
     private Map requestMap = null;
     protected HttpServletResponse response = null;
@@ -366,7 +366,7 @@ public class MockExternalContext extends ExternalContext {
     /** {@inheritDoc} */
     public Set getResourcePaths(String path) {
 
-        throw new UnsupportedOperationException();
+        return context.getResourcePaths(path);
 
     }
 
