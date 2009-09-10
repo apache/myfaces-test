@@ -17,6 +17,13 @@
 
 package org.apache.shale.test.mock;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,8 +47,108 @@ public class MockExternalContext20 extends MockExternalContext12
 
     // ------------------------------------------------------ Instance Variables
 
+    private static final String URL_PARAM_SEPERATOR="&";
+    private static final String URL_QUERY_SEPERATOR="?";
+    private static final String URL_FRAGMENT_SEPERATOR="#";
+    private static final String URL_NAME_VALUE_PAIR_SEPERATOR="=";
+
     // ----------------------------------------------------- Mock Object Methods
 
     // ------------------------------------------------- ExternalContext Methods
 
+    @Override
+    public String encodeBookmarkableURL(String baseUrl, Map<String,List<String>> parameters)
+    {
+        return response.encodeURL(encodeURL(baseUrl, parameters));
+    }
+    
+    private String encodeURL(String baseUrl, Map<String, List<String>> parameters)
+    {
+        String fragment = null;
+        String queryString = null;
+        Map<String, List<String>> paramMap = new HashMap<String, List<String>>();
+
+        //extract any URL fragment
+        int index = baseUrl.indexOf(URL_FRAGMENT_SEPERATOR);
+        if (index != -1)
+        {
+            fragment = baseUrl.substring(index+1);
+            baseUrl = baseUrl.substring(0,index);
+        }
+
+        //extract the current query string and add the params to the paramMap
+        index = baseUrl.indexOf(URL_QUERY_SEPERATOR);
+        if (index != -1)
+        {
+            queryString = baseUrl.substring(index + 1);
+            baseUrl = baseUrl.substring(0, index);
+            String[] nameValuePairs = queryString.split(URL_PARAM_SEPERATOR);
+            for (int i = 0; i < nameValuePairs.length; i++)
+            {
+                String[] currentPair = nameValuePairs[i].split(URL_NAME_VALUE_PAIR_SEPERATOR);
+                if (currentPair[1] != null)
+                {
+                    ArrayList<String> value = new ArrayList<String>(1);
+                    value.add(currentPair[1]);
+                    paramMap.put(currentPair[0], value);
+                }
+            }
+        }
+
+        //add/update with new params on the paramMap
+        if (parameters != null && parameters.size() > 0)
+        {
+            for (Map.Entry<String, List<String>> pair : parameters.entrySet())
+            {
+                if (pair.getKey() != null && pair.getKey().trim().length() != 0)
+                {
+                    paramMap.put(pair.getKey(), pair.getValue());
+                }
+            }
+        }
+
+        // start building the new URL
+        StringBuilder newUrl = new StringBuilder(baseUrl);
+
+        //now add the updated param list onto the url
+        if (paramMap.size()>0)
+        {
+            boolean isFirstPair = true;
+            for (Map.Entry<String, List<String>> pair : paramMap.entrySet())
+            {
+                for (String value : pair.getValue())
+                {
+                    if (!isFirstPair)
+                    {
+                        newUrl.append(URL_PARAM_SEPERATOR);
+                    }
+                    else
+                    {
+                        newUrl.append(URL_QUERY_SEPERATOR);
+                        isFirstPair = false;
+                    }
+
+                    newUrl.append(pair.getKey());
+                    newUrl.append(URL_NAME_VALUE_PAIR_SEPERATOR);
+                    try
+                    {
+                        newUrl.append(URLEncoder.encode(value,getResponseCharacterEncoding()));
+                    }
+                    catch (UnsupportedEncodingException e)
+                    {
+                        //shouldn't ever get here
+                        throw new UnsupportedOperationException("Encoding type=" + getResponseCharacterEncoding() + " not supported", e);
+                    }
+                }
+            }
+        }
+
+        //add the fragment back on (if any)
+        if (fragment != null)
+        {
+            newUrl.append(URL_FRAGMENT_SEPERATOR + fragment);
+        }
+
+        return newUrl.toString();
+    }    
 }
