@@ -18,6 +18,7 @@
 package org.apache.shale.test.mock;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -174,8 +175,19 @@ public class MockApplication20 extends MockApplication12
     private static final Log log = LogFactory.getLog(MockApplication20.class);
     
     private final Map<Class<? extends SystemEvent>, SystemListenerEntry> _systemEventListenerClassMap = new ConcurrentHashMap<Class<? extends SystemEvent>, SystemListenerEntry>();
+    
+    private Map<String, String> _defaultValidatorsIds = new HashMap<String, String>();
 
     // ----------------------------------------------------- Mock Object Methods
+    
+    /**
+     * TODO: Implement this one correctly
+     */
+    @Override
+    public Map<String, String> getDefaultValidatorInfo()
+    {
+        return _defaultValidatorsIds;
+    }    
 
     private static SystemEvent _traverseListenerList(
             List<? extends SystemEventListener> listeners,
