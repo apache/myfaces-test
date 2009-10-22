@@ -367,8 +367,8 @@ public final class ConfigParser {
                 renderKit = new MockRenderKit();
                 factory.addRenderKit(renderKitId, renderKit);
             }
-            digester.pop();
-            digester.push(renderKit);
+            getDigester().pop();
+            getDigester().push(renderKit);
         }
 
     }
