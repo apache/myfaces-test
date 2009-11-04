@@ -23,13 +23,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
 
 import javax.faces.FacesException;
+import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 import javax.faces.event.SystemEventListenerHolder;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -177,6 +182,8 @@ public class MockApplication20 extends MockApplication12
     private final Map<Class<? extends SystemEvent>, SystemListenerEntry> _systemEventListenerClassMap = new ConcurrentHashMap<Class<? extends SystemEvent>, SystemListenerEntry>();
     
     private Map<String, String> _defaultValidatorsIds = new HashMap<String, String>();
+    
+    private ProjectStage _projectStage;
 
     // ----------------------------------------------------- Mock Object Methods
     
@@ -302,6 +309,96 @@ public class MockApplication20 extends MockApplication12
         publishEvent(facesContext, systemEventClass, source.getClass(), source);
     }
     
+    @Override
+    public ProjectStage getProjectStage()
+    {
+        // If the value has already been determined by a previous call to this
+        // method, simply return that value.
+        if (_projectStage == null)
+        {
+            /*
+            String stageName = null;
+            // Look for a JNDI environment entry under the key given by the
+            // value of
+            // ProjectStage.PROJECT_STAGE_JNDI_NAME (return type of
+            // java.lang.String).
+            try
+            {
+                Context ctx = new InitialContext();
+                Object temp = ctx.lookup(ProjectStage.PROJECT_STAGE_JNDI_NAME);
+                if (temp != null)
+                {
+                    if (temp instanceof String)
+                    {
+                        stageName = (String) temp;
+                    }
+                    else
+                    {
+                        log.severe("JNDI lookup for key " + ProjectStage.PROJECT_STAGE_JNDI_NAME
+                                + " should return a java.lang.String value");
+                    }
+                }
+            }
+            catch (NamingException e)
+            {
+                // no-op
+            }*/
+
+            /*
+             * If found, continue with the algorithm below, otherwise, look for an entry in the initParamMap of the
+             * ExternalContext from the current FacesContext with the key ProjectStage.PROJECT_STAGE_PARAM_NAME
+             */
+            
+            //if (stageName == null)
+            //{
+                FacesContext context = FacesContext.getCurrentInstance();
+                String stageName = context.getExternalContext().getInitParameter(ProjectStage.PROJECT_STAGE_PARAM_NAME);
+            //}
+
+            /*
+             * If not found so far, let's try the Apache MyFaces extension (see MYFACES-2235)
+             */
+            //if (stageName == null)
+            //{
+            //    stageName = System.getProperty(MYFACES_PROJECT_STAGE_SYSTEM_PROPERTY_NAME);
+            //}
+
+            // If a value is found found
+            if (stageName != null)
+            {
+                /*
+                 * see if an enum constant can be obtained by calling ProjectStage.valueOf(), passing the value from the
+                 * initParamMap. If this succeeds without exception, save the value and return it.
+                 */
+                try
+                {
+                    _projectStage = ProjectStage.valueOf(stageName);
+                    return _projectStage;
+                }
+                catch (IllegalArgumentException e)
+                {
+                    //log.log(Level.SEVERE, "Couldn't discover the current project stage", e);
+                }
+            }
+            else
+            {
+                //if (log.isLoggable(Level.INFO))
+                //{
+                //    log.info("Couldn't discover the current project stage, using " + ProjectStage.Production);
+                //}
+            }
+
+            /*
+             * If not found, or any of the previous attempts to discover the enum constant value have failed, log a
+             * descriptive error message, assign the value as ProjectStage.Production and return it.
+             */
+
+            _projectStage = ProjectStage.Production;
+        }
+
+        return _projectStage;
+    }
+        
     // ------------------------------------------------- ExternalContext Methods
 
 }
