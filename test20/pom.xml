@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.apache.myfaces.test</groupId>
         <artifactId>myfaces-test-project</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-alpha</version>
     </parent>
 
     <artifactId>myfaces-test20</artifactId>
@@ -99,12 +99,14 @@
             <version>${jsf-myfaces.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-impl</artifactId>
             <version>${jsf-myfaces.version}</version>
             <scope>test</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -197,7 +199,7 @@
         </plugins>    
     </build>
     <properties>
-        <jsf-ri.version>2.0.0-SNAPSHOT</jsf-ri.version>
-        <jsf-myfaces.version>2.0.0-SNAPSHOT</jsf-myfaces.version>
+        <jsf-ri.version>2.0.0</jsf-ri.version>
+        <jsf-myfaces.version>2.0.0-alpha</jsf-myfaces.version>
     </properties>
 </project>

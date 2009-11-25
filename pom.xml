@@ -31,7 +31,7 @@
     <artifactId>myfaces-test-project</artifactId>
     <packaging>pom</packaging>
     <name>Myfaces Test Framework</name>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-alpha</version>
     <url>http://myfaces.apache.org/test</url>
     <issueManagement>
       <system>jira</system>
