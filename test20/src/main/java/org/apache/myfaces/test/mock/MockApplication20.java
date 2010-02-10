@@ -17,30 +17,30 @@
 
 package org.apache.myfaces.test.mock;
 
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.faces.FacesException;
 import javax.faces.application.ProjectStage;
+import javax.faces.application.ResourceHandler;
+import javax.faces.component.behavior.Behavior;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 import javax.faces.event.SystemEventListenerHolder;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.lang.reflect.Constructor;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MockApplication20 extends MockApplication12
 {
+
 
     // ------------------------------------------------------------ Constructors
 
@@ -185,16 +185,18 @@ public class MockApplication20 extends MockApplication12
     
     private ProjectStage _projectStage;
 
+    private final Map<String, Class<?>> _behaviorClassMap = new ConcurrentHashMap<String, Class<?>>();
+
+    private final Map<String, Class<?>> _validatorClassMap = new ConcurrentHashMap<String, Class<?>>();
+
+    private ResourceHandler _resourceHandler;
+
     // ----------------------------------------------------- Mock Object Methods
     
-    /**
-     * TODO: Implement this one correctly
-     */
-    @Override
     public Map<String, String> getDefaultValidatorInfo()
     {
-        return _defaultValidatorsIds;
-    }    
+        return Collections.unmodifiableMap(_defaultValidatorsIds);
+    }
 
     private static SystemEvent _traverseListenerList(
             List<? extends SystemEventListener> listeners,
@@ -267,8 +269,7 @@ public class MockApplication20 extends MockApplication12
             throw new NullPointerException("String " + paramName + " cannot be empty.");
         }
     }
-    
-    @Override
+
     public void publishEvent(FacesContext facesContext, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source)
     {
         checkNull(systemEventClass, "systemEventClass");
@@ -303,65 +304,20 @@ public class MockApplication20 extends MockApplication12
         }
     }
 
-    @Override
     public void publishEvent(FacesContext facesContext, Class<? extends SystemEvent> systemEventClass, Object source)
     {
         publishEvent(facesContext, systemEventClass, source.getClass(), source);
     }
-    
-    @Override
+
     public ProjectStage getProjectStage()
     {
         // If the value has already been determined by a previous call to this
         // method, simply return that value.
         if (_projectStage == null)
         {
-            /*
-            String stageName = null;
-            // Look for a JNDI environment entry under the key given by the
-            // value of
-            // ProjectStage.PROJECT_STAGE_JNDI_NAME (return type of
-            // java.lang.String).
-            try
-            {
-                Context ctx = new InitialContext();
-                Object temp = ctx.lookup(ProjectStage.PROJECT_STAGE_JNDI_NAME);
-                if (temp != null)
-                {
-                    if (temp instanceof String)
-                    {
-                        stageName = (String) temp;
-                    }
-                    else
-                    {
-                        log.severe("JNDI lookup for key " + ProjectStage.PROJECT_STAGE_JNDI_NAME
-                                + " should return a java.lang.String value");
-                    }
-                }
-            }
-            catch (NamingException e)
-            {
-                // no-op
-            }*/
 
-            /*
-             * If found, continue with the algorithm below, otherwise, look for an entry in the initParamMap of the
-             * ExternalContext from the current FacesContext with the key ProjectStage.PROJECT_STAGE_PARAM_NAME
-             */
-            
-            //if (stageName == null)
-            //{
-                FacesContext context = FacesContext.getCurrentInstance();
-                String stageName = context.getExternalContext().getInitParameter(ProjectStage.PROJECT_STAGE_PARAM_NAME);
-            //}
-
-            /*
-             * If not found so far, let's try the Apache MyFaces extension (see MYFACES-2235)
-             */
-            //if (stageName == null)
-            //{
-            //    stageName = System.getProperty(MYFACES_PROJECT_STAGE_SYSTEM_PROPERTY_NAME);
-            //}
+            FacesContext context = FacesContext.getCurrentInstance();
+            String stageName = context.getExternalContext().getInitParameter(ProjectStage.PROJECT_STAGE_PARAM_NAME);
 
             // If a value is found found
             if (stageName != null)
@@ -380,25 +336,129 @@ public class MockApplication20 extends MockApplication12
                     //log.log(Level.SEVERE, "Couldn't discover the current project stage", e);
                 }
             }
-            else
-            {
-                //if (log.isLoggable(Level.INFO))
-                //{
-                //    log.info("Couldn't discover the current project stage, using " + ProjectStage.Production);
-                //}
-            }
-
-            /*
-             * If not found, or any of the previous attempts to discover the enum constant value have failed, log a
-             * descriptive error message, assign the value as ProjectStage.Production and return it.
-             */
-
+            
             _projectStage = ProjectStage.Production;
         }
 
         return _projectStage;
     }
-        
-    // ------------------------------------------------- ExternalContext Methods
 
+
+    public void addBehavior(String behaviorId, String behaviorClass)
+    {
+        checkNull(behaviorId, "behaviorId");
+        checkEmpty(behaviorId, "behaviorId");
+        checkNull(behaviorClass, "behaviorClass");
+        checkEmpty(behaviorClass, "behaviorClass");
+
+        try {
+            _behaviorClassMap.put(behaviorId, Class.forName(behaviorClass));
+        } catch (ClassNotFoundException ignore) {
+
+        }
+
+    }
+
+    public Iterator<String> getBehaviorIds()
+    {
+        return _behaviorClassMap.keySet().iterator();
+    }
+
+    public Behavior createBehavior(String behaviorId) throws FacesException
+    {
+        checkNull(behaviorId, "behaviorId");
+        checkEmpty(behaviorId, "behaviorId");
+
+        final Class<?> behaviorClass = this._behaviorClassMap.get(behaviorId);
+        if (behaviorClass == null)
+        {
+            throw new FacesException("Could not find any registered behavior-class for behaviorId : " + behaviorId);
+        }
+
+        try
+        {
+            final Behavior behavior = (Behavior) behaviorClass.newInstance();
+            return behavior;
+        }
+        catch (Exception e)
+        {
+            throw new FacesException("Could not instantiate behavior: " + behaviorClass, e);
+        }
+    }
+
+    @Override
+    public void addValidator(String validatorId, String validatorClass) {
+        super.addValidator(validatorId, validatorClass);
+
+        try {
+        _validatorClassMap.put(validatorId,
+                Class.forName(validatorClass));
+        } catch (ClassNotFoundException ex) {
+            throw new FacesException(ex.getMessage());
+        }
+
+    }
+
+    public void addDefaultValidatorId(String validatorId)
+    {
+        if (_validatorClassMap.containsKey(validatorId))
+        {
+            _defaultValidatorsIds.put(validatorId, _validatorClassMap.get(validatorId).getName());
+        }
+    }
+
+    public final ResourceHandler getResourceHandler()
+    {
+        return _resourceHandler;
+    }
+
+    public final void setResourceHandler(ResourceHandler resourceHandler)
+    {
+        checkNull(resourceHandler, "resourceHandler");
+
+        _resourceHandler = resourceHandler;
+    }
+
+    public void subscribeToEvent(Class<? extends SystemEvent> systemEventClass, SystemEventListener listener)
+    {
+        subscribeToEvent(systemEventClass, null, listener);
+    }
+
+    public void subscribeToEvent(Class<? extends SystemEvent> systemEventClass, Class<?> sourceClass,
+                                 SystemEventListener listener)
+    {
+        checkNull(systemEventClass, "systemEventClass");
+        checkNull(listener, "listener");
+
+        SystemListenerEntry systemListenerEntry;
+        synchronized (_systemEventListenerClassMap)
+        {
+            systemListenerEntry = _systemEventListenerClassMap.get(systemEventClass);
+            if (systemListenerEntry == null)
+            {
+                systemListenerEntry = new SystemListenerEntry();
+                _systemEventListenerClassMap.put(systemEventClass, systemListenerEntry);
+            }
+        }
+
+        systemListenerEntry.addListener(listener, sourceClass);
+    }
+
+    public void unsubscribeFromEvent(Class<? extends SystemEvent> systemEventClass, SystemEventListener listener)
+    {
+        unsubscribeFromEvent(systemEventClass, null, listener);
+    }
+
+    public void unsubscribeFromEvent(Class<? extends SystemEvent> systemEventClass, Class<?> sourceClass,
+                                     SystemEventListener listener)
+    {
+        checkNull(systemEventClass, "systemEventClass");
+        checkNull(listener, "listener");
+
+        SystemListenerEntry systemListenerEntry = _systemEventListenerClassMap.get(systemEventClass);
+        if (systemListenerEntry != null)
+        {
+            systemListenerEntry.removeListener(listener, sourceClass);
+        }
+    }
 }

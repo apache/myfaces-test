@@ -17,10 +17,15 @@
 
 package org.apache.myfaces.test.mock;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.FactoryFinder;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.PartialViewContext;
 import javax.faces.context.PartialViewContextFactory;
@@ -30,8 +35,6 @@ import javax.faces.lifecycle.Lifecycle;
 public class MockFacesContext20 extends MockFacesContext12 {
 
     // ------------------------------------------------------------ Constructors
-
-    private boolean _processingEvents = true;
     
     public MockFacesContext20() {
         super();
@@ -48,26 +51,27 @@ public class MockFacesContext20 extends MockFacesContext12 {
         super(externalContext, lifecycle);
     }
 
-    // ----------------------------------------------------- Mock Object Methods
-
     // ------------------------------------------------------ Instance Variables
 
-    // ----------------------------------------------------- Mock Object Methods
+    private boolean _processingEvents = true;
+    private ExceptionHandler _exceptionHandler = null;
+    private PhaseId _currentPhaseId = PhaseId.RESTORE_VIEW;
+    private boolean _postback;
+    private PartialViewContext _partialViewContext = null;
+    private Map<Object,Object> attributes;
+    private boolean _validationFailed = false;
 
-    private boolean postback;
+    // ----------------------------------------------------- Mock Object Methods   
 
-    @Override
     public boolean isPostback()
     {
-        return postback;
+        return _postback;
     }
     
     public void setPostback(boolean value)
     {
-        postback = value;
+        _postback = value;
     }
-
-    private PhaseId _currentPhaseId = PhaseId.RESTORE_VIEW;
     
     public PhaseId getCurrentPhaseId()
     {
@@ -78,10 +82,7 @@ public class MockFacesContext20 extends MockFacesContext12 {
     {
         this._currentPhaseId = _currentPhaseId;
     }
-    
-    private Map<Object,Object> attributes;
 
-    @Override
     public Map<Object, Object> getAttributes()
     {
         if (attributes == null)
@@ -90,10 +91,7 @@ public class MockFacesContext20 extends MockFacesContext12 {
         }
         return attributes;
     }
-    
-    private PartialViewContext _partialViewContext = null;
-    
-    @Override
+
     public PartialViewContext getPartialViewContext()
     {
         if (_partialViewContext == null)
@@ -111,12 +109,59 @@ public class MockFacesContext20 extends MockFacesContext12 {
         return _processingEvents;
     }
     
-    @Override
     public void setProcessingEvents(boolean processingEvents)
     {
         _processingEvents = processingEvents;
     }
-    
+
+    public ExceptionHandler getExceptionHandler()
+    {
+        return _exceptionHandler;
+    }
+
+    public void setExceptionHandler(ExceptionHandler exceptionHandler)
+    {
+        _exceptionHandler = exceptionHandler;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<FacesMessage> getMessageList()
+    {
+        if (messages == null)
+        {
+            return Collections.unmodifiableList(Collections.<FacesMessage>emptyList());
+        }
+
+        List<FacesMessage> lst = new ArrayList<FacesMessage>();
+        for(List<FacesMessage> curLst : ((Map<String, List<FacesMessage>>) messages).values())
+        {
+            lst.addAll(curLst);
+        }
+
+        return Collections.unmodifiableList(lst);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<FacesMessage> getMessageList(String clientId)
+    {
+        if (messages == null || !messages.containsKey(clientId))
+        {
+            return Collections.unmodifiableList(Collections.<FacesMessage>emptyList());
+        }
+
+        return ((Map<String, List<FacesMessage>>) messages).get(clientId);
+    }
+
+    public boolean isValidationFailed()
+    {
+        return _validationFailed;
+    }
+
+    public void validationFailed()
+    {
+        _validationFailed = true;
+    }
+
     // ------------------------------------------------- ExternalContext Methods
 
 }

@@ -17,19 +17,20 @@
 
 package org.apache.myfaces.test.config;
 
-import java.io.IOException;
-import java.net.URL;
+import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Rule;
+import org.apache.myfaces.test.mock.MockRenderKit;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
 import javax.faces.render.RenderKit;
 import javax.faces.render.RenderKitFactory;
 import javax.faces.render.Renderer;
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rule;
-import org.apache.myfaces.test.mock.MockRenderKit;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * <p>Utility class to parse JavaServer Faces configuration resources, and
@@ -55,7 +56,7 @@ import org.xml.sax.SAXException;
  *
  * @since 1.1
  */
-public final class ConfigParser {
+public class ConfigParser {
     
 
     // ------------------------------------------------------------ Constructors

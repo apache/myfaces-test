@@ -17,16 +17,19 @@
 
 package org.apache.myfaces.test.mock;
 
+import javax.faces.context.Flash;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class MockExternalContext20 extends MockExternalContext12
 {
@@ -39,7 +42,6 @@ public class MockExternalContext20 extends MockExternalContext12
         super(context, request, response);
     }
 
-    @Override
     public String getMimeType(String file)
     {
         return context.getMimeType(file);
@@ -56,7 +58,6 @@ public class MockExternalContext20 extends MockExternalContext12
 
     // ------------------------------------------------- ExternalContext Methods
 
-    @Override
     public String encodeBookmarkableURL(String baseUrl, Map<String,List<String>> parameters)
     {
         return response.encodeURL(encodeURL(baseUrl, parameters));
@@ -150,5 +151,66 @@ public class MockExternalContext20 extends MockExternalContext12
         }
 
         return newUrl.toString();
-    }    
+    }
+
+    public String encodeRedirectURL(String baseUrl, Map<String,List<String>> parameters)
+    {
+        return response.encodeRedirectURL(encodeURL(baseUrl, parameters));
+    }
+
+    public String getContextName() {
+        return context.getServletContextName();
+    }
+
+    public String getRealPath(String path)
+    {
+        return context.getRealPath(path);
+    }
+
+    public void responseSendError(int statusCode, String message) throws IOException
+    {
+        if (message == null)
+        {
+            response.sendError(statusCode);
+        }
+        else
+        {
+            response.sendError(statusCode, message);
+        }
+    }
+
+    public void setResponseHeader(String name, String value)
+    {
+        response.setHeader(name, value);
+    }
+
+    public String getRequestScheme()
+    {
+        return request.getScheme();
+    }
+
+    public String getRequestServerName()
+    {
+        return request.getServerName();
+    }
+
+    public int getRequestServerPort()
+    {
+        return request.getServerPort();
+    }
+
+    public OutputStream getResponseOutputStream() throws IOException
+    {
+        return response.getOutputStream();
+    }
+
+    public Writer getResponseOutputWriter() throws IOException
+    {
+        return response.getWriter();
+    }
+
+    public Flash getFlash()
+    {
+        return MockFlash.getCurrentInstance(this);
+    }
 }

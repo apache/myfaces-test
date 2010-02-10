@@ -112,7 +112,7 @@ public class MockFacesContext extends FacesContext {
     private Application application = null;
     private ExternalContext externalContext = null;
     private Lifecycle lifecycle = null;
-    private Map messages = new HashMap();
+    protected Map messages = new HashMap(); // needs to be accessed in subclass MockFacesContext20
     private boolean renderResponse = false;
     private boolean responseComplete = false;
     private ResponseStream responseStream = null;
