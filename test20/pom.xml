@@ -197,7 +197,7 @@
         </plugins>    
     </build>
     <properties>
-        <jsf-ri.version>2.0.0-SNAPSHOT</jsf-ri.version>
-        <jsf-myfaces.version>2.0.0-SNAPSHOT</jsf-myfaces.version>
+        <jsf-ri.version>2.0.2-b10</jsf-ri.version>
+        <jsf-myfaces.version>2.0.0-beta</jsf-myfaces.version>
     </properties>
 </project>
