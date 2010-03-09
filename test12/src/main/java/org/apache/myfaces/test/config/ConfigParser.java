@@ -85,6 +85,12 @@ public class ConfigParser {
     { "/org/apache/myfaces/resource/standard-faces-config.xml",
     };
 
+    /**
+     * <p>Configuration resource URLs for Apache MyFaces 1.2.</p>
+     */
+    private static final String[] MYFACES_RESOURCES12 =
+    { "/META-INF/standard-faces-config.xml",
+    };    
 
     // ------------------------------------------------------ Instance Variables
 
@@ -113,7 +119,10 @@ public class ConfigParser {
 
         URL[] urls = translate(JSFRI_RESOURCES);
         if (urls[0] == null) {
-            urls = translate(MYFACES_RESOURCES);
+            urls = translate(MYFACES_RESOURCES12);
+            if (urls[0] == null) {
+                urls = translate(MYFACES_RESOURCES);
+            }
         }
         return urls;
 
