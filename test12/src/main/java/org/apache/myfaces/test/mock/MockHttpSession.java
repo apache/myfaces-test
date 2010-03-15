@@ -98,6 +98,7 @@ public class MockHttpSession implements HttpSession {
     private HashMap attributes = new HashMap();
     private String id = "123";
     private ServletContext servletContext = null;
+    private boolean invalid = false;
 
 
     // ---------------------------------------------------------- Public Methods
@@ -119,6 +120,8 @@ public class MockHttpSession implements HttpSession {
     /** {@inheritDoc} */
     public Object getAttribute(String name) {
 
+        assertValidity();
+
         return attributes.get(name);
 
     }
@@ -126,6 +129,8 @@ public class MockHttpSession implements HttpSession {
 
     /** {@inheritDoc} */
     public Enumeration getAttributeNames() {
+
+        assertValidity();
 
         return new MockEnumeration(attributes.keySet().iterator());
 
@@ -198,9 +203,11 @@ public class MockHttpSession implements HttpSession {
 
     /** {@inheritDoc} */
     public void invalidate() {
+        
+        assertValidity();
 
-        throw new UnsupportedOperationException();
-
+        attributes.clear();
+        invalid = true;
     }
 
 
@@ -223,6 +230,8 @@ public class MockHttpSession implements HttpSession {
     /** {@inheritDoc} */
     public void removeAttribute(String name) {
 
+        assertValidity();
+
         if (attributes.containsKey(name)) {
             Object value = attributes.remove(name);
             fireAttributeRemoved(name, value);
@@ -241,6 +250,8 @@ public class MockHttpSession implements HttpSession {
 
     /** {@inheritDoc} */
     public void setAttribute(String name, Object value) {
+
+        assertValidity();
 
         if (name == null) {
             throw new IllegalArgumentException("Attribute name cannot be null");
@@ -334,5 +345,16 @@ public class MockHttpSession implements HttpSession {
         }
     }
 
+
+    /**
+     * <p>Throws an {@link IllegalStateException} if this session is invalid.</p>
+     */
+    private void assertValidity() 
+    {
+        if (invalid) 
+        {
+            throw new IllegalStateException("Session is invalid.");
+        }
+    }
 
 }
