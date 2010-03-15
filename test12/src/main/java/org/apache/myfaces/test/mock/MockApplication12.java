@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.el.ArrayELResolver;
 import javax.el.BeanELResolver;
@@ -259,8 +260,14 @@ public class MockApplication12 extends MockApplication {
         if (locale == null) {
             locale = Locale.getDefault();
         }
-        return ResourceBundle.getBundle(name, locale);
-
+        try 
+        {
+            return ResourceBundle.getBundle(name, locale);
+        }
+        catch (MissingResourceException e) 
+        {
+            return null;
+        }
     }
 
 
