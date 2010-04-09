@@ -76,9 +76,21 @@ public class MockResource extends Resource
     }
 
     @Override
+    public void setResourceName(String resourceName)
+    {
+        _resourceName = resourceName;
+    }
+
+    @Override
     public String getLibraryName()
     {
         return _libraryName;
+    }
+    
+    @Override
+    public void setLibraryName(String libraryName)
+    {
+        _libraryName = libraryName;
     }
 
     @Override
