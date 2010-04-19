@@ -47,6 +47,9 @@ public class MockApplication20 extends MockApplication12
     public MockApplication20()
     {
         super();
+        
+        // install the 2.0-ViewHandler-Mock
+        this.setViewHandler(new MockViewHandler20());
     }
 
     private static class SystemListenerEntry
