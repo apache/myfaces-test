@@ -157,6 +157,12 @@ public class MockExternalContext20 extends MockExternalContext12
     {
         return response.encodeRedirectURL(encodeURL(baseUrl, parameters));
     }
+    
+    @Override
+    public String encodePartialActionURL(String url)
+    {
+        return ((HttpServletResponse) response).encodeURL(url);
+    }
 
     public String getContextName() {
         return context.getServletContextName();
