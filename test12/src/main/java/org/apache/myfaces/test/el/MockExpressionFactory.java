@@ -123,6 +123,10 @@ public class MockExpressionFactory extends ExpressionFactory {
         if ((object != null) && targetType.isAssignableFrom(object.getClass())) {
             return object;
         }
+        
+        // new to spec
+        if (object == null)
+            return null;
 
         // We do not know how to perform this conversion
         throw new IllegalArgumentException("Cannot convert " + object + " to " + targetType.getName());
