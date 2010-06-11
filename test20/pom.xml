@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.apache.myfaces.test</groupId>
         <artifactId>myfaces-test-project</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-beta-4</version>
     </parent>
 
     <artifactId>myfaces-test20</artifactId>
