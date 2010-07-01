@@ -210,7 +210,7 @@ public class MockResponseStateManager extends ResponseStateManager
         }
         catch (ClassNotFoundException e)
         {
-            throw new IOException(e);
+            throw new IOException(e.getMessage());
         }
         finally
         {
