@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * $Id$
  */
-public class TestMockBean implements Serializable {
+public class MockBean implements Serializable {
 
     private static final long serialVersionUID = 8879968751506858610L;
     private String command;

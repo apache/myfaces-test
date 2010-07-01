@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.myfaces.test.base;
+package org.apache.myfaces.test.base.junit4;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -25,8 +25,6 @@ import javax.faces.application.ApplicationFactory;
 import javax.faces.component.UIViewRoot;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.RenderKitFactory;
-
-import junit.framework.TestCase;
 
 import org.apache.myfaces.test.mock.MockApplication;
 import org.apache.myfaces.test.mock.MockExternalContext;
@@ -40,9 +38,11 @@ import org.apache.myfaces.test.mock.MockServletConfig;
 import org.apache.myfaces.test.mock.MockServletContext;
 import org.apache.myfaces.test.mock.lifecycle.MockLifecycle;
 import org.apache.myfaces.test.mock.lifecycle.MockLifecycleFactory;
+import org.junit.After;
+import org.junit.Before;
 
 /**
- * <p>Abstract JUnit test case base class, which sets up the JavaServer Faces
+ * <p>Abstract JUnit 4.5 test case base class, which sets up the JavaServer Faces
  * mock object environment for a particular simulated request.  The following
  * protected variables are initialized in the <code>setUp()</code> method, and
  * cleaned up in the <code>tearDown()</code> method:</p>
@@ -71,7 +71,7 @@ import org.apache.myfaces.test.mock.lifecycle.MockLifecycleFactory;
  * the test methods for your test case.</p>
  */
 
-public abstract class AbstractJsfTestCase extends TestCase {
+public abstract class AbstractJsfTestCase {
 
 
     // ------------------------------------------------------------ Constructors
@@ -82,8 +82,8 @@ public abstract class AbstractJsfTestCase extends TestCase {
      *
      * @param name Name of this test case
      */
-    public AbstractJsfTestCase(String name) {
-        super(name);
+    public AbstractJsfTestCase()
+    {
     }
 
 
@@ -93,7 +93,8 @@ public abstract class AbstractJsfTestCase extends TestCase {
     /**
      * <p>Set up instance variables required by this test case.</p>
      */
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 
         // Set up a new thread context class loader
         threadContextClassLoader = Thread.currentThread().getContextClassLoader();
@@ -197,7 +198,8 @@ public abstract class AbstractJsfTestCase extends TestCase {
     /**
      * <p>Tear down instance variables required by this test case.</p>
      */
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 
         application = null;
         config = null;
