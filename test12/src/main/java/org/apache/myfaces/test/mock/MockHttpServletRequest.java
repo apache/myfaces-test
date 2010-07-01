@@ -18,10 +18,15 @@
 package org.apache.myfaces.test.mock;
 
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -163,7 +168,19 @@ public class MockHttpServletRequest implements HttpServletRequest {
         parameters.put(name, results);
 
     }
-
+    
+    public void addCookie(Cookie c)
+    {
+        for (int i = 0; i < cookies.size(); i++)
+        {
+            if ( ((Cookie)cookies.get(i)).getName().equals(c.getName()) )
+            {
+                cookies.set(i, c);
+                return;
+            }
+        }
+        cookies.add(c);
+    }
 
     /**
      * <p>Return the <code>ServletContext</code> associated with
@@ -259,7 +276,9 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private String servletPath = null;
     private HttpSession session = null;
     private String characterEncoding = null;
-
+    private ServletInputStream inputStream = null;
+    private List cookies = new ArrayList();
+    private Vector locales = null; 
 
     // ---------------------------------------------- HttpServletRequest Methods
 
@@ -283,8 +302,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /** {@inheritDoc} */
     public Cookie[] getCookies() {
 
-        throw new UnsupportedOperationException();
-
+        Cookie[] array = new Cookie[cookies.size()];
+        for (int i = 0; i < cookies.size(); i++)
+        {
+            array[i] = (Cookie) cookies.get(i);
+        }
+        return array;
     }
 
 
@@ -474,7 +497,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     public HttpSession getSession(boolean create) {
 
         if (create && (session == null)) {
-            throw new UnsupportedOperationException();
+            this.session = new MockHttpSession(this.servletContext);
         }
         return session;
 
@@ -573,12 +596,15 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 
     /** {@inheritDoc} */
-    public ServletInputStream getInputStream() {
-
-        throw new UnsupportedOperationException();
-
+    public ServletInputStream getInputStream()
+    {
+        return this.inputStream;
     }
-
+    
+    public void setInputStream(MockServletInputStream stream)
+    {
+        this.inputStream = stream;
+    }
 
     /** {@inheritDoc} */
     public Locale getLocale() {
@@ -589,10 +615,14 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 
     /** {@inheritDoc} */
-    public Enumeration getLocales() {
-
-        throw new UnsupportedOperationException();
-
+    public Enumeration getLocales()
+    {
+        if (this.locales == null)
+        {
+            locales = new Vector(Arrays.asList(Locale
+                    .getAvailableLocales()));
+        }
+        return this.locales.elements();
     }
 
 
@@ -666,10 +696,22 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 
     /** {@inheritDoc} */
-    public BufferedReader getReader() {
-
-        throw new UnsupportedOperationException();
-
+    public BufferedReader getReader()
+    {
+        if (this.inputStream != null) {
+            try{
+                Reader sourceReader = (this.characterEncoding != null) ? new InputStreamReader(
+                        this.inputStream, this.characterEncoding)
+                        : new InputStreamReader(this.inputStream);
+                return new BufferedReader(sourceReader);
+            }
+            catch(UnsupportedEncodingException e)
+            {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return null;
+        }
     }
 
 
@@ -709,10 +751,9 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 
     /** {@inheritDoc} */
-    public RequestDispatcher getRequestDispatcher(String path) {
-
-        throw new UnsupportedOperationException();
-
+    public RequestDispatcher getRequestDispatcher(String path)
+    {
+        return servletContext.getRequestDispatcher(path);
     }
 
 

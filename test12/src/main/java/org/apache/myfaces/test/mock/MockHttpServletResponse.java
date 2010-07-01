@@ -23,10 +23,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.ServletOutputStream;
@@ -71,8 +74,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
         }
         return null;
     }
-
-
+    
+    public Cookie getCookie(String name)
+    {
+        return (Cookie)cookies.get(name);
+    }
+    
     /**
      * <p>Return the text message for the HTTP status that was set.</p>
      */
@@ -127,16 +134,20 @@ public class MockHttpServletResponse implements HttpServletResponse {
     private int status = HttpServletResponse.SC_OK;
     private ServletOutputStream stream = null;
     private PrintWriter writer = null;
-
+    
+    private boolean committed = false;
+    private long contentLength = 0;
+    private int bufferSize = 0;
+    private Locale locale = Locale.getDefault();
+    private Map cookies = new HashMap(4);
 
     // -------------------------------------------- HttpServletResponse Methods
 
 
     /** {@inheritDoc} */
-    public void addCookie(Cookie cookie) {
-
-        throw new UnsupportedOperationException();
-
+    public void addCookie(Cookie cookie)
+    {
+        cookies.put(cookie.getName(), cookie);
     }
 
 
@@ -205,28 +216,38 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public void sendError(int status) {
-
+    public void sendError(int status)
+    {
+        if (this.committed)
+        {
+            throw new IllegalStateException("Response is already committed");
+        }
         this.status = status;
-
+        this.committed = true;
     }
 
 
     /** {@inheritDoc} */
-    public void sendError(int status, String message) {
-
+    public void sendError(int status, String message)
+    {
+        if (this.committed)
+        {
+            throw new IllegalStateException("Response is already committed");
+        }
         this.status = status;
         this.message = message;
-
+        this.committed = true;
     }
 
 
     /** {@inheritDoc} */
     public void sendRedirect(String location) {
-
+        if (this.committed) {
+            throw new IllegalStateException("Response is already committed");
+        }
         this.status = HttpServletResponse.SC_MOVED_TEMPORARILY;
         this.message = location;
-
+        this.committed = true;
     }
 
 
@@ -258,18 +279,16 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public void setStatus(int status) {
-
-        throw new UnsupportedOperationException();
-
+    public void setStatus(int status)
+    {
+        this.status = status;
     }
 
 
     /** {@inheritDoc} */
     public void setStatus(int status, String message) {
-
-        throw new UnsupportedOperationException();
-
+        this.status = status;
+        this.message = message;
     }
 
 
@@ -277,18 +296,15 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public void flushBuffer() {
-
-        throw new UnsupportedOperationException();
-
+    public void flushBuffer()
+    {
+    
     }
 
 
     /** {@inheritDoc} */
     public int getBufferSize() {
-
-        throw new UnsupportedOperationException();
-
+        return bufferSize;
     }
 
 
@@ -309,10 +325,9 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public Locale getLocale() {
-
-        throw new UnsupportedOperationException();
-
+    public Locale getLocale()
+    {
+        return this.locale;
     }
 
 
@@ -345,34 +360,28 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public boolean isCommitted() {
-
-        throw new UnsupportedOperationException();
-
+    public boolean isCommitted()
+    {
+        return committed;
     }
 
 
     /** {@inheritDoc} */
-    public void reset() {
-
-        throw new UnsupportedOperationException();
-
+    public void reset()
+    {
     }
 
 
     /** {@inheritDoc} */
-    public void resetBuffer() {
-
-        throw new UnsupportedOperationException();
-
+    public void resetBuffer()
+    {
     }
 
 
     /** {@inheritDoc} */
-    public void setBufferSize(int size) {
-
-        throw new UnsupportedOperationException();
-
+    public void setBufferSize(int size)
+    {
+        this.bufferSize = size;
     }
 
 
@@ -385,10 +394,9 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public void setContentLength(int length) {
-
-        throw new UnsupportedOperationException();
-
+    public void setContentLength(int length)
+    {
+        this.contentLength = length;
     }
 
 
@@ -401,10 +409,9 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 
     /** {@inheritDoc} */
-    public void setLocale(Locale locale) {
-
-        throw new UnsupportedOperationException();
-
+    public void setLocale(Locale locale)
+    {
+        this.locale = locale;
     }
 
 
