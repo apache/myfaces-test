@@ -202,7 +202,9 @@ public abstract class AbstractJsfTestCase extends TestCase {
         application = null;
         config = null;
         externalContext = null;
-        facesContext.release();
+        if (facesContext != null) {
+            facesContext.release();
+        }
         facesContext = null;
         lifecycle = null;
         lifecycleFactory = null;
