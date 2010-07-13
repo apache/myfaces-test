@@ -17,64 +17,64 @@
 
 package org.apache.myfaces.test.mock.resource;
 
-import org.apache.myfaces.test.mock.MockServletContext;
-
-import javax.faces.FacesException;
-import javax.faces.application.Resource;
-import javax.faces.application.ResourceHandler;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import javax.faces.FacesException;
+import javax.faces.application.Resource;
+import javax.faces.application.ResourceHandler;
+import javax.faces.context.FacesContext;
 
 /**
  * <p>Mock implementation of <code>ResourceHandler</code>.</p>
- * <p/>
- * $Id$
+ * <p>This ResourceHandler implementation try to follow the default algorithm
+ * defined by the spec, so it try to load resources using the current 
+ * ExternalContext and the specified ClassLoader, in the same locations
+ * it is expected ("resources" and "META-INF/resources").</p>
  * 
- * @since 2.0
+ * @author Leonardo Uribe (latest modification by $Author$)
+ * @version $Revision$ $Date$
  */
 public class MockResourceHandler extends ResourceHandler
 {
 
-    private static final String IS_RESOURCE_REQUEST = "org.apache.myfaces.IS_RESOURCE_REQUEST";
+    private boolean _resourceRequest;
 
-    /**
-     * It checks version like this: /1/, /1_0/, /1_0_0/, /100_100/
-     * <p/>
-     * Used on getLibraryVersion to filter resource directories
-     */
-    protected static Pattern VERSION_CHECKER = Pattern.compile("/\\p{Digit}+(_\\p{Digit}*)*/");
+    private MockResourceHandlerSupport resourceHandlerSupport;
+    
+    private ClassLoader _classLoader;
 
-    /**
-     * It checks version like this: /1.js, /1_0.js, /1_0_0.js, /100_100.js
-     * <p/>
-     * Used on getResourceVersion to filter resources
-     */
-    protected static Pattern RESOURCE_VERSION_CHECKER = Pattern.compile("/\\p{Digit}+(_\\p{Digit}*)*\\..*");
-
-    private File _documentRoot;
-
-    /**
-     * @param documentRoot parent folder of resource directories. Must not be <code>null</code>
-     */
-    public MockResourceHandler(File documentRoot)
+    public MockResourceHandler()
     {
-        if (documentRoot == null) {
-            throw new NullPointerException("documentRoot must not be null");
-        }
-
-        _documentRoot = documentRoot;
-
-        ((MockServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext())
-            .setDocumentRoot(_documentRoot);
+        _classLoader = getContextClassLoader();
+        resourceHandlerSupport = new MockResourceHandlerSupport(true, ".jsf",_classLoader);
+    }
+    
+    public MockResourceHandler(ClassLoader classLoader)
+    {
+        if (classLoader == null)
+            _classLoader = getContextClassLoader();
+        else
+            _classLoader = classLoader;
+        
+        resourceHandlerSupport = new MockResourceHandlerSupport(true, ".jsf",_classLoader);
+    }
+    
+    public MockResourceHandler(boolean extensionMapping, String mapping, ClassLoader classLoader)
+    {
+        if (classLoader == null)
+            _classLoader = getContextClassLoader();
+        else
+            _classLoader = classLoader;
+        
+        resourceHandlerSupport = new MockResourceHandlerSupport(extensionMapping, mapping,_classLoader);
     }
 
     @Override
@@ -92,22 +92,147 @@ public class MockResourceHandler extends ResourceHandler
     @Override
     public Resource createResource(String resourceName, String libraryName, String contentType)
     {
-        String prefix = getLocalePrefixForLocateResource();
-        String libraryVersion = getLibraryVersion(prefix + "/" + libraryName);
-
-        String pathToResource;
-        if (null != libraryVersion) {
-            pathToResource = prefix + '/'
-                + libraryName + '/' + libraryVersion + '/'
-                + resourceName;
-        }
-        else {
-            pathToResource = prefix + '/'
-                + libraryName + '/' + resourceName;
+        Resource resource = null;
+        
+        if (contentType == null)
+        {
+            //Resolve contentType using ExternalContext.getMimeType
+            contentType = FacesContext.getCurrentInstance().getExternalContext().getMimeType(resourceName);
         }
 
-        return new MockResource(prefix, libraryName, libraryVersion, resourceName, getResourceVersion(pathToResource), _documentRoot);
+        for (MockResourceLoader loader : getResourceHandlerSupport()
+                .getResourceLoaders())
+        {
+            MockResourceMeta resourceMeta = deriveResourceMeta(loader,
+                    resourceName, libraryName);
+
+            if (resourceMeta != null)
+            {
+                resource = new MockResource(resourceMeta, loader,
+                        getResourceHandlerSupport(), contentType);
+                break;
+            }
+        }
+        return resource;
     }
+    
+    /**
+     * This method try to create a ResourceMeta for a specific resource
+     * loader. If no library, or resource is found, just return null,
+     * so the algorithm in createResource can continue checking with the 
+     * next registered ResourceLoader. 
+     */
+    protected MockResourceMeta deriveResourceMeta(MockResourceLoader resourceLoader,
+            String resourceName, String libraryName)
+    {
+        String localePrefix = getLocalePrefixForLocateResource();
+        String resourceVersion = null;
+        String libraryVersion = null;
+        MockResourceMeta resourceId = null;
+        
+        //1. Try to locate resource in a localized path
+        if (localePrefix != null)
+        {
+            if (null != libraryName)
+            {
+                String pathToLib = localePrefix + '/' + libraryName;
+                libraryVersion = resourceLoader.getLibraryVersion(pathToLib);
+
+                if (null != libraryVersion)
+                {
+                    String pathToResource = localePrefix + '/'
+                            + libraryName + '/' + libraryVersion + '/'
+                            + resourceName;
+                    resourceVersion = resourceLoader
+                            .getResourceVersion(pathToResource);
+                }
+                else
+                {
+                    String pathToResource = localePrefix + '/'
+                            + libraryName + '/' + resourceName;
+                    resourceVersion = resourceLoader
+                            .getResourceVersion(pathToResource);
+                }
+
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
+                {
+                    resourceId = resourceLoader.createResourceMeta(localePrefix, libraryName,
+                            libraryVersion, resourceName, resourceVersion);
+                }
+            }
+            else
+            {
+                resourceVersion = resourceLoader
+                        .getResourceVersion(localePrefix + '/'+ resourceName);
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
+                {               
+                    resourceId = resourceLoader.createResourceMeta(localePrefix, null, null,
+                            resourceName, resourceVersion);
+                }
+            }
+
+            if (resourceId != null)
+            {
+                URL url = resourceLoader.getResourceURL(resourceId);
+                if (url == null)
+                {
+                    resourceId = null;
+                }
+            }            
+        }
+        
+        //2. Try to localize resource in a non localized path
+        if (resourceId == null)
+        {
+            if (null != libraryName)
+            {
+                libraryVersion = resourceLoader.getLibraryVersion(libraryName);
+
+                if (null != libraryVersion)
+                {
+                    String pathToResource = (libraryName + '/' + libraryVersion
+                            + '/' + resourceName);
+                    resourceVersion = resourceLoader
+                            .getResourceVersion(pathToResource);
+                }
+                else
+                {
+                    String pathToResource = (libraryName + '/'
+                            + resourceName);
+                    resourceVersion = resourceLoader
+                            .getResourceVersion(pathToResource);
+                }
+
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
+                {               
+                    resourceId = resourceLoader.createResourceMeta(null, libraryName,
+                            libraryVersion, resourceName, resourceVersion);
+                }
+            }
+            else
+            {
+                resourceVersion = resourceLoader
+                        .getResourceVersion(resourceName);
+                
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
+                {               
+                    resourceId = resourceLoader.createResourceMeta(null, null, null,
+                            resourceName, resourceVersion);
+                }
+            }
+
+            if (resourceId != null)
+            {
+                URL url = resourceLoader.getResourceURL(resourceId);
+                if (url == null)
+                {
+                    resourceId = null;
+                }
+            }            
+        }
+        
+        return resourceId;
+    }    
 
     @Override
     public String getRendererTypeForResourceName(String resourceName)
@@ -130,33 +255,7 @@ public class MockResourceHandler extends ResourceHandler
     @Override
     public boolean isResourceRequest(FacesContext facesContext)
     {
-        // Since this method could be called many times we save it
-        //on request map so the first time is calculated it remains
-        //alive until the end of the request
-        Boolean value = (Boolean) facesContext.getExternalContext()
-            .getRequestMap().get(IS_RESOURCE_REQUEST);
-
-        if (value != null && value.booleanValue()) {
-            //return the saved value
-            return value.booleanValue();
-        }
-        else {
-            // assuming that we don't have servlet mapping
-            String resourceBasePath = facesContext.getExternalContext().getRequestPathInfo();
-
-            if (resourceBasePath != null
-                && resourceBasePath
-                .startsWith(ResourceHandler.RESOURCE_IDENTIFIER)) {
-                facesContext.getExternalContext().getRequestMap().put(
-                    IS_RESOURCE_REQUEST, Boolean.TRUE);
-                return true;
-            }
-            else {
-                facesContext.getExternalContext().getRequestMap().put(
-                    IS_RESOURCE_REQUEST, Boolean.FALSE);
-                return false;
-            }
-        }
+        return _resourceRequest;
     }
 
     @Override
@@ -214,9 +313,8 @@ public class MockResourceHandler extends ResourceHandler
      * against java2 security to ensure no security related exceptions are encountered.
      *
      * @return ClassLoader
-     * @since 3.0.6
      */
-    private static ClassLoader getContextClassLoader()
+    static ClassLoader getContextClassLoader()
     {
         if (System.getSecurityManager() != null) {
             try {
@@ -238,114 +336,24 @@ public class MockResourceHandler extends ResourceHandler
         }
     }
 
-    private String getLibraryVersion(String path)
+    public MockResourceHandlerSupport getResourceHandlerSupport()
     {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-
-        String libraryVersion = null;
-        Set<String> libraryPaths = context.getResourcePaths("/" + path);
-        if (null != libraryPaths && !libraryPaths.isEmpty()) {
-            // Look in the libraryPaths for versioned libraries.
-            // If one or more versioned libraries are found, take
-            // the one with the "highest" version number as the value
-            // of libraryVersion. If no versioned libraries
-            // are found, let libraryVersion remain null.
-
-            for (String libraryPath : libraryPaths) {
-                String version = libraryPath.substring(path.length());
-
-                if (VERSION_CHECKER.matcher(version).matches()) {
-                    version = version.substring(1, version.length() - 1);
-                    if (libraryVersion == null) {
-                        libraryVersion = version;
-                    }
-                    else if (compareVersion(libraryVersion, version) < 0) {
-                        libraryVersion = version;
-                    }
-                }
-            }
-        }
-        return libraryVersion;
+        return resourceHandlerSupport;
     }
 
-    private int compareVersion(String s1, String s2)
+    public void setResourceHandlerSupport(
+            MockResourceHandlerSupport resourceHandlerSupport)
     {
-        int n1 = 0;
-        int n2 = 0;
-        String o1 = s1;
-        String o2 = s2;
-
-        boolean p1 = true;
-        boolean p2 = true;
-
-        while (n1 == n2 && (p1 || p2)) {
-            int i1 = o1.indexOf('_');
-            int i2 = o2.indexOf('_');
-            if (i1 < 0) {
-                if (o1.length() > 0) {
-                    p1 = false;
-                    n1 = Integer.valueOf(o1);
-                    o1 = "";
-                }
-                else {
-                    p1 = false;
-                    n1 = 0;
-                }
-            }
-            else {
-                n1 = Integer.valueOf(o1.substring(0, i1));
-                o1 = o1.substring(i1 + 1);
-            }
-            if (i2 < 0) {
-                if (o2.length() > 0) {
-                    p2 = false;
-                    n2 = Integer.valueOf(o2);
-                    o2 = "";
-                }
-                else {
-                    p2 = false;
-                    n2 = 0;
-                }
-            }
-            else {
-                n2 = Integer.valueOf(o2.substring(0, i2));
-                o2 = o2.substring(i2 + 1);
-            }
-        }
-
-        if (n1 == n2) {
-            return s1.length() - s2.length();
-        }
-        return n1 - n2;
+        this.resourceHandlerSupport = resourceHandlerSupport;
     }
 
-    private String getResourceVersion(String path)
+    public void setResourceRequest(boolean resourceRequest)
     {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        String resourceVersion = null;
-        Set<String> resourcePaths = context.getResourcePaths("/" + path);
+        this._resourceRequest = resourceRequest;
+    }
 
-        if (null != resourcePaths && !resourcePaths.isEmpty()) {
-            // resourceVersion = // execute the comment
-            // Look in the resourcePaths for versioned resources.
-            // If one or more versioned resources are found, take
-            // the one with the "highest" version number as the value
-            // of resourceVersion. If no versioned libraries
-            // are found, let resourceVersion remain null.
-            for (String resourcePath : resourcePaths) {
-                String version = resourcePath.substring(path.length());
-
-                if (RESOURCE_VERSION_CHECKER.matcher(version).matches()) {
-                    version = version.substring(1, version.lastIndexOf('.'));
-                    if (resourceVersion == null) {
-                        resourceVersion = version;
-                    }
-                    else if (compareVersion(resourceVersion, version) < 0) {
-                        resourceVersion = version;
-                    }
-                }
-            }
-        }
-        return resourceVersion;
+    public boolean isResourceRequest()
+    {
+        return _resourceRequest;
     }
 }

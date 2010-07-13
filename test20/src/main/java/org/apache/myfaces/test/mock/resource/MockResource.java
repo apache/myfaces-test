@@ -17,115 +17,79 @@
 
 package org.apache.myfaces.test.mock.resource;
 
-import org.apache.myfaces.test.mock.MockServletContext;
-
-import javax.faces.application.Resource;
-import javax.faces.context.FacesContext;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Map;
+
+import javax.faces.application.Resource;
+import javax.faces.application.ResourceHandler;
+import javax.faces.context.FacesContext;
 
 /**
  * <p>Mock implementation of <code>Resource</code>.</p>
  * <p/>
- * $Id$
- *
- * @since 2.0
+ * @author Leonardo Uribe (latest modification by $Author$)
+ * @version $Revision$ $Date$
  */
 public class MockResource extends Resource
 {
-
-    private String _prefix;
-    private String _libraryName;
-    private String _libraryVersion;
-    private String _resourceName;
-    private String _resourceVersion;
-    private File _documentRoot;
-
-    /**
-     * Creates new resource object
-     *
-     * @param prefix          locale prefix if any
-     * @param libraryName     resource library name
-     * @param libraryVersion  resource library version if any
-     * @param resourceName    resource file name
-     * @param resourceVersion resource version if any
-     * @param documentRoot    parent folder of resource directories. Must not be <code>null</code>
-     */
-    public MockResource(String prefix, String libraryName, String libraryVersion, String resourceName, String resourceVersion, File documentRoot)
+    private MockResourceMeta _resourceMeta;
+    private MockResourceLoader _resourceLoader;
+    private MockResourceHandlerSupport _resourceHandlerSupport;
+    
+    public MockResource(MockResourceMeta resourceMeta, 
+            MockResourceLoader resourceLoader, MockResourceHandlerSupport support, String contentType)
     {
-        _prefix = prefix;
-        _libraryName = libraryName;
-        _libraryVersion = libraryVersion;
-        _resourceName = resourceName;
-        _resourceVersion = resourceVersion;
-        _documentRoot = documentRoot;
-
-        if (_documentRoot == null) {
-            throw new IllegalArgumentException("documentRoot must not be null");
-        }
-    }
-
-    @Override
-    public String getResourceName()
-    {
-        return _resourceName;
-    }
-
-    @Override
-    public void setResourceName(String resourceName)
-    {
-        _resourceName = resourceName;
-    }
-
-    @Override
-    public String getLibraryName()
-    {
-        return _libraryName;
+        _resourceMeta = resourceMeta;
+        _resourceLoader = resourceLoader;
+        _resourceHandlerSupport = support;
+        setLibraryName(resourceMeta.getLibraryName());
+        setResourceName(resourceMeta.getResourceName());
+        setContentType(contentType);
     }
     
-    @Override
-    public void setLibraryName(String libraryName)
+    public MockResourceLoader getResourceLoader()
     {
-        _libraryName = libraryName;
-    }
-
+        return _resourceLoader;
+    }    
+    
     @Override
     public InputStream getInputStream() throws IOException
     {
-        MockServletContext servletContext = (MockServletContext)
-            FacesContext.getCurrentInstance().getExternalContext().getContext();
-        servletContext.setDocumentRoot(_documentRoot);
-        return servletContext.getResourceAsStream(buildResourcePath());
+        return getResourceLoader().getResourceInputStream(_resourceMeta);            
     }
 
     @Override
     public String getRequestPath()
     {
-        throw new UnsupportedOperationException();
+        String path;
+        if (_resourceHandlerSupport.isExtensionMapping())
+        {
+            path = ResourceHandler.RESOURCE_IDENTIFIER + '/' + 
+                getResourceName() + _resourceHandlerSupport.getMapping();
+        }
+        else
+        {
+            String mapping = _resourceHandlerSupport.getMapping(); 
+            path = ResourceHandler.RESOURCE_IDENTIFIER + '/' + getResourceName();
+            path = (mapping == null) ? path : mapping + path;
+        }
+        
+        return path;
     }
 
     @Override
     public Map<String, String> getResponseHeaders()
     {
-        throw new UnsupportedOperationException();
+        return Collections.emptyMap();
     }
 
     @Override
     public URL getURL()
     {
-        MockServletContext servletContext = (MockServletContext)
-            FacesContext.getCurrentInstance().getExternalContext().getContext();
-        servletContext.setDocumentRoot(_documentRoot);
-
-        try {
-            return servletContext.getResource(buildResourcePath());
-        } catch (MalformedURLException e) {
-            return null;
-        }
+        return getResourceLoader().getResourceURL(_resourceMeta);
     }
 
     @Override
@@ -133,47 +97,4 @@ public class MockResource extends Resource
     {
         return true;
     }
-
-    private String buildResourcePath()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append('/');
-        boolean firstSlashAdded = false;
-        if (_prefix != null && _prefix.length() > 0) {
-            builder.append(_prefix);
-            firstSlashAdded = true;
-        }
-        if (_libraryName != null) {
-            if (firstSlashAdded) {
-                builder.append('/');
-            }
-            builder.append(_libraryName);
-            firstSlashAdded = true;
-        }
-        if (_libraryVersion != null) {
-            if (firstSlashAdded) {
-                builder.append('/');
-            }
-            builder.append(_libraryVersion);
-            firstSlashAdded = true;
-        }
-        if (_resourceName != null) {
-            if (firstSlashAdded) {
-                builder.append('/');
-            }
-            builder.append(_resourceName);
-            firstSlashAdded = true;
-        }
-        if (_resourceVersion != null) {
-            if (firstSlashAdded) {
-                builder.append('/');
-            }
-            builder.append(_resourceVersion);
-            builder.append(
-                _resourceName.substring(_resourceName.lastIndexOf('.')));
-        }
-
-        return builder.toString();
-    }
-
 }
