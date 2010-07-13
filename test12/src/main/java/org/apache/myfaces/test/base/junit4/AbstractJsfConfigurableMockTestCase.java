@@ -34,15 +34,12 @@ import javax.faces.render.RenderKitFactory;
 
 import org.apache.myfaces.test.mock.MockExternalContext;
 import org.apache.myfaces.test.mock.MockFacesContext;
-import org.apache.myfaces.test.mock.MockFacesContextFactory;
 import org.apache.myfaces.test.mock.MockHttpServletRequest;
 import org.apache.myfaces.test.mock.MockHttpServletResponse;
 import org.apache.myfaces.test.mock.MockHttpSession;
 import org.apache.myfaces.test.mock.MockRenderKit;
 import org.apache.myfaces.test.mock.MockServletConfig;
 import org.apache.myfaces.test.mock.MockServletContext;
-import org.apache.myfaces.test.mock.lifecycle.MockLifecycle;
-import org.apache.myfaces.test.mock.lifecycle.MockLifecycleFactory;
 import org.junit.After;
 import org.junit.Before;
 
@@ -52,11 +49,11 @@ import org.junit.Before;
  * protected variables are initialized in the <code>setUp()</code> method, and
  * cleaned up in the <code>tearDown()</code> method:</p>
  * <ul>
- * <li><code>application</code> (<code>MockApplication</code>)</li>
+ * <li><code>application</code> (<code>Application</code>)</li>
  * <li><code>config</code> (<code>MockServletConfig</code>)</li>
- * <li><code>externalContext</code> (<code>MockExternalContext</code>)</li>
- * <li><code>facesContext</code> (<code>MockFacesContext</code>)</li>
- * <li><code>lifecycle</code> (<code>MockLifecycle</code>)</li>
+ * <li><code>externalContext</code> (<code>ExternalContext</code>)</li>
+ * <li><code>facesContext</code> (<code>FacesContext</code>)</li>
+ * <li><code>lifecycle</code> (<code>Lifecycle</code>)</li>
  * <li><code>request</code> (<code>MockHttpServletRequest</code></li>
  * <li><code>response</code> (<code>MockHttpServletResponse</code>)</li>
  * <li><code>servletContext</code> (<code>MockServletContext</code>)</li>
@@ -158,22 +155,22 @@ public abstract class AbstractJsfConfigurableMockTestCase {
     
     protected void setUpLifecycle() throws Exception
     {
-        lifecycleFactory = (MockLifecycleFactory)
+        lifecycleFactory = (LifecycleFactory)
         FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-        lifecycle = (MockLifecycle)
+        lifecycle = 
         lifecycleFactory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
     }
     
     protected void setUpFacesContext() throws Exception
     {
-        facesContextFactory = (MockFacesContextFactory)
+        facesContextFactory = (FacesContextFactory)
         FactoryFinder.getFactory(FactoryFinder.FACES_CONTEXT_FACTORY);
-        facesContext = (MockFacesContext)
+        facesContext = (FacesContext)
         facesContextFactory.getFacesContext(servletContext,
                 request,
                 response,
                 lifecycle);
-        externalContext = (MockExternalContext) facesContext.getExternalContext();
+        externalContext = (ExternalContext) facesContext.getExternalContext();
     }
 
     protected void setUpView() throws Exception
