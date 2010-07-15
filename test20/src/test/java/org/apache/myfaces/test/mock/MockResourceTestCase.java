@@ -17,17 +17,19 @@
 
 package org.apache.myfaces.test.mock;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import org.apache.myfaces.test.base.AbstractJsfTestCase;
-import org.apache.myfaces.test.mock.resource.MockResource;
-import org.apache.myfaces.test.mock.resource.MockResourceHandler;
-
-import javax.faces.application.Resource;
-import javax.faces.application.ResourceHandler;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+
+import javax.faces.application.Resource;
+import javax.faces.application.ResourceHandler;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.apache.myfaces.test.base.AbstractJsfTestCase;
+import org.apache.myfaces.test.mock.resource.MockSimpleResource;
+import org.apache.myfaces.test.mock.resource.MockSimpleResourceHandler;
 
 /**
  * Test case for resource handling
@@ -58,7 +60,7 @@ public class MockResourceTestCase extends AbstractJsfTestCase {
 
     public void testGetResource() throws Exception {
 
-        Resource resource = new MockResource(null, "testlib", null, "testfile.js", null, _documentRoot);
+        Resource resource = new MockSimpleResource(null, "testlib", null, "testfile.js", null, _documentRoot);
 
         URL resourceUrl = resource.getURL();
         assertNotNull("Could not find resource", resourceUrl);
@@ -67,27 +69,27 @@ public class MockResourceTestCase extends AbstractJsfTestCase {
 
     public void testGetNotExistingResource() throws Exception {
 
-        Resource resource = new MockResource(null, "testlib", null, "notexisting.js", null, _documentRoot);
+        Resource resource = new MockSimpleResource(null, "testlib", null, "notexisting.js", null, _documentRoot);
 
         assertNull(resource.getURL());
     }
 
     public void testGetAsStream() throws Exception {
-        Resource resource = new MockResource(null, "testlib", null, "testfile.js", null, _documentRoot);
+        Resource resource = new MockSimpleResource(null, "testlib", null, "testfile.js", null, _documentRoot);
         InputStream stream = resource.getInputStream();
         assertNotNull(stream);
         assertTrue(stream.read() != -1);
     }
 
     public void testCreateResource() throws Exception {
-        ResourceHandler handler = new MockResourceHandler(_documentRoot);
+        ResourceHandler handler = new MockSimpleResourceHandler(_documentRoot);
         Resource resource = handler.createResource("testfile.js", "testlib");
         assertNotNull("resource could not be created", resource);
         assertTrue(resource.getURL().toString().endsWith("org/apache/myfaces/test/mock/resources/testlib/testfile.js"));
     }
 
     public void testResourceHandler() throws Exception {
-       ResourceHandler handler = new MockResourceHandler(_documentRoot);
+       ResourceHandler handler = new MockSimpleResourceHandler(_documentRoot);
 
         assertTrue(handler.libraryExists("testlib"));
         assertFalse(handler.libraryExists("notexistinglib"));

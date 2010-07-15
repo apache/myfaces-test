@@ -19,6 +19,7 @@ package org.apache.myfaces.test.mock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.myfaces.test.mock.resource.MockResourceHandler;
 
 import javax.faces.FacesException;
 import javax.faces.application.ProjectStage;
@@ -50,6 +51,7 @@ public class MockApplication20 extends MockApplication12
         
         // install the 2.0-ViewHandler-Mock
         this.setViewHandler(new MockViewHandler20());
+        this.setResourceHandler(new MockResourceHandler());
     }
 
     private static class SystemListenerEntry

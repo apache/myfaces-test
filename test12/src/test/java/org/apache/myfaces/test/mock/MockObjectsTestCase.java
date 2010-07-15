@@ -57,7 +57,7 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
         session.setAttribute("sameKey", "sameKeySesValue");
         request.setAttribute("reqScopeName", "reqScopeValue");
         request.setAttribute("sameKey", "sameKeyReqValue");
-        request.setAttribute("test", new TestMockBean());
+        request.setAttribute("test", new MockBean());
 
     }
 
@@ -103,7 +103,7 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
 
     public void testMethodBindingInvokePositive() throws Exception {
 
-        TestMockBean bean = (TestMockBean) request.getAttribute("test");
+        MockBean bean = (MockBean) request.getAttribute("test");
         MethodBinding mb = null;
         Class argsString[] = new Class[] { String.class };
         Class argsNone[] = new Class[0];
