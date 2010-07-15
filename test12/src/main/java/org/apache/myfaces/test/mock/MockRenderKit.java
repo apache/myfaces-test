@@ -35,105 +35,108 @@ import javax.faces.render.ResponseStateManager;
  * $Id$
  */
 
-public class MockRenderKit extends RenderKit {
-
+public class MockRenderKit extends RenderKit
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Return a default instance.</p>
      */
-    public MockRenderKit() {
+    public MockRenderKit()
+    {
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
+    public void setResponseStateManager(ResponseStateManager rsm)
+    {
+        this.rsm = rsm;
+    }
 
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The set of renderers registered here.</p>
      */
     private Map renderers = new HashMap();
-
+    private ResponseStateManager rsm = new MockResponseStateManager();
 
     // ------------------------------------------------------- RenderKit Methods
 
-
     /** {@inheritDoc} */
     public void addRenderer(String family, String rendererType,
-                            Renderer renderer) {
+            Renderer renderer)
+    {
 
-        if ((family == null) || (rendererType == null) || (renderer == null)) {
+        if ((family == null) || (rendererType == null) || (renderer == null))
+        {
             throw new NullPointerException();
         }
         renderers.put(family + "|" + rendererType, renderer);
 
     }
 
-
     /** {@inheritDoc} */
-    public Renderer getRenderer(String family, String rendererType) {
+    public Renderer getRenderer(String family, String rendererType)
+    {
 
-        if ((family == null) || (rendererType == null)) {
+        if ((family == null) || (rendererType == null))
+        {
             throw new NullPointerException();
         }
         return (Renderer) renderers.get(family + "|" + rendererType);
 
     }
 
-
     /** {@inheritDoc} */
     public ResponseWriter createResponseWriter(Writer writer,
-                                               String contentTypeList,
-                                               String characterEncoding) {
+            String contentTypeList, String characterEncoding)
+    {
 
-       return new MockResponseWriter(writer, contentTypeList, characterEncoding);
+        return new MockResponseWriter(writer, contentTypeList,
+                characterEncoding);
 
     }
 
-
     /** {@inheritDoc} */
-    public ResponseStream createResponseStream(OutputStream out) {
+    public ResponseStream createResponseStream(OutputStream out)
+    {
 
         final OutputStream stream = out;
-        return new ResponseStream() {
+        return new ResponseStream()
+        {
 
-            public void close() throws IOException {
+            public void close() throws IOException
+            {
                 stream.close();
             }
 
-            public void flush() throws IOException {
+            public void flush() throws IOException
+            {
                 stream.flush();
             }
 
-            public void write(byte[] b) throws IOException {
+            public void write(byte[] b) throws IOException
+            {
                 stream.write(b);
             }
 
-            public void write(byte[] b, int off, int len) throws IOException {
+            public void write(byte[] b, int off, int len) throws IOException
+            {
                 stream.write(b, off, len);
             }
 
-            public void write(int b) throws IOException {
+            public void write(int b) throws IOException
+            {
                 stream.write(b);
             }
-
         };
-
-
     }
-
 
     /** {@inheritDoc} */
-    public ResponseStateManager getResponseStateManager() {
-
-        throw new UnsupportedOperationException();
-
+    public ResponseStateManager getResponseStateManager()
+    {
+        return rsm;
     }
-
-
 }
