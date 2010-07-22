@@ -430,8 +430,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (sessionMap == null)
         {
-            HttpSession session = request.getSession(true);
-            sessionMap = new MockSessionMap(session);
+            sessionMap = new _SessionMap(request);
         }
         return sessionMap;
     }
