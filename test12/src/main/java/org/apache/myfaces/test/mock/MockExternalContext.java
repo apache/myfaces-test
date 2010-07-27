@@ -36,7 +36,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import org.apache.myfaces.shaded.context.servlet.ApplicationMap;
+import org.apache.myfaces.shaded.context.servlet.CookieMap;
+import org.apache.myfaces.shaded.context.servlet.InitParameterMap;
+import org.apache.myfaces.shaded.context.servlet.RequestHeaderMap;
+import org.apache.myfaces.shaded.context.servlet.RequestHeaderValuesMap;
+import org.apache.myfaces.shaded.context.servlet.RequestMap;
+import org.apache.myfaces.shaded.context.servlet.RequestParameterMap;
+import org.apache.myfaces.shaded.context.servlet.RequestParameterValuesMap;
+import org.apache.myfaces.shaded.context.servlet.SessionMap;
 
 /**
  * <p>Mock implementation of <code>ExternalContext</code>.</p>
@@ -103,7 +112,7 @@ public class MockExternalContext extends ExternalContext
     {
         Map map = getRequestCookieMap();
         if (request instanceof MockHttpServletRequest &&
-            map instanceof _CookieMap)
+            map instanceof CookieMap)
         {
             ((MockHttpServletRequest)request).addCookie(cookie);
         }
@@ -133,7 +142,7 @@ public class MockExternalContext extends ExternalContext
     {
         Map map = getRequestParameterMap();
         if (request instanceof MockHttpServletRequest &&
-            map instanceof _RequestParameterMap)
+            map instanceof RequestParameterMap)
         {
             ((MockHttpServletRequest)request).addParameter(key, value);
         }
@@ -163,7 +172,7 @@ public class MockExternalContext extends ExternalContext
     {
         Map map = getRequestHeaderMap();
         if (request instanceof MockHttpServletRequest &&
-            map instanceof _RequestHeaderMap)
+            map instanceof RequestHeaderMap)
         {
             ((MockHttpServletRequest)request).addHeader(key, value);
         }
@@ -234,7 +243,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (applicationMap == null)
         {
-            applicationMap = new _ApplicationMap(context);
+            applicationMap = new ApplicationMap(context);
         }
         return applicationMap;
     }
@@ -262,7 +271,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (initParameterMap == null)
         {
-            initParameterMap = new _InitParameterMap(context);
+            initParameterMap = new InitParameterMap(context);
         }
         return initParameterMap;
     }
@@ -290,7 +299,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (requestCookieMap == null)
         {
-            requestCookieMap = new _CookieMap(request);
+            requestCookieMap = new CookieMap(request);
         }
         return requestCookieMap;
     }
@@ -300,7 +309,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (requestHeaderMap == null)
         {
-            requestHeaderMap = new _RequestHeaderMap(request);
+            requestHeaderMap = new RequestHeaderMap(request);
         }
         return requestHeaderMap;
     }
@@ -310,7 +319,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (requestHeaderValuesMap == null)
         {
-            requestHeaderValuesMap = new _RequestHeaderValuesMap(request);
+            requestHeaderValuesMap = new RequestHeaderValuesMap(request);
         }
         return requestHeaderValuesMap;
     }
@@ -332,7 +341,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (requestMap == null)
         {
-            requestMap = new _RequestMap(request);
+            requestMap = new RequestMap(request);
         }
         return requestMap;
     }
@@ -342,7 +351,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (requestParameterMap == null)
         {
-            requestParameterMap = new _RequestParameterMap(request);
+            requestParameterMap = new RequestParameterMap(request);
         }
         return requestParameterMap;
     }
@@ -378,7 +387,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (requestParameterValuesMap == null)
         {
-            requestParameterValuesMap = new _RequestParameterValuesMap(request);
+            requestParameterValuesMap = new RequestParameterValuesMap(request);
         }
         return requestParameterValuesMap;
     }
@@ -430,7 +439,7 @@ public class MockExternalContext extends ExternalContext
     {
         if (sessionMap == null)
         {
-            sessionMap = new _SessionMap(request);
+            sessionMap = new SessionMap(request);
         }
         return sessionMap;
     }

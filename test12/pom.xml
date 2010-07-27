@@ -91,6 +91,14 @@
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- shaded artifacts -->
+        <dependency>
+            <groupId>org.apache.myfaces.common-shades</groupId>
+            <artifactId>attributemaps</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
@@ -119,6 +127,42 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- 
+               Use maven-shade-plugin to include artifacts from 
+               org.apache.myfaces.common-shades directly in the target jar.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.3.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.apache.myfaces.common-shades:attributemaps</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <!-- rename packages to circumvent class loading conflicts  -->
+                                    <pattern>org.apache.myfaces.shaded</pattern>
+                                    <shadedPattern>org.apache.myfaces.test</shadedPattern>
+                                    <excludes>
+                                        <exclude>org.apache.myfaces.test.**</exclude>
+                                    </excludes>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
