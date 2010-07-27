@@ -27,44 +27,55 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * HttpServletRequest headers as Map.
  * 
- * @author Anton Koinov (latest modification by $Author: grantsmith $)
- * @version $Revision: 472618 $ $Date: 2006-11-08 15:06:54 -0500 (Mié, 08 Nov 2006) $
+ * @author Anton Koinov (latest modification by $Author: slessard $)
+ * @version $Revision: 698799 $ $Date: 2008-09-25 04:03:47 +0200 (Do, 25 Sep 2008) $
  */
-class _RequestHeaderMap extends _AbstractAttributeMap
+public final class _RequestHeaderMap extends _AbstractAttributeMap<String>
 {
     private final HttpServletRequest _httpServletRequest;
 
-    _RequestHeaderMap(HttpServletRequest httpServletRequest)
+    _RequestHeaderMap(final HttpServletRequest httpServletRequest)
     {
         _httpServletRequest = httpServletRequest;
     }
 
-    protected Object getAttribute(String key)
+    @Override
+    protected String getAttribute(final String key)
     {
         return _httpServletRequest.getHeader(key);
     }
 
-    protected void setAttribute(String key, Object value)
+    @Override
+    protected void setAttribute(final String key, final String value)
     {
-        if (_httpServletRequest instanceof MockHttpServletRequest)
-        {
-            ((MockHttpServletRequest)_httpServletRequest).addHeader(key, (String)value);
-        }
-        else
-        {
-            throw new UnsupportedOperationException(
-                "Cannot set HttpServletRequest Header");
-        }
+        throw new UnsupportedOperationException(
+            "Cannot set HttpServletRequest Header");
     }
 
-    protected void removeAttribute(String key)
+    @Override
+    protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
             "Cannot remove HttpServletRequest Header");
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Enumeration<String> getAttributeNames()
     {
         return _httpServletRequest.getHeaderNames();
     }
+
+    @Override
+    public void putAll(final Map<? extends String, ? extends String> t)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        throw new UnsupportedOperationException();
+    }    
 }

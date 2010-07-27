@@ -26,19 +26,27 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-class _RequestHeaderValuesMap extends _AbstractAttributeMap
+/**
+ * HttpServletRequest header values (multi-value headers) as Map of String[].
+ * 
+ * @author Anton Koinov (latest modification by $Author: slessard $)
+ * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
+ */
+public final class _RequestHeaderValuesMap extends _AbstractAttributeMap<String[]>
 {
     private final HttpServletRequest _httpServletRequest;
-    private final Map _valueCache = new HashMap();
+    private final Map<String, String[]> _valueCache = new HashMap<String, String[]>();
 
     _RequestHeaderValuesMap(final HttpServletRequest httpServletRequest)
     {
         _httpServletRequest = httpServletRequest;
     }
 
-    protected Object getAttribute(final String key)
+    @Override
+    @SuppressWarnings("unchecked")
+    protected String[] getAttribute(final String key)
     {
-        String[] ret = (String[])_valueCache.get(key);
+        String[] ret = _valueCache.get(key);
         if (ret == null)
         {
             _valueCache.put(key, ret = toArray(_httpServletRequest.getHeaders(key)));
@@ -47,30 +55,34 @@ class _RequestHeaderValuesMap extends _AbstractAttributeMap
         return ret;
     }
 
-    protected void setAttribute(final String key, final Object value)
+    @Override
+    protected void setAttribute(final String key, final String[] value)
     {
         throw new UnsupportedOperationException("Cannot set HttpServletRequest HeaderValues");
     }
 
+    @Override
     protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException("Cannot remove HttpServletRequest HeaderValues");
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Enumeration<String> getAttributeNames()
     {
         return _httpServletRequest.getHeaderNames();
     }
 
-    private String[] toArray(Enumeration e)
+    private String[] toArray(Enumeration<String> e)
     {
-        List ret = new ArrayList();
+        List<String> ret = new ArrayList<String>();
 
         while (e.hasMoreElements())
         {
             ret.add(e.nextElement());
         }
 
-        return (String[]) ret.toArray(new String[ret.size()]);
+        return ret.toArray(new String[ret.size()]);
     }
 }

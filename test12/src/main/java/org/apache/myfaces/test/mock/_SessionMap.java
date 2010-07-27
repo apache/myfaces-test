@@ -28,61 +28,60 @@ import javax.servlet.http.HttpSession;
 /**
  * HttpSession attibutes as Map.
  *
- * @author Anton Koinov (latest modification by $Author: grantsmith $)
- * @version $Revision: 472618 $ $Date: 2006-11-08 15:06:54 -0500 (Mié, 08 Nov 2006) $
+ * @author Anton Koinov (latest modification by $Author: jakobk $)
+ * @version $Revision: 979229 $ $Date: 2010-07-26 12:26:53 +0200 (Mo, 26 Jul 2010) $
  */
-class _SessionMap extends _AbstractAttributeMap
+public final class _SessionMap extends _AbstractAttributeMap<Object>
 {
     private final HttpServletRequest _httpRequest;
 
-    _SessionMap(HttpServletRequest httpRequest)
+    _SessionMap(final HttpServletRequest httpRequest)
     {
         _httpRequest = httpRequest;
     }
 
-    protected Object getAttribute(String key)
+    @Override
+    protected Object getAttribute(final String key)
     {
-        HttpSession httpSession = getSession();
-        return (httpSession == null)
-            ? null : httpSession.getAttribute(key.toString());
+        final HttpSession httpSession = _getSession();
+        return (httpSession == null) ? null : httpSession.getAttribute(key);
     }
 
-    protected void setAttribute(String key, Object value)
+    @Override
+    protected void setAttribute(final String key, final Object value)
     {
         _httpRequest.getSession(true).setAttribute(key, value);
     }
 
-    protected void removeAttribute(String key)
+    @Override
+    protected void removeAttribute(final String key)
     {
-        HttpSession httpSession = getSession();
+        final HttpSession httpSession = _getSession();
         if (httpSession != null)
         {
             httpSession.removeAttribute(key);
         }
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Enumeration<String> getAttributeNames()
     {
-        HttpSession httpSession = getSession();
-        return (httpSession == null)
-            ? _NullEnumeration.instance()
-            : httpSession.getAttributeNames();
+        final HttpSession httpSession = _getSession();
+        return (httpSession == null) ? _NullEnumeration.instance() : httpSession.getAttributeNames();
     }
 
-    private HttpSession getSession()
+    @Override
+    public void putAll(final Map<? extends String, ? extends Object> t)
+    {
+        throw new UnsupportedOperationException();
+    }
+    
+    // we can use public void clear() from super-class
+    
+    private HttpSession _getSession()
     {
         return _httpRequest.getSession(false);
     }
 
-
-    public void putAll(Map t)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-
-    public void clear()
-    {
-        throw new UnsupportedOperationException();
-    }
 }

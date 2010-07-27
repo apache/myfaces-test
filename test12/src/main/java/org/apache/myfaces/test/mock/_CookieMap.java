@@ -20,6 +20,7 @@ package org.apache.myfaces.test.mock;
 
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,49 +30,37 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Dimitry D'hondt
  * @author Anton Koinov
- * @version $Revision: 472618 $ $Date: 2006-11-08 15:06:54 -0500 (Mié, 08 Nov 2006) $
+ * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
  */
-class _CookieMap extends _AbstractAttributeMap
+public final class _CookieMap extends _AbstractAttributeMap<Object>
 {
     private static final Cookie[] EMPTY_ARRAY = new Cookie[0];
 
-    final HttpServletRequest _httpServletRequest;
+    private final HttpServletRequest _httpServletRequest;
 
-    _CookieMap(HttpServletRequest httpServletRequest)
+    _CookieMap(final HttpServletRequest httpServletRequest)
     {
         _httpServletRequest = httpServletRequest;
     }
 
+    @Override
     public void clear()
     {
         throw new UnsupportedOperationException(
             "Cannot clear HttpRequest Cookies");
     }
 
-    public boolean containsKey(Object key)
-    {
-        Cookie[] cookies = _httpServletRequest.getCookies();
-        if (cookies == null) return false;
-        for (int i = 0, len = cookies.length; i < len; i++)
-        {
-            if (cookies[i].getName().equals(key))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean containsValue(Object findValue)
+    @Override
+    public boolean containsValue(final Object findValue)
     {
         if (findValue == null)
         {
             return false;
         }
 
-        Cookie[] cookies = _httpServletRequest.getCookies();
-        if (cookies == null) return false;
+        final Cookie[] cookies = _httpServletRequest.getCookies();
+        if (cookies == null)
+            return false;
         for (int i = 0, len = cookies.length; i < len; i++)
         {
             if (findValue.equals(cookies[i]))
@@ -83,28 +72,32 @@ class _CookieMap extends _AbstractAttributeMap
         return false;
     }
 
+    @Override
     public boolean isEmpty()
     {
-        Cookie[] cookies = _httpServletRequest.getCookies();
+        final Cookie[] cookies = _httpServletRequest.getCookies();
         return cookies == null || cookies.length == 0;
     }
 
+    @Override
     public int size()
     {
-        Cookie[] cookies = _httpServletRequest.getCookies();
+        final Cookie[] cookies = _httpServletRequest.getCookies();
         return cookies == null ? 0 : cookies.length;
     }
 
-    public void putAll(Map t)
+    @Override
+    public void putAll(final Map<? extends String, ? extends Object> t)
     {
         throw new UnsupportedOperationException();
     }
 
-
-    protected Object getAttribute(String key)
+    @Override
+    protected Object getAttribute(final String key)
     {
-        Cookie[] cookies = _httpServletRequest.getCookies();
-        if (cookies == null) return null;
+        final Cookie[] cookies = _httpServletRequest.getCookies();
+        if (cookies == null)
+            return null;
         for (int i = 0, len = cookies.length; i < len; i++)
         {
             if (cookies[i].getName().equals(key))
@@ -116,45 +109,36 @@ class _CookieMap extends _AbstractAttributeMap
         return null;
     }
 
-    protected void setAttribute(String key, Object value)
+    @Override
+    protected void setAttribute(final String key, final Object value)
     {
-        if (_httpServletRequest instanceof MockHttpServletRequest)
-        {
-            ((MockHttpServletRequest) _httpServletRequest).addCookie((Cookie) value);
-        }
-        else
-        {
-            throw new UnsupportedOperationException(
-                "Cannot set HttpRequest Cookies");
-        }
+        throw new UnsupportedOperationException(
+            "Cannot set HttpRequest Cookies");
     }
 
-    protected void removeAttribute(String key)
+    @Override
+    protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
             "Cannot remove HttpRequest Cookies");
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    protected Enumeration<String> getAttributeNames()
     {
-        Cookie[] cookies = _httpServletRequest.getCookies();
-        if (cookies == null)
-        {
-            return new CookieNameEnumeration(EMPTY_ARRAY);
-        }
-        else
-        {
-            return new CookieNameEnumeration(cookies);
-        }
+        final Cookie[] cookies = _httpServletRequest.getCookies();
+
+        return cookies == null ? new CookieNameEnumeration(EMPTY_ARRAY) : new CookieNameEnumeration(cookies);
+  
     }
 
-    private static class CookieNameEnumeration implements Enumeration
+    private static class CookieNameEnumeration implements Enumeration<String>
     {
         private final Cookie[] _cookies;
         private final int _length;
         private int _index;
 
-        public CookieNameEnumeration(Cookie[] cookies)
+        public CookieNameEnumeration(final Cookie[] cookies)
         {
             _cookies = cookies;
             _length = cookies.length;
@@ -165,8 +149,12 @@ class _CookieMap extends _AbstractAttributeMap
             return _index < _length;
         }
 
-        public Object nextElement()
+        public String nextElement()
         {
+            if (!hasMoreElements())
+            {
+                throw new NoSuchElementException();
+            }
             return _cookies[_index++].getName();
         }
     }

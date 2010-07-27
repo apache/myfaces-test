@@ -18,12 +18,8 @@
  */
 package org.apache.myfaces.test.mock;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletContext;
 
@@ -31,44 +27,55 @@ import javax.servlet.ServletContext;
 /**
  * ServletContext init parameters as Map.
  * 
- * @author Anton Koinov (latest modification by $Author: grantsmith $)
- * @version $Revision: 472618 $ $Date: 2006-11-08 15:06:54 -0500 (Mié, 08 Nov 2006) $
+ * @author Anton Koinov (latest modification by $Author: slessard $)
+ * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
  */
-class _InitParameterMap extends _AbstractAttributeMap
+public final class _InitParameterMap extends _AbstractAttributeMap<String>
 {
-    final ServletContext _servletContext;
+    private final ServletContext _servletContext;
 
-    _InitParameterMap(ServletContext servletContext)
+    _InitParameterMap(final ServletContext servletContext)
     {
         _servletContext = servletContext;
     }
 
-    protected Object getAttribute(String key)
+    @Override
+    protected String getAttribute(final String key)
     {
         return _servletContext.getInitParameter(key);
     }
 
-    protected void setAttribute(String key, Object value)
+    @Override
+    protected void setAttribute(final String key, final String value)
     {
-        if (_servletContext instanceof MockServletContext)
-        {
-            ((MockServletContext)_servletContext).addInitParameter(key, (String) value);
-        }
-        else
-        {
-            throw new UnsupportedOperationException(
-                "Cannot set ServletContext InitParameter");
-        }
+        throw new UnsupportedOperationException(
+            "Cannot set ServletContext InitParameter");
     }
 
-    protected void removeAttribute(String key)
+    @Override
+    protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
             "Cannot remove ServletContext InitParameter");
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Enumeration<String> getAttributeNames()
     {
         return _servletContext.getInitParameterNames();
+    }
+    
+    @Override
+    public void putAll(final Map<? extends String, ? extends String> t)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public void clear()
+    {
+        throw new UnsupportedOperationException();
     }
 }

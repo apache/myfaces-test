@@ -25,36 +25,41 @@ import javax.servlet.ServletRequest;
 /**
  * ServletRequest multi-value parameters as Map.
  * 
- * @author Anton Koinov (latest modification by $Author: grantsmith $)
- * @version $Revision: 472618 $ $Date: 2006-11-08 15:06:54 -0500 (Mié, 08 Nov 2006) $
+ * @author Anton Koinov (latest modification by $Author: lu4242 $)
+ * @version $Revision: 695059 $ $Date: 2008-09-14 01:10:53 +0200 (So, 14 Sep 2008) $
  */
-class _RequestParameterValuesMap extends _AbstractAttributeMap
+public final class _RequestParameterValuesMap extends _AbstractAttributeMap<String[]>
 {
     private final ServletRequest _servletRequest;
 
-    _RequestParameterValuesMap(ServletRequest servletRequest)
+    _RequestParameterValuesMap(final ServletRequest servletRequest)
     {
         _servletRequest = servletRequest;
     }
 
-    protected Object getAttribute(String key)
+    @Override
+    protected String[] getAttribute(final String key)
     {
         return _servletRequest.getParameterValues(key);
     }
 
-    protected void setAttribute(String key, Object value)
+    @Override
+    protected void setAttribute(final String key, final String[] value)
     {
         throw new UnsupportedOperationException(
             "Cannot set ServletRequest ParameterValues");
     }
 
-    protected void removeAttribute(String key)
+    @Override
+    protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
             "Cannot remove ServletRequest ParameterValues");
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Enumeration<String> getAttributeNames()
     {
         return _servletRequest.getParameterNames();
     }

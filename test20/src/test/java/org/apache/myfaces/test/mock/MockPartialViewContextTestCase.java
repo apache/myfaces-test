@@ -65,7 +65,7 @@ public class MockPartialViewContextTestCase extends AbstractJsfTestCase
         PartialViewContext pvContext = factory.getPartialViewContext(facesContext);
         assertFalse(pvContext.isAjaxRequest());
 
-        facesContext.getExternalContext().getRequestHeaderMap().put("Faces-Request", "partial/ajax");
+        externalContext.addRequestHeader("Faces-Request", "partial/ajax");
 
         pvContext = factory.getPartialViewContext(facesContext);
         assertTrue(pvContext.isAjaxRequest());

@@ -18,10 +18,7 @@
  */
 package org.apache.myfaces.test.mock;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -30,58 +27,54 @@ import javax.servlet.ServletContext;
 /**
  * ServletContext attributes as a Map.
  *
- * @author Anton Koinov (latest modification by $Author: grantsmith $)
- * @version $Revision: 472618 $ $Date: 2006-11-08 15:06:54 -0500 (Mié, 08 Nov 2006) $
+ * @author Anton Koinov (latest modification by $Author: slessard $)
+ * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
  */
-class _ApplicationMap extends _AbstractAttributeMap
+public final class _ApplicationMap extends _AbstractAttributeMap<Object>
 {
     final ServletContext _servletContext;
 
-    _ApplicationMap(ServletContext servletContext)
+    _ApplicationMap(final ServletContext servletContext)
     {
         _servletContext = servletContext;
     }
 
-    protected Object getAttribute(String key)
+    @Override
+    protected Object getAttribute(final String key)
     {
         return _servletContext.getAttribute(key);
     }
 
-    protected void setAttribute(String key, Object value)
+    @Override
+    protected void setAttribute(final String key, final Object value)
     {
         _servletContext.setAttribute(key, value);
     }
 
-    protected void removeAttribute(String key)
+    @Override
+    protected void removeAttribute(final String key)
     {
         _servletContext.removeAttribute(key);
     }
 
-    protected Enumeration getAttributeNames()
+    @Override
+    @SuppressWarnings("unchecked")
+    protected Enumeration<String> getAttributeNames()
     {
         return _servletContext.getAttributeNames();
     }
 
-    public void putAll(Map t)
+
+    @Override
+    public void putAll(final Map<? extends String, ? extends Object> t)
     {
-        for (Iterator it = t.entrySet().iterator(); it.hasNext();)
-        {
-            Map.Entry entry = (Map.Entry) it.next();
-            _servletContext.setAttribute((String)entry.getKey(), entry.getValue());
-        }
+        throw new UnsupportedOperationException();
     }
 
+
+    @Override
     public void clear()
     {
-        List names = new ArrayList();
-        for (Enumeration e = _servletContext.getAttributeNames(); e.hasMoreElements();)
-        {
-            String name = (String) e.nextElement();
-            names.add(name);
-        }
-        for (int i = 0; i < names.size(); i++)
-        {
-            _servletContext.removeAttribute((String) names.get(i));
-        }
+        throw new UnsupportedOperationException();
     }
 }
