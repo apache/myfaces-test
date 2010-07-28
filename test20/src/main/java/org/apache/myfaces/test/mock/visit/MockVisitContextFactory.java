@@ -17,12 +17,13 @@
 
 package org.apache.myfaces.test.mock.visit;
 
+import java.util.Collection;
+import java.util.Set;
+
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitContextFactory;
 import javax.faces.component.visit.VisitHint;
 import javax.faces.context.FacesContext;
-import java.util.Collection;
-import java.util.Set;
 
 /**
  * <p>Mock implementation of <code>VisitContextFactory</code>.</p>
@@ -37,6 +38,10 @@ public class MockVisitContextFactory extends VisitContextFactory
     @Override
     public VisitContext getVisitContext(FacesContext context, Collection<String> ids, Set<VisitHint> hints)
     {
-        return new MockVisitContext(context, hints);
+        if (ids == null || ids.isEmpty()) {
+            return new FullVisitContext(context, hints);
+        } else {
+            return new PartialVisitContext(context, ids, hints);
+        }
     }
 }
