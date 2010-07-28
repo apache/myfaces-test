@@ -150,7 +150,7 @@ public class MockExpressionFactory extends ExpressionFactory {
                                                  String expression,
                                                  Class expectedType) {
 
-        return new MockValueExpression(expression, expectedType);
+        return new MockCompositeValueExpression(expression, expectedType);
 
     }
 

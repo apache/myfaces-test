@@ -59,5 +59,17 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
         Object value = ve.getValue(elContext);
         assertEquals("BAR", value);
     }
-    
+
+    public void testGetCompositeValue() 
+    {
+        // set value of #{foo} to BAR in request scope
+        externalContext.getRequestMap().put("foo", "BAR");
+        // resolve value of #{foo} via ValueExpression
+        ELContext elContext = facesContext.getELContext();
+        ValueExpression ve = application.getExpressionFactory()
+                .createValueExpression(elContext, "test #{foo}", String.class);
+        Object value = ve.getValue(elContext);
+        assertEquals("test BAR", value);
+    }
+
 }
