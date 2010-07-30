@@ -345,7 +345,7 @@ public class ConfigParser {
             } else {
                 Class clazz = null;
                 try {
-                    clazz = this.getClass().getClassLoader().loadClass(bean.getConverterForClass());
+                    clazz = classForName(bean.getConverterForClass());
                 } catch (ClassNotFoundException e) {
                     throw new IllegalArgumentException("java.lang.ClassNotFoundException: "
                         + bean.getConverterForClass());
@@ -356,7 +356,24 @@ public class ConfigParser {
 
     }
 
-
+    private Class classForName(String type) throws ClassNotFoundException
+    {
+        try
+        {
+            // Try WebApp ClassLoader first
+            return Class.forName(type,
+                                 false, // do not initialize for faster startup
+                                 Thread.currentThread().getContextClassLoader());
+        }
+        catch (ClassNotFoundException ignore)
+        {
+            // fallback: Try ClassLoader for ClassUtils (i.e. the myfaces.jar lib)
+            return Class.forName(type,
+                                 false, // do not initialize for faster startup
+                                 this.getClass().getClassLoader());
+        }                    
+    }
+    
     /**
      * <p>Digester <code>Rule</code> for processing render kits.</p>
      */
@@ -443,7 +460,7 @@ public class ConfigParser {
             Renderer renderer = null;
             Class clazz = null;
             try {
-                clazz = this.getClass().getClassLoader().loadClass(bean.getRendererClass());
+                clazz = classForName(bean.getRendererClass());
                 renderer = (Renderer) clazz.newInstance();
             } catch (Exception e) {
                 throw new IllegalArgumentException("Exception while trying to instantiate"
@@ -538,7 +555,7 @@ public class ConfigParser {
             ClientBehaviorRenderer renderer = null;
             Class clazz = null;
             try {
-                clazz = this.getClass().getClassLoader().loadClass(bean.getClientBehaviorRendererClass());
+                clazz = classForName(bean.getClientBehaviorRendererClass());
                 renderer = (ClientBehaviorRenderer) clazz.newInstance();
             } catch (Exception e) {
                 throw new IllegalArgumentException("Exception while trying to instantiate"
