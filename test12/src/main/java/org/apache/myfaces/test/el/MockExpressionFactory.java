@@ -150,8 +150,7 @@ public class MockExpressionFactory extends ExpressionFactory {
                                                  String expression,
                                                  Class expectedType) {
 
-        //return new MockCompositeValueExpression(expression, expectedType); -> Failing tests in MyFaces-Core-Impl
-        return new MockValueExpression(expression, expectedType);
+        return new MockCompositeValueExpression(expression, expectedType);
 
     }
 

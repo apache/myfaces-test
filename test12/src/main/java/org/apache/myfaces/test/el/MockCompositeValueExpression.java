@@ -81,14 +81,28 @@ public class MockCompositeValueExpression extends MockValueExpression
     @Override
     public Object getValue(ELContext context)
     {
-        // Well only composite strings are supported.
-
-        StringBuilder result = new StringBuilder();
-        for (ValueExpression valueExpression : valueExpressionChain)
+        if (valueExpressionChain.size() > 1)
         {
-            result.append(valueExpression.getValue(context));
+            // Well only composite strings are supported.
+
+            StringBuilder result = new StringBuilder();
+            for (ValueExpression valueExpression : valueExpressionChain)
+            {
+                result.append(valueExpression.getValue(context));
+            }
+            return result.toString();
         }
-        return result.toString();
+        else
+        {
+            if (valueExpressionChain.size() == 1)
+            {
+                return valueExpressionChain.get(0).getValue(context);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
     @Override

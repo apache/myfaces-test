@@ -60,9 +60,7 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
         assertEquals("BAR", value);
     }
 
-	/* 
-	MockCompositeValueExpression -> Failing tests in MyFaces-Core-Impl
-    public void testGetCompositeValue() 
+    public void testGetCompositeValue()
     {
         // set value of #{foo} to BAR in request scope
         externalContext.getRequestMap().put("foo", "BAR");
@@ -73,5 +71,5 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
         Object value = ve.getValue(elContext);
         assertEquals("test BAR", value);
     }
-*/
+
 }
