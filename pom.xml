@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.apache.myfaces</groupId>
         <artifactId>myfaces</artifactId>
-        <version>7</version>
+        <version>8</version>
     </parent>
     <groupId>org.apache.myfaces.test</groupId>
     <artifactId>myfaces-test-project</artifactId>
@@ -34,7 +34,7 @@
     <url>http://myfaces.apache.org/test</url>
     <issueManagement>
       <system>jira</system>
-      <url>http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10600</url>
+      <url>http://issues.apache.org/jira/browse/MYFACESTEST</url>
     </issueManagement>
     <scm>
       <connection>scm:svn:http://svn.apache.org/repos/asf/myfaces/test/trunk</connection>
@@ -82,6 +82,15 @@
            -->
       </plugins>
     </build>
+    
+    <reporting>
+      <plugins>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+      </plugins>
+    </reporting>
     
     <pluginRepositories>
         <pluginRepository>

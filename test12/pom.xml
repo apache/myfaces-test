@@ -29,7 +29,7 @@
 
     <artifactId>myfaces-test12</artifactId>
     <packaging>jar</packaging>
-    <name>Myfaces Test Framework for JSF 1.1 and 1.2</name>
+    <name>Myfaces Test Framework for JSF 1.2</name>
 
     <dependencies>
 
