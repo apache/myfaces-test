@@ -149,6 +149,23 @@ public class MockPartialViewContext extends PartialViewContext
                         tempList.add(clientId);
                     }
                 }
+                // The "javax.faces.source" parameter needs to be added to the list of
+                // execute ids if missing (otherwise, we'd never execute an action associated
+                // with, e.g., a button).
+                
+                String source = _facesContext.getExternalContext().getRequestParameterMap().get
+                    (PartialViewContextImpl.SOURCE_PARAM_NAME);
+                
+                if (source != null)
+                {
+                    source = source.trim();
+                    
+                    if (!tempList.contains (source))
+                    {
+                        tempList.add (source);
+                    }
+                }
+                
                 _executeClientIds = tempList;
             } else {
                 _executeClientIds = new ArrayList<String>();
@@ -183,6 +200,11 @@ public class MockPartialViewContext extends PartialViewContext
                 _renderClientIds = tempList;
             } else {
                 _renderClientIds = new ArrayList<String>();
+                
+                if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS.equals (renderMode))
+                {
+                    _renderClientIds.add (PartialResponseWriter.RENDER_ALL_MARKER);
+                }
             }
         }
         return _renderClientIds;
