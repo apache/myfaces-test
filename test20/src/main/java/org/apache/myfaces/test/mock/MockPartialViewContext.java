@@ -17,19 +17,20 @@
 
 package org.apache.myfaces.test.mock;
 
-import org.apache.myfaces.test.mock.visit.MockVisitCallback;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.PartialResponseWriter;
 import javax.faces.context.PartialViewContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import org.apache.myfaces.test.mock.visit.MockVisitCallback;
 
 /**
  * <p>Mock implementation of <code>PartialViewContext</code>.</p>
@@ -44,6 +45,7 @@ public class MockPartialViewContext extends PartialViewContext
     private static final String FACES_REQUEST = "Faces-Request";
     private static final String PARTIAL_AJAX = "partial/ajax";
     private static final String PARTIAL_PROCESS = "partial/process";
+    private static final String SOURCE_PARAM_NAME = "javax.faces.source";
     private FacesContext _facesContext = null;
     private Boolean _ajaxRequest = null;
     private Collection<String> _executeClientIds = null;
@@ -154,7 +156,7 @@ public class MockPartialViewContext extends PartialViewContext
                 // with, e.g., a button).
                 
                 String source = _facesContext.getExternalContext().getRequestParameterMap().get
-                    (PartialViewContextImpl.SOURCE_PARAM_NAME);
+                    (SOURCE_PARAM_NAME);
                 
                 if (source != null)
                 {
