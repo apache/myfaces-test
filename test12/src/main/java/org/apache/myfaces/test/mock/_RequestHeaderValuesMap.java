@@ -31,8 +31,9 @@ import javax.servlet.http.HttpServletRequest;
  * 
  * @author Anton Koinov (latest modification by $Author: slessard $)
  * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
+ * @since 1.0.0
  */
-public final class _RequestHeaderValuesMap extends _AbstractAttributeMap<String[]>
+final class _RequestHeaderValuesMap extends _AbstractAttributeMap<String[]>
 {
     private final HttpServletRequest _httpServletRequest;
     private final Map<String, String[]> _valueCache = new HashMap<String, String[]>();

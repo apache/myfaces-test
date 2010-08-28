@@ -31,8 +31,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author Dimitry D'hondt
  * @author Anton Koinov
  * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
+ * @since 1.0.0
  */
-public final class _CookieMap extends _AbstractAttributeMap<Object>
+final class _CookieMap extends _AbstractAttributeMap<Object>
 {
     private static final Cookie[] EMPTY_ARRAY = new Cookie[0];
 

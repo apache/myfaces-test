@@ -24,6 +24,7 @@ import javax.servlet.ServletOutputStream;
  * <p>Mock implementation of <code>ServletOutputStream</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockServletOutputStream extends ServletOutputStream {

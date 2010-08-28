@@ -44,6 +44,7 @@ import javax.faces.context.FacesContext;
  * 
  * @author Werner Punz, Blake Sullivan (latest modification by $Author: lu4242 $)
  * @version $Rev: 949094 $ $Date: 2010-05-27 22:59:10 -0500 (Jue, 27 May 2010) $
+ * @since 1.0.0
  */
 public class PartialVisitContext extends VisitContext
 {

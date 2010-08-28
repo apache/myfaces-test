@@ -27,9 +27,11 @@ import javax.faces.event.PhaseId;
 
 /**
  * Implements the lifecycle as described in Spec. 1.0 PFD Chapter 2
- * @author Nikolay Petrov
  *
  * render response phase (JSF Spec 2.2.6)
+ * 
+ * @author Nikolay Petrov
+ * @since 1.0.0
  */
 class RenderResponseExecutor implements PhaseExecutor {
   public boolean execute(FacesContext facesContext) {

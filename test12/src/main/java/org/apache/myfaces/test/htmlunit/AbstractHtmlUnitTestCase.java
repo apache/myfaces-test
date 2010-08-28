@@ -40,8 +40,9 @@ import junit.framework.TestSuite;
  * These tests will expect a system property named <code>url</code> to be
  * present, which will define the URL (including the context path, but
  * without a trailing slash) of the application to be tested.</p>
+ * 
+ * @since 1.0.0
  */
-
 public abstract class AbstractHtmlUnitTestCase extends TestCase {
 
 

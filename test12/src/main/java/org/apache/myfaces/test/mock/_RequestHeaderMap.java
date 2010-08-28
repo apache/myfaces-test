@@ -29,8 +29,9 @@ import javax.servlet.http.HttpServletRequest;
  * 
  * @author Anton Koinov (latest modification by $Author: slessard $)
  * @version $Revision: 698799 $ $Date: 2008-09-25 04:03:47 +0200 (Do, 25 Sep 2008) $
+ * @since 1.0.0
  */
-public final class _RequestHeaderMap extends _AbstractAttributeMap<String>
+final class _RequestHeaderMap extends _AbstractAttributeMap<String>
 {
     private final HttpServletRequest _httpServletRequest;
 

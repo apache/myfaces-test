@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
  * 
  * @author Jakob Korherr (latest modification by $Author$)
  * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 public class MockViewHandler20 extends MockViewHandler
 {

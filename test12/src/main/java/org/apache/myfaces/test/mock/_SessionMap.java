@@ -30,8 +30,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author Anton Koinov (latest modification by $Author: jakobk $)
  * @version $Revision: 979229 $ $Date: 2010-07-26 12:26:53 +0200 (Mo, 26 Jul 2010) $
+ * @since 1.0.0
  */
-public final class _SessionMap extends _AbstractAttributeMap<Object>
+final class _SessionMap extends _AbstractAttributeMap<Object>
 {
     private final HttpServletRequest _httpRequest;
 

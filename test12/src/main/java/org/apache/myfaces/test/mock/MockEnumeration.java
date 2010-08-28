@@ -25,6 +25,7 @@ import java.util.Iterator;
  * an <code>Iterator</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 class MockEnumeration implements Enumeration {

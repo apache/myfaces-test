@@ -24,6 +24,8 @@ import javax.faces.context.ResponseWriter;
 
 /**
  * <p>Mock implementation of <code>javax.faces.context.ResponseWriter</code>.</p>
+ * 
+ * @since 1.0.0
  */
 public class MockResponseWriter extends ResponseWriter {
 

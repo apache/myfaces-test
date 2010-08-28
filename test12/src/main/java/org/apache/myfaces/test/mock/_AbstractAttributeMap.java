@@ -34,8 +34,9 @@ import java.util.Set;
  * 
  * @author Anton Koinov (latest modification by $Author: jakobk $)
  * @version $Revision: 979229 $ $Date: 2010-07-26 12:26:53 +0200 (Mo, 26 Jul 2010) $
+ * @since 1.0.0
  */
-public abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
+abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
 {
     private Set<String> _keySet;
     private Collection<V> _values;

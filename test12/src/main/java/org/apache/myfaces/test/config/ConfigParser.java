@@ -54,7 +54,7 @@ import java.net.URL;
  * <code>setUp()</code> processing in this base class before calling one
  * of the <code>parse()</code> methods.</p>
  *
- * @since 1.1
+ * @since 1.0.0
  */
 public class ConfigParser {
     

@@ -21,6 +21,8 @@ import java.security.Principal;
 
 /**
  * <p>Mock implementation of <code>Principal</code>.</p>
+ * 
+ * @since 1.0.0
  */
 public class MockPrincipal implements Principal {
 

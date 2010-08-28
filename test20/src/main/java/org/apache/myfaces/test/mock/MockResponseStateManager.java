@@ -16,7 +16,8 @@ import javax.faces.render.ResponseStateManager;
 /**
  * Mock class that encode view state in hex format
  * 
- * @author lu4242
+ * @author Leonardo Uribe
+ * @since 1.0.0
  *
  */
 public class MockResponseStateManager extends ResponseStateManager

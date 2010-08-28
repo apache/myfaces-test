@@ -31,6 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Mock implementation of <code>ExternalContext</code> that includes the semantics
+ * added by JavaServer Faces 2.0.</p>
+ * 
+ * @author Leonardo Uribe
+ * @since 1.0.0
+ *
+ */
 public class MockExternalContext20 extends MockExternalContext12
 {
 

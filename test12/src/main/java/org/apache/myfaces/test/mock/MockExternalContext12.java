@@ -28,9 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * $Id$
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
-
 public class MockExternalContext12 extends MockExternalContext {
 
 

@@ -37,7 +37,7 @@ import org.apache.myfaces.test.mock.visit.MockVisitCallback;
  * <p/>
  * $Id$
  *
- * @since 2.0
+ * @since 1.0.0
  */
 public class MockPartialViewContext extends PartialViewContext
 {

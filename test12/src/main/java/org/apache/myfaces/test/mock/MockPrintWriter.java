@@ -25,6 +25,7 @@ import java.io.PrintWriter;
  * <p>Mock implementation of <code>PrintWriter</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockPrintWriter extends PrintWriter {

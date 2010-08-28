@@ -23,6 +23,7 @@ import javax.portlet.PortletResponse;
  * <p>Mock implementation of <code>PortletResponse</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockPortletResponse implements PortletResponse {

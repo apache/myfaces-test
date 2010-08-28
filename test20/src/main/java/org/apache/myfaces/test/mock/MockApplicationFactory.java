@@ -25,6 +25,7 @@ import javax.faces.application.ApplicationFactory;
  * <p>Mock implementation of <code>ApplicationFactory</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockApplicationFactory extends ApplicationFactory {

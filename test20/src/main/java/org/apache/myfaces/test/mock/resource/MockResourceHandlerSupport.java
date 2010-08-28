@@ -22,6 +22,7 @@ package org.apache.myfaces.test.mock.resource;
  * 
  * @author Leonardo Uribe (latest modification by $Author: jakobk $)
  * @version $Revision: 960906 $ $Date: 2010-07-06 09:45:40 -0500 (Mar, 06 Jul 2010) $
+ * @since 1.0.0
  */
 public class MockResourceHandlerSupport
 {

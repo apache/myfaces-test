@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
  * <p>Mock implementation of <code>FacesContextFactory</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockFacesContextFactory extends FacesContextFactory {

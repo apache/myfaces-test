@@ -31,6 +31,7 @@ import javax.faces.el.PropertyResolver;
  * <p>Mock implementation of <code>PropertyResolver</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockPropertyResolver extends PropertyResolver {

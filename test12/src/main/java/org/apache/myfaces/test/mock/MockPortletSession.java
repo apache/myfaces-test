@@ -28,6 +28,7 @@ import javax.portlet.PortletSession;
  * <p> Mock implementation of <code>PortletSession</code>. </p>
  * 
  * $Id$
+ * @since 1.0.0
  */
 public class MockPortletSession implements PortletSession {
 

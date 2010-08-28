@@ -26,6 +26,7 @@ import java.net.URL;
  * 
  * @author Leonardo Uribe (latest modification by $Author: lu4242 $)
  * @version $Revision: 882702 $ $Date: 2009-11-20 15:16:07 -0500 (Vie, 20 Nov 2009) $
+ * @since 1.0.0
  */
 public class MockClassLoaderResourceLoader extends MockResourceLoader
 {

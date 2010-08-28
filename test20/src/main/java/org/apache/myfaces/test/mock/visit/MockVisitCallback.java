@@ -27,7 +27,7 @@ import javax.faces.component.visit.VisitResult;
  * <p/>
  * $Id$
  *
- * @since 2.0
+ * @since 1.0.0
  */
 public class MockVisitCallback implements VisitCallback
 {

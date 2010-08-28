@@ -32,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author Mathias Broekelmann (latest modification by $Author: mbr $)
  * @version $Revision: 517403 $ $Date: 2007-03-12 22:17:00 +0100 (Mo, 12 Mrz 2007) $
+ * @since 1.0.0
  */
 public class DefaultRestoreViewSupport implements RestoreViewSupport
 {

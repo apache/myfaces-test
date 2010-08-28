@@ -41,9 +41,10 @@ import org.xml.sax.SAXException;
  * <p>The following artifacts are registered:</p>
  * <ul>
  *     <li><code>Converter</code> (by-id and by-class)</li>
- *     <li><code>RenderKit</code> and <code>Renderer</code></li>
+ *     <li><code>RenderKit</code> and <code>Renderer</code>,<code>ClientBehaviorRenderer</code></li>
  *     <li><code>UIComponent</code></li>
  *     <li><code>Validator</code></li>
+ *     <li><code>Behavior</code></li>
  * </ul>
  *
  * <p>Note that any declared <em>factory</em> instances are explicitly
@@ -56,7 +57,7 @@ import org.xml.sax.SAXException;
  * <code>setUp()</code> processing in this base class before calling one
  * of the <code>parse()</code> methods.</p>
  *
- * @since 1.1
+ * @since 1.0.0
  */
 public class ConfigParser {
     

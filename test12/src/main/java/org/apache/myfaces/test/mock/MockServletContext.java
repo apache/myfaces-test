@@ -49,6 +49,7 @@ import javax.servlet.ServletException;
  * web application structure.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockServletContext implements ServletContext

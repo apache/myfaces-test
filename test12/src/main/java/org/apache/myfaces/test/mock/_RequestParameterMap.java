@@ -27,8 +27,9 @@ import javax.servlet.ServletRequest;
  * 
  * @author Anton Koinov (latest modification by $Author: lu4242 $)
  * @version $Revision: 695059 $ $Date: 2008-09-14 01:10:53 +0200 (So, 14 Sep 2008) $
+ * @since 1.0.0
  */
-public final class _RequestParameterMap extends _AbstractAttributeMap<String>
+final class _RequestParameterMap extends _AbstractAttributeMap<String>
 {
     private final ServletRequest _servletRequest;
 

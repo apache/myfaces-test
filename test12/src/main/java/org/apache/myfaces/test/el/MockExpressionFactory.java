@@ -27,7 +27,7 @@ import javax.el.ValueExpression;
 /**
  * <p>Mock implementation of <code>ExpressionFactory</code>.</p>
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
 public class MockExpressionFactory extends ExpressionFactory {
     

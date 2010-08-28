@@ -26,7 +26,9 @@ import javax.el.ValueExpression;
 /**
  * A value expression implementation that is capable of handling composite expressions.
  * It handles composites expressions but creating a list of 'simple' expressions which are 'pure', only literal text or only references like #{}
+ * 
  * @author Rudy De Busscher
+ * @since 1.0.0
  */
 public class MockCompositeValueExpression extends MockValueExpression
 {

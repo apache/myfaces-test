@@ -29,6 +29,7 @@ import javax.faces.lifecycle.Lifecycle;
  * <p>Mock implementation of <code>Lifecycle</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockLifecycle extends Lifecycle {

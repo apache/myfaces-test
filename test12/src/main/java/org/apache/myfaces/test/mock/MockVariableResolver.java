@@ -33,6 +33,7 @@ import javax.faces.el.VariableResolver;
  * scopes for non-reserved names.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockVariableResolver extends VariableResolver {

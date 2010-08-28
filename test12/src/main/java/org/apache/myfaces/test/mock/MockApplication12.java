@@ -49,12 +49,12 @@ import org.apache.myfaces.test.el.FacesVariableResolverChainWrapper;
 import org.apache.myfaces.test.el.MockExpressionFactory;
 
 /**
- * <p>Mock implementation of <code>ExternalContext</code> that includes the semantics
+ * <p>Mock implementation of <code>Application</code> that includes the semantics
  * added by JavaServer Faces 1.2.</p>
  *
  * $Id$
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
 public class MockApplication12 extends MockApplication {
     

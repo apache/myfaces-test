@@ -34,6 +34,7 @@ import javax.portlet.PortletRequestDispatcher;
  * <p>Mock implementation of <code>PortletContext</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 public class MockPortletContext implements PortletContext {
 

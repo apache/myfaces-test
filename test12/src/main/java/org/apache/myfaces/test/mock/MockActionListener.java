@@ -25,6 +25,7 @@ import javax.faces.event.ActionListener;
  * <p>Mock implementation of the default <code>ActionListener</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockActionListener implements ActionListener {

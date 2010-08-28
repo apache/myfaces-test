@@ -24,6 +24,8 @@ import javax.faces.context.FacesContext;
 
 /**
  * <p>Mock implementation of <code>ValueExpression</code> that wraps a variable.</p>
+ * 
+ * @since 1.0.0
  */
 public class MockVariableValueExpression extends ValueExpression {
     

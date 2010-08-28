@@ -23,7 +23,7 @@ import java.io.UnsupportedEncodingException;
  * Hex encoder and decoder. The charset used for certain operation can be set, the default is set in
  * {@link #DEFAULT_CHARSET_NAME}
  * 
- * @since 1.1
+ * @since 1.0.0
  * @author Apache Software Foundation
  * @version $Id: Hex.java 801639 2009-08-06 13:15:10Z niallp $
  */
@@ -100,7 +100,6 @@ class _Hex {
      * @param toLowerCase
      *            <code>true</code> converts to lowercase, <code>false</code> to uppercase
      * @return A char[] containing hexadecimal characters
-     * @since 1.4
      */
     public static char[] encodeHex(byte[] data, boolean toLowerCase) {
         return encodeHex(data, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER);
@@ -116,7 +115,6 @@ class _Hex {
      * @param toDigits
      *            the output alphabet
      * @return A char[] containing hexadecimal characters
-     * @since 1.4
      */
     protected static char[] encodeHex(byte[] data, char[] toDigits) {
         int l = data.length;
@@ -136,7 +134,6 @@ class _Hex {
      * @param data
      *            a byte[] to convert to Hex characters
      * @return A String containing hexadecimal characters
-     * @since 1.4
      */
     public static String encodeHexString(byte[] data) {
         return new String(encodeHex(data));
@@ -176,7 +173,6 @@ class _Hex {
      * 
      * @param csName
      *            the charset name.
-     * @since 1.4
      */
     public _Hex(String csName) {
         this.charsetName = csName;
@@ -293,7 +289,6 @@ class _Hex {
      * Gets the charset name.
      * 
      * @return the charset name.
-     * @since 1.4
      */
     public String getCharsetName() {
         return this.charsetName;

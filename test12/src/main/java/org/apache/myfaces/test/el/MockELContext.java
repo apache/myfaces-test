@@ -29,7 +29,7 @@ import javax.faces.context.FacesContext;
 /**
  * <p>Mock implementation of <code>ELContext</code>.</p>
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
 
 public class MockELContext extends ELContext {

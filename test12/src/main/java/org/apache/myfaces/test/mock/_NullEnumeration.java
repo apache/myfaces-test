@@ -26,6 +26,7 @@ import java.util.NoSuchElementException;
  *
  * @author Anton Koinov (latest modification by $Author: matzew $)
  * @version $Revision: 557350 $ $Date: 2007-07-18 13:19:50 -0500 (Mié, 18 Jul 2007) $
+ * @since 1.0.0
  */
 final class _NullEnumeration implements Enumeration
 {

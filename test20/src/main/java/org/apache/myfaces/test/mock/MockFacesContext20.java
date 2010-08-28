@@ -32,6 +32,14 @@ import javax.faces.context.PartialViewContextFactory;
 import javax.faces.event.PhaseId;
 import javax.faces.lifecycle.Lifecycle;
 
+/**
+ * <p>Mock implementation of <code>FacesContext</code> that includes the semantics
+ * added by JavaServer Faces 2.0.</p>
+ * 
+ * @author Leonardo Uribe
+ * @since 1.0.0
+ *
+ */
 public class MockFacesContext20 extends MockFacesContext12 {
 
     // ------------------------------------------------------------ Constructors

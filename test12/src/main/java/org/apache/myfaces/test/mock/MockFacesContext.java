@@ -41,8 +41,8 @@ import javax.faces.render.RenderKitFactory;
  * <p>Mock implementation of <code>FacesContext</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
-
 public class MockFacesContext extends FacesContext {
 
 

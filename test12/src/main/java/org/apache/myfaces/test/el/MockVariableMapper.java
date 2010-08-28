@@ -25,7 +25,7 @@ import javax.el.VariableMapper;
 /**
  * <p>Mock implementation of <code>VariableMapper</code>.</p>
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
 
 public class MockVariableMapper extends VariableMapper {

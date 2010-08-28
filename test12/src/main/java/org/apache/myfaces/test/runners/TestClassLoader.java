@@ -35,6 +35,7 @@ import java.util.zip.ZipFile;
  * Useful for a system that sets up a classloader per Test system.
  *  
  * @author Rudy De Busscher
+ * @since 1.0.0
  */
 public class TestClassLoader extends ClassLoader
 {

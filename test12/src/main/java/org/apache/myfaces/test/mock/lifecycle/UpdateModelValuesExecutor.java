@@ -23,9 +23,11 @@ import javax.faces.event.PhaseId;
 
 /**
  * Implements the lifecycle as described in Spec. 1.0 PFD Chapter 2
- * @author Nikolay Petrov
  *
  * Update model values phase (JSF Spec 2.2.4)
+ * 
+ * @author Nikolay Petrov
+ * @since 1.0.0
  */
 class UpdateModelValuesExecutor implements PhaseExecutor {
   public boolean execute(FacesContext facesContext) {

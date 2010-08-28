@@ -29,6 +29,8 @@ import javax.faces.context.FacesContext;
 
 /**
  * <p>Mock implementation of <code>MethodExpression</code>.</p>
+ * 
+ * @since 1.0.0
  */
 public class MockMethodExpression extends MethodExpression {
     

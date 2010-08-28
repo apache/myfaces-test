@@ -29,6 +29,7 @@ import javax.faces.context.FacesContext;
  * <p>Mock implementation of <code>NavigationHandler</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockNavigationHandler extends NavigationHandler {

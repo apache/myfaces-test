@@ -38,6 +38,8 @@ import org.codehaus.cargo.util.log.FileLogger;
 /**
  * <p>Convenience <code>TestSetup</code> class which uses Cargo to start
  * and stop a Servlet container.</p>
+ * 
+ * @since 1.0.0
  */
 public class CargoTestSetup extends TestSetup {
 

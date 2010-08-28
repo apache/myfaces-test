@@ -36,14 +36,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * <p>Mock implementation of <code>ExternalContext</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
-
 public class MockExternalContext extends ExternalContext
 {
 

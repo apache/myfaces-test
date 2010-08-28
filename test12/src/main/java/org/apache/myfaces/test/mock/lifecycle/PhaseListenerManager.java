@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
  * details.
  *
  * @author Stan Silvert
+ * @since 1.0.0
  */
 class PhaseListenerManager {
     

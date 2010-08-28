@@ -39,6 +39,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * <p>Mock implementation of <code>Application</code> that includes the semantics
+ * added by JavaServer Faces 2.0.</p>
+ * 
+ * @author Leonardo Uribe
+ * @since 1.0.0
+ *
+ */
 public class MockApplication20 extends MockApplication12
 {
 

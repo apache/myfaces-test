@@ -27,6 +27,7 @@ import javax.faces.event.PhaseId;
  * Implements the PhaseExecutor for a lifecycle
  *
  * @author Nikolay Petrov
+ * @since 1.0.0
  *
  */
 interface PhaseExecutor {

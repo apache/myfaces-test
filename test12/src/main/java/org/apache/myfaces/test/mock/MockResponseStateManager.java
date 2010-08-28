@@ -15,6 +15,7 @@ import javax.faces.render.ResponseStateManager;
 /**
  * Mock class that encode view state in hex format
  * 
+ * @since 1.0.0
  * @author Leonardo Uribe (latest modification by $Author: lu4242 $)
  * @version $Revision: 951803 $ $Date: 2010-06-05 21:13:20 -0500 (Sáb, 05 Jun 2010) $
  */

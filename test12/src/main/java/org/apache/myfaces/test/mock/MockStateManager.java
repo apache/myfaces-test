@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
  * <p>Mock implementation of <code>StateManager</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 public class MockStateManager extends StateManager {
 

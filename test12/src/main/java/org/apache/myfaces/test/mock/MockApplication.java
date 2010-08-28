@@ -44,6 +44,7 @@ import javax.faces.validator.Validator;
  * <p>Mock implementation of <code>Application</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockApplication extends Application {

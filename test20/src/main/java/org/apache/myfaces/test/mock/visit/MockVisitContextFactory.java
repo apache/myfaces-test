@@ -30,7 +30,7 @@ import javax.faces.context.FacesContext;
  * <p/>
  * $Id$
  *
- * @since 2.0
+ * @since 1.0.0
  */
 public class MockVisitContextFactory extends VisitContextFactory
 {

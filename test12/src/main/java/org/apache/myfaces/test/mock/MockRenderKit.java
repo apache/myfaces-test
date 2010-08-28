@@ -33,6 +33,7 @@ import javax.faces.render.ResponseStateManager;
  * <p>Mock implementation of <code>RenderKit</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockRenderKit extends RenderKit

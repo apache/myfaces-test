@@ -32,9 +32,8 @@ import org.apache.myfaces.test.el.MockELContext;
  *
  * $Id$
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
-
 public class MockFacesContext12 extends MockFacesContext {
 
 

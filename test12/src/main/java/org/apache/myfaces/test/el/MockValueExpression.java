@@ -32,6 +32,8 @@ import javax.faces.context.FacesContext;
  * <li>A literal string that contains no expression delimiters.</li>
  * <li>An expression that starts with "#{" or "${", and ends with "}".</li>
  * </ul>
+ * 
+ * @since 1.0.0
  */
 public class MockValueExpression extends ValueExpression {
     

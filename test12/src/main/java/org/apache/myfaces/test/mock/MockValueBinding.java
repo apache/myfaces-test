@@ -35,8 +35,9 @@ import javax.faces.el.VariableResolver;
 
 /**
  * <p>Mock implementation of <code>ValueBinding</code>.</p>
+ * 
+ * @since 1.0.0
  */
-
 public class MockValueBinding extends ValueBinding implements StateHolder {
 
 

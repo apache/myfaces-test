@@ -35,7 +35,7 @@ import org.apache.myfaces.test.mock.MockApplication12;
  * in the current application.  See the JSF 1.2 Specification, section
  * 5.6.1.3, for requirements implemented by this class.</p>
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
 public class FacesResourceBundleELResolver extends AbstractELResolver {
     

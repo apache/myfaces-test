@@ -29,6 +29,7 @@ import javax.faces.render.RenderKitFactory;
  * <p>Mock implementation of <code>RenderKitFactory</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockRenderKitFactory extends RenderKitFactory {

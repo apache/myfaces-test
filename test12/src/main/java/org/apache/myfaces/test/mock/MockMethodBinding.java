@@ -39,6 +39,8 @@ import javax.faces.el.ValueBinding;
  *     "." must conform to the limitations of {@link MockValueBinding}.</li>
  * <li>The name of the method to be executed cannot be delimited by "[]".</li>
  * </ul>
+ * 
+ * @since 1.0.0
  */
 
 public class MockMethodBinding extends MethodBinding implements StateHolder {

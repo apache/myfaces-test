@@ -34,6 +34,7 @@ import javax.portlet.WindowState;
  * <p> Mock implementation of <code>PortletRequest</code>. </p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockPortletRequest implements PortletRequest {

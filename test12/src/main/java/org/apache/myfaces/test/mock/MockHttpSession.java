@@ -33,8 +33,8 @@ import javax.servlet.http.HttpSessionContext;
  * <p>Mock implementation of <code>HttpSession</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
-
 public class MockHttpSession implements HttpSession {
 
 

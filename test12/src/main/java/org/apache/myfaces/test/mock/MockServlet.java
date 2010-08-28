@@ -29,6 +29,7 @@ import javax.servlet.ServletResponse;
  * <p>Mock implementation of <code>Servlet</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockServlet implements Servlet {

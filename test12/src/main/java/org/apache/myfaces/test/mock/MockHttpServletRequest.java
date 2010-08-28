@@ -51,8 +51,8 @@ import javax.servlet.http.HttpSession;
  * <p>Mock implementation of <code>HttpServletContext</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
-
 public class MockHttpServletRequest implements HttpServletRequest {
 
 

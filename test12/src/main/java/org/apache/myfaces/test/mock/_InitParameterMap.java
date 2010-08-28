@@ -29,8 +29,9 @@ import javax.servlet.ServletContext;
  * 
  * @author Anton Koinov (latest modification by $Author: slessard $)
  * @version $Revision: 701829 $ $Date: 2008-10-05 19:06:02 +0200 (So, 05 Okt 2008) $
+ * @since 1.0.0
  */
-public final class _InitParameterMap extends _AbstractAttributeMap<String>
+final class _InitParameterMap extends _AbstractAttributeMap<String>
 {
     private final ServletContext _servletContext;
 

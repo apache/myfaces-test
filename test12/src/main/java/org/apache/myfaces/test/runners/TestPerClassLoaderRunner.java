@@ -45,7 +45,7 @@ import org.junit.runners.model.TestClass;
  * also the final ones, are reinitialized.
  * 
  * @author Rudy De Busscher
-
+ * @since 1.0.0
  */
 public class TestPerClassLoaderRunner extends NamedRunner
 {

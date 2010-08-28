@@ -32,6 +32,7 @@ import javax.faces.context.FacesContext;
  * <p/>
  * @author Leonardo Uribe (latest modification by $Author$)
  * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 public class MockResource extends Resource
 {

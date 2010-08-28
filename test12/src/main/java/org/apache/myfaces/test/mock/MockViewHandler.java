@@ -28,6 +28,7 @@ import javax.faces.render.RenderKitFactory;
  * <p>Mock implementation of <code>ViewHandler</code>.</p>
  *
  * $Id$
+ * @since 1.0.0
  */
 
 public class MockViewHandler extends ViewHandler {

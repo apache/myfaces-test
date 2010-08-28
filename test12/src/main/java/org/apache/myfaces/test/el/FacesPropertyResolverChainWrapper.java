@@ -31,7 +31,7 @@ import javax.faces.el.PropertyResolver;
  * <code>PropertyResolver</code> chain.  See the JSF 1.2 Specification, section
  * 5.6.1.6, for requirements implemented by this class.</p>
  *
- * @since 1.0.4
+ * @since 1.0.0
  */
 public class FacesPropertyResolverChainWrapper extends AbstractELResolver {
     

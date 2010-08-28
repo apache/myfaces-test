@@ -33,6 +33,8 @@ import java.util.*;
  * latter will actually show up in the former (prefixed by ".bar").  This
  * "flaw" is actually relied on by PageFlowScopeMap (since it provides
  * a handy way to clear out all descendents), so don't "fix" it!
+ * 
+ * @since 1.0.0
  */
 final class MockSubKeyMap<V> extends AbstractMap<String, V>
 {

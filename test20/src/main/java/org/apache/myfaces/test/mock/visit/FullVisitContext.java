@@ -37,6 +37,7 @@ import javax.faces.context.FacesContext;
  * 
  * @author Werner Punz, Blake Sullivan (latest modification by $Author: matzew $)
  * @version $Rev: 885739 $ $Date: 2009-12-01 06:27:24 -0500 (Mar, 01 Dic 2009) $
+ * @since 1.0.0
  */
 public class FullVisitContext extends VisitContext
 {
