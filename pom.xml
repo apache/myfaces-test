@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.apache.myfaces</groupId>
         <artifactId>myfaces</artifactId>
-        <version>8</version>
+        <version>9</version>
     </parent>
     <groupId>org.apache.myfaces.test</groupId>
     <artifactId>myfaces-test-project</artifactId>
@@ -92,14 +92,6 @@
       </plugins>
     </reporting>
     
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <distributionManagement>
       <site>
         <id>apache-site</id>
