@@ -33,20 +33,26 @@ import javax.faces.event.PhaseId;
  * @author Nikolay Petrov
  * @since 1.0.0
  */
-class RenderResponseExecutor implements PhaseExecutor {
-  public boolean execute(FacesContext facesContext) {
-    Application application = facesContext.getApplication();
-    ViewHandler viewHandler = application.getViewHandler();
+class RenderResponseExecutor implements PhaseExecutor
+{
+    public boolean execute(FacesContext facesContext)
+    {
+        Application application = facesContext.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
 
-    try {
-      viewHandler.renderView(facesContext, facesContext.getViewRoot());
-    } catch (IOException e) {
-      throw new FacesException(e.getMessage(), e);
+        try
+        {
+            viewHandler.renderView(facesContext, facesContext.getViewRoot());
+        }
+        catch (IOException e)
+        {
+            throw new FacesException(e.getMessage(), e);
+        }
+        return false;
     }
-    return false;
-  }
 
-  public PhaseId getPhase() {
-    return PhaseId.RENDER_RESPONSE;
-  }
+    public PhaseId getPhase()
+    {
+        return PhaseId.RENDER_RESPONSE;
+    }
 }

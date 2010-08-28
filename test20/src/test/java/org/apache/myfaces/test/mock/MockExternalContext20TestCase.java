@@ -67,8 +67,8 @@ public class MockExternalContext20TestCase extends AbstractJsfTestCase
         valueList.add("value1");
         parameters.put("param1", valueList);
 
-        assertEquals("http://localhost:8080?param1=value1",
-            _context.encodeBookmarkableURL("http://localhost:8080", parameters));
+        assertEquals("http://localhost:8080?param1=value1", _context
+                .encodeBookmarkableURL("http://localhost:8080", parameters));
     }
 
     public void testEncodeRedirectURL()
@@ -78,8 +78,8 @@ public class MockExternalContext20TestCase extends AbstractJsfTestCase
         valueList.add("value1");
         parameters.put("param1", valueList);
 
-        assertEquals("http://localhost:8080?param1=value1",
-            _context.encodeRedirectURL("http://localhost:8080", parameters));
+        assertEquals("http://localhost:8080?param1=value1", _context
+                .encodeRedirectURL("http://localhost:8080", parameters));
     }
 
     public void testGetContextName()
@@ -90,15 +90,15 @@ public class MockExternalContext20TestCase extends AbstractJsfTestCase
     public void testResponseSendError() throws Exception
     {
         _context.responseSendError(404, "not found");
-        assertEquals(404,
-            ((MockHttpServletResponse) _context.getResponse()).getStatus());
+        assertEquals(404, ((MockHttpServletResponse) _context.getResponse())
+                .getStatus());
     }
 
     public void testResponseHeader() throws Exception
     {
         _context.setResponseHeader("header1", "value1");
-        assertEquals("value1",
-            ((MockHttpServletResponse) _context.getResponse()).getHeader("header1"));
+        assertEquals("value1", ((MockHttpServletResponse) _context
+                .getResponse()).getHeader("header1"));
     }
 
     public void testGetRequestScheme()

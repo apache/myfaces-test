@@ -69,9 +69,10 @@ public class MockApplication20TestCase extends AbstractJsfTestCase
         String behaviorId = "BehaviorBaseId";
 
         _application.addBehavior(behaviorId,
-            "javax.faces.component.behavior.BehaviorBase");
+                "javax.faces.component.behavior.BehaviorBase");
 
-        assertTrue("Behavior not added", _application.getBehaviorIds().hasNext());
+        assertTrue("Behavior not added", _application.getBehaviorIds()
+                .hasNext());
         assertEquals(behaviorId, _application.getBehaviorIds().next());
 
         Behavior createdBehavior = _application.createBehavior(behaviorId);
@@ -87,6 +88,7 @@ public class MockApplication20TestCase extends AbstractJsfTestCase
         assertTrue(_application.getValidatorIds().hasNext());
 
         _application.addDefaultValidatorId(validatorId);
-        assertTrue(_application.getDefaultValidatorInfo().containsKey(validatorId));
+        assertTrue(_application.getDefaultValidatorInfo().containsKey(
+                validatorId));
     }
 }

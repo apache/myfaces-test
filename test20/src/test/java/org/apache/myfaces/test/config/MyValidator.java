@@ -25,7 +25,8 @@ import javax.faces.validator.ValidatorException;
 /**
  * <p>Concrete validator implementation for testing.</p>
  */
-public class MyValidator implements Validator {
+public class MyValidator implements Validator
+{
 
     public void validate(FacesContext context, UIComponent component,
             Object value) throws ValidatorException

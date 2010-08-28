@@ -32,11 +32,11 @@ import java.util.Comparator;
  */
 public abstract class MockResourceLoader
 {
-    
+
     public static final String VERSION_INVALID = "INVALID";
-    
+
     private String _prefix;
-    
+
     public MockResourceLoader(String prefix)
     {
         _prefix = prefix;
@@ -56,13 +56,15 @@ public abstract class MockResourceLoader
      */
     public abstract URL getResourceURL(MockResourceMeta resourceMeta);
 
-    public abstract InputStream getResourceInputStream(MockResourceMeta resourceMeta);
-    
-    public abstract MockResourceMeta createResourceMeta(String prefix, String libraryName, String libraryVersion,
-            String resourceName, String resourceVersion);
-    
+    public abstract InputStream getResourceInputStream(
+            MockResourceMeta resourceMeta);
+
+    public abstract MockResourceMeta createResourceMeta(String prefix,
+            String libraryName, String libraryVersion, String resourceName,
+            String resourceVersion);
+
     public abstract boolean libraryExists(String libraryName);
-    
+
     private Comparator<String> _versionComparator = null;
 
     protected Comparator<String> getVersionComparator()
@@ -143,7 +145,7 @@ public abstract class MockResourceLoader
             return n1 - n2;
         }
     }
-    
+
     public String getPrefix()
     {
         return _prefix;

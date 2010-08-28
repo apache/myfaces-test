@@ -29,23 +29,22 @@ import org.apache.myfaces.test.base.AbstractJsfTestCase;
  * <p>Simple unit tests for Mock Objects that have behavior.</p>
  */
 
-public class MockObjectsTestCase extends AbstractJsfTestCase {
-
+public class MockObjectsTestCase extends AbstractJsfTestCase
+{
 
     // ------------------------------------------------------------ Constructors
 
-
     // Construct a new instance of this test case.
-    public MockObjectsTestCase(String name) {
+    public MockObjectsTestCase(String name)
+    {
         super(name);
     }
 
-
     // ---------------------------------------------------- Overall Test Methods
 
-
     // Set up instance variables required by this test case.
-    protected void setUp() throws Exception {
+    protected void setUp() throws Exception
+    {
 
         super.setUp();
 
@@ -61,37 +60,34 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
 
     }
 
-
     // Return the tests included in this test case.
-    public static Test suite() {
+    public static Test suite()
+    {
 
         return (new TestSuite(MockObjectsTestCase.class));
 
     }
 
-
     // Tear down instance variables required by this test case.
-    protected void tearDown() throws Exception {
-
+    protected void tearDown() throws Exception
+    {
 
         super.tearDown();
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ------------------------------------------------- Individual Test Methods
 
-
-    public void testMethodBindingGetTypePositive() throws Exception {
+    public void testMethodBindingGetTypePositive() throws Exception
+    {
 
         Class argsString[] = new Class[] { String.class };
         Class argsNone[] = new Class[0];
 
         checkMethodBindingGetType("test.getCommand", argsNone, String.class);
-        checkMethodBindingGetType("test.setCommand", argsString,  null);
+        checkMethodBindingGetType("test.setCommand", argsString, null);
         checkMethodBindingGetType("test.getInput", argsNone, String.class);
         checkMethodBindingGetType("test.setInput", argsString, null);
         checkMethodBindingGetType("test.getOutput", argsNone, String.class);
@@ -100,8 +96,8 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
 
     }
 
-
-    public void testMethodBindingInvokePositive() throws Exception {
+    public void testMethodBindingInvokePositive() throws Exception
+    {
 
         MockBean bean = (MockBean) request.getAttribute("test");
         MethodBinding mb = null;
@@ -124,9 +120,9 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
 
     }
 
-
     // Positive tests for ValueBinding.getValue()
-    public void testValueBindingGetValuePositive() throws Exception {
+    public void testValueBindingGetValuePositive() throws Exception
+    {
 
         // Implicit search
         checkValueBindingGetValue("appScopeName", "appScopeValue");
@@ -136,23 +132,18 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
 
         // Explicit scope search
         checkValueBindingGetValue("applicationScope.appScopeName",
-                                  "appScopeValue");
-        checkValueBindingGetValue("applicationScope.sameKey",
-                                  "sameKeyAppValue");
-        checkValueBindingGetValue("sessionScope.sesScopeName",
-                                  "sesScopeValue");
-        checkValueBindingGetValue("sessionScope.sameKey",
-                                  "sameKeySesValue");
-        checkValueBindingGetValue("requestScope.reqScopeName",
-                                  "reqScopeValue");
-        checkValueBindingGetValue("requestScope.sameKey",
-                                  "sameKeyReqValue");
+                "appScopeValue");
+        checkValueBindingGetValue("applicationScope.sameKey", "sameKeyAppValue");
+        checkValueBindingGetValue("sessionScope.sesScopeName", "sesScopeValue");
+        checkValueBindingGetValue("sessionScope.sameKey", "sameKeySesValue");
+        checkValueBindingGetValue("requestScope.reqScopeName", "reqScopeValue");
+        checkValueBindingGetValue("requestScope.sameKey", "sameKeyReqValue");
 
     }
 
-
     // Positive tests for ValueBinding.putValue()
-    public void testValueBindingPutValuePositive() throws Exception {
+    public void testValueBindingPutValuePositive() throws Exception
+    {
 
         ValueBinding vb = null;
 
@@ -216,34 +207,29 @@ public class MockObjectsTestCase extends AbstractJsfTestCase {
         assertEquals("sameKeySesValue", session.getAttribute("sameKey"));
         assertEquals("sameKeyNewValue", request.getAttribute("sameKey"));
 
-
     }
-
 
     // --------------------------------------------------------- Private Methods
 
-
     private void checkMethodBindingGetType(String ref, Class params[],
-                                           Class expected) throws Exception {
+            Class expected) throws Exception
+    {
 
         MethodBinding mb = application.createMethodBinding(ref, params);
         assertNotNull("MethodBinding[" + ref + "] exists", mb);
-        assertEquals("MethodBinding[" + ref + "] type",
-                     expected,
-                     mb.getType(facesContext));
+        assertEquals("MethodBinding[" + ref + "] type", expected, mb
+                .getType(facesContext));
 
     }
 
-
-    private void checkValueBindingGetValue(String ref, Object expected) {
+    private void checkValueBindingGetValue(String ref, Object expected)
+    {
 
         ValueBinding vb = application.createValueBinding(ref);
         assertNotNull("ValueBinding[" + ref + "] exists", vb);
-        assertEquals("ValueBinding[" + ref + "] value",
-                     expected,
-                     vb.getValue(facesContext));
+        assertEquals("ValueBinding[" + ref + "] value", expected, vb
+                .getValue(facesContext));
 
     }
-
 
 }

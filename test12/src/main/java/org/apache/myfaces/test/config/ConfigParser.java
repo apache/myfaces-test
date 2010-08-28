@@ -56,53 +56,41 @@ import java.net.URL;
  *
  * @since 1.0.0
  */
-public class ConfigParser {
-    
+public class ConfigParser
+{
 
     // ------------------------------------------------------------ Constructors
 
-
     /** Creates a new instance of ConfigParser */
-    public ConfigParser() {
+    public ConfigParser()
+    {
     }
-    
 
     // ------------------------------------------------------ Manifest Constants
-
 
     /**
      * <p>Configuration resource URLs for the JSF RI.</p>
      */
-    private static final String[] JSFRI_RESOURCES =
-    { "/com/sun/faces/jsf-ri-runtime.xml",
-    };
-
+    private static final String[] JSFRI_RESOURCES = { "/com/sun/faces/jsf-ri-runtime.xml", };
 
     /**
      * <p>Configuration resource URLs for Apache MyFaces.</p>
      */
-    private static final String[] MYFACES_RESOURCES =
-    { "/org/apache/myfaces/resource/standard-faces-config.xml",
-    };
+    private static final String[] MYFACES_RESOURCES = { "/org/apache/myfaces/resource/standard-faces-config.xml", };
 
     /**
      * <p>Configuration resource URLs for Apache MyFaces 1.2.</p>
      */
-    private static final String[] MYFACES_RESOURCES12 =
-    { "/META-INF/standard-faces-config.xml",
-    };    
+    private static final String[] MYFACES_RESOURCES12 = { "/META-INF/standard-faces-config.xml", };
 
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The <code>Digester</code> instance we will use for parsing.</p>
      */
     private Digester digester = null;
 
-
     // ------------------------------------------------------- Public Properties
-
 
     /**
      * <p>Return the URLs of the platform configuration resources for this
@@ -115,12 +103,15 @@ public class ConfigParser {
      * <p>If MyFaces (version 1.2), currently under development, does not change
      * the name of the configuration resource, it will be supported as well.</p>
      */
-    public URL[] getPlatformURLs() {
+    public URL[] getPlatformURLs()
+    {
 
         URL[] urls = translate(JSFRI_RESOURCES);
-        if (urls[0] == null) {
+        if (urls[0] == null)
+        {
             urls = translate(MYFACES_RESOURCES12);
-            if (urls[0] == null) {
+            if (urls[0] == null)
+            {
                 urls = translate(MYFACES_RESOURCES);
             }
         }
@@ -128,9 +119,7 @@ public class ConfigParser {
 
     }
 
-
     // ---------------------------------------------------------- Public Methods
-
 
     /**
      * <p>Parse the specified JavaServer Faces configuration resource, causing
@@ -142,24 +131,27 @@ public class ConfigParser {
      * @exception IOException if an input/output error occurs
      * @exception SAXException if a parsing error occurs
      */
-    public void parse(URL url) throws IOException, SAXException {
+    public void parse(URL url) throws IOException, SAXException
+    {
 
         // Acquire and configure the Digester instance we will use
         Digester digester = digester();
-        ApplicationFactory factory = (ApplicationFactory)
-          FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+        ApplicationFactory factory = (ApplicationFactory) FactoryFinder
+                .getFactory(FactoryFinder.APPLICATION_FACTORY);
         Application application = factory.getApplication();
         digester.push(application);
 
         // Perform the required parsing
-        try {
+        try
+        {
             digester.parse(url);
-        } finally {
+        }
+        finally
+        {
             digester.clear();
         }
 
     }
-
 
     /**
      * <p>Parse the specified set of JavaServer Faces configuration resources,
@@ -171,226 +163,272 @@ public class ConfigParser {
      * @exception IOException if an input/output error occurs
      * @exception SAXException if a parsing error occurs
      */
-    public void parse(URL[] urls) throws IOException, SAXException {
+    public void parse(URL[] urls) throws IOException, SAXException
+    {
 
-        for (int i = 0; i < urls.length; i++) {
+        for (int i = 0; i < urls.length; i++)
+        {
             parse(urls[i]);
         }
 
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Return the <code>Digester</code> instance we will use for parsing,
      * creating and configuring a new instance if necessary.</p>
      */
-    private Digester digester() {
+    private Digester digester()
+    {
 
-        if (this.digester == null) {
+        if (this.digester == null)
+        {
             this.digester = new Digester();
             digester.addRule("faces-config/component", new ComponentRule());
-            digester.addCallMethod
-              ("faces-config/component/component-type", "setComponentType", 0);
-            digester.addCallMethod
-              ("faces-config/component/component-class", "setComponentClass", 0);
+            digester.addCallMethod("faces-config/component/component-type",
+                    "setComponentType", 0);
+            digester.addCallMethod("faces-config/component/component-class",
+                    "setComponentClass", 0);
             digester.addRule("faces-config/converter", new ConverterRule());
-            digester.addCallMethod
-              ("faces-config/converter/converter-id", "setConverterId", 0);
-            digester.addCallMethod
-              ("faces-config/converter/converter-class", "setConverterClass", 0);
-            digester.addCallMethod
-              ("faces-config/converter/converter-for-class", "setConverterForClass", 0);
+            digester.addCallMethod("faces-config/converter/converter-id",
+                    "setConverterId", 0);
+            digester.addCallMethod("faces-config/converter/converter-class",
+                    "setConverterClass", 0);
+            digester.addCallMethod(
+                    "faces-config/converter/converter-for-class",
+                    "setConverterForClass", 0);
             digester.addRule("faces-config/render-kit", new RenderKitRule());
-            digester.addRule("faces-config/render-kit/render-kit-id", new RenderKitIdRule());
-            digester.addRule("faces-config/render-kit/renderer", new RendererRule());
-            digester.addCallMethod
-              ("faces-config/render-kit/renderer/component-family", "setComponentFamily", 0);
-            digester.addCallMethod
-              ("faces-config/render-kit/renderer/renderer-class", "setRendererClass", 0);
-            digester.addCallMethod
-              ("faces-config/render-kit/renderer/renderer-type", "setRendererType", 0);
+            digester.addRule("faces-config/render-kit/render-kit-id",
+                    new RenderKitIdRule());
+            digester.addRule("faces-config/render-kit/renderer",
+                    new RendererRule());
+            digester.addCallMethod(
+                    "faces-config/render-kit/renderer/component-family",
+                    "setComponentFamily", 0);
+            digester.addCallMethod(
+                    "faces-config/render-kit/renderer/renderer-class",
+                    "setRendererClass", 0);
+            digester.addCallMethod(
+                    "faces-config/render-kit/renderer/renderer-type",
+                    "setRendererType", 0);
             digester.addRule("faces-config/validator", new ValidatorRule());
-            digester.addCallMethod
-              ("faces-config/validator/validator-id", "setValidatorId", 0);
-            digester.addCallMethod
-              ("faces-config/validator/validator-class", "setValidatorClass", 0);
+            digester.addCallMethod("faces-config/validator/validator-id",
+                    "setValidatorId", 0);
+            digester.addCallMethod("faces-config/validator/validator-class",
+                    "setValidatorClass", 0);
         }
         return this.digester;
 
     }
-
 
     /**
      * <p>Translate an array of resource names into an array of resource URLs.</p>
      *
      * @param names Resource names to translate
      */
-    private URL[] translate(String[] names) {
+    private URL[] translate(String[] names)
+    {
 
         URL[] results = new URL[names.length];
-        for (int i = 0; i < names.length; i++) {
+        for (int i = 0; i < names.length; i++)
+        {
             results[i] = this.getClass().getResource(names[i]);
         }
         return results;
-        
+
     }
 
-
     // --------------------------------------------------------- Private Classes
-
 
     /**
      * <p>Data bean that stores information related to a component.</p>
      */
-    class ComponentBean {
+    class ComponentBean
+    {
 
         private String componentClass;
-        public String getComponentClass() {
+
+        public String getComponentClass()
+        {
             return this.componentClass;
         }
-        public void setComponentClass(String componentClass) {
+
+        public void setComponentClass(String componentClass)
+        {
             this.componentClass = componentClass;
         }
 
         private String componentType;
-        public String getComponentType() {
+
+        public String getComponentType()
+        {
             return this.componentType;
         }
-        public void setComponentType(String componentType) {
+
+        public void setComponentType(String componentType)
+        {
             this.componentType = componentType;
         }
 
     }
 
-
     /**
      * <p>Digester <code>Rule</code> for processing components.</p>
      */
-    class ComponentRule extends Rule {
+    class ComponentRule extends Rule
+    {
 
-        public void begin(String namespace, String name, Attributes attributes) {
+        public void begin(String namespace, String name, Attributes attributes)
+        {
             getDigester().push(new ComponentBean());
         }
 
-        public void end(String namespace, String name) {
+        public void end(String namespace, String name)
+        {
             ComponentBean bean = (ComponentBean) getDigester().pop();
             Application application = (Application) getDigester().peek();
-            application.addComponent(bean.getComponentType(), bean.getComponentClass());
+            application.addComponent(bean.getComponentType(), bean
+                    .getComponentClass());
         }
 
     }
 
-
     /**
      * <p>Data bean that stores information related to a converter.</p>
      */
-    class ConverterBean {
+    class ConverterBean
+    {
 
         private String converterClass;
-        public String getConverterClass() {
+
+        public String getConverterClass()
+        {
             return this.converterClass;
         }
-        public void setConverterClass(String converterClass) {
+
+        public void setConverterClass(String converterClass)
+        {
             this.converterClass = converterClass;
         }
 
         private String converterForClass;
-        public String getConverterForClass() {
+
+        public String getConverterForClass()
+        {
             return this.converterForClass;
         }
-        public void setConverterForClass(String converterForClass) {
+
+        public void setConverterForClass(String converterForClass)
+        {
             this.converterForClass = converterForClass;
         }
 
         private String converterId;
-        public String getConverterId() {
+
+        public String getConverterId()
+        {
             return this.converterId;
         }
-        public void setConverterId(String converterId) {
+
+        public void setConverterId(String converterId)
+        {
             this.converterId = converterId;
         }
 
     }
 
-
     /**
      * <p>Digester <code>Rule</code> for processing converers.</p>
      */
-    class ConverterRule extends Rule {
+    class ConverterRule extends Rule
+    {
 
-        public void begin(String namespace, String name, Attributes attributes) {
+        public void begin(String namespace, String name, Attributes attributes)
+        {
             getDigester().push(new ConverterBean());
         }
 
-        public void end(String namespace, String name) {
+        public void end(String namespace, String name)
+        {
             ConverterBean bean = (ConverterBean) getDigester().pop();
             Application application = (Application) getDigester().peek();
-            if (bean.getConverterId() != null) {
-                application.addConverter(bean.getConverterId(), bean.getConverterClass());
-            } else {
+            if (bean.getConverterId() != null)
+            {
+                application.addConverter(bean.getConverterId(), bean
+                        .getConverterClass());
+            }
+            else
+            {
                 Class clazz = null;
-                try {
+                try
+                {
                     clazz = classForName(bean.getConverterForClass());
-                } catch (ClassNotFoundException e) {
-                    throw new IllegalArgumentException("java.lang.ClassNotFoundException: "
-                        + bean.getConverterForClass());
+                }
+                catch (ClassNotFoundException e)
+                {
+                    throw new IllegalArgumentException(
+                            "java.lang.ClassNotFoundException: "
+                                    + bean.getConverterForClass());
                 }
                 application.addConverter(clazz, bean.getConverterClass());
             }
         }
 
     }
-    
+
     private Class classForName(String type) throws ClassNotFoundException
     {
         try
         {
             // Try WebApp ClassLoader first
-            return Class.forName(type,
-                                 false, // do not initialize for faster startup
-                                 Thread.currentThread().getContextClassLoader());
+            return Class.forName(type, false, // do not initialize for faster startup
+                    Thread.currentThread().getContextClassLoader());
         }
         catch (ClassNotFoundException ignore)
         {
             // fallback: Try ClassLoader for ClassUtils (i.e. the myfaces.jar lib)
-            return Class.forName(type,
-                                 false, // do not initialize for faster startup
-                                 this.getClass().getClassLoader());
-        }                    
+            return Class.forName(type, false, // do not initialize for faster startup
+                    this.getClass().getClassLoader());
+        }
     }
 
     /**
      * <p>Digester <code>Rule</code> for processing render kits.</p>
      */
-    class RenderKitRule extends Rule {
+    class RenderKitRule extends Rule
+    {
 
-        public void begin(String namespace, String name, Attributes attributes) {
-            RenderKitFactory factory = (RenderKitFactory)
-              FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-            getDigester().push(factory.getRenderKit(null, RenderKitFactory.HTML_BASIC_RENDER_KIT));
+        public void begin(String namespace, String name, Attributes attributes)
+        {
+            RenderKitFactory factory = (RenderKitFactory) FactoryFinder
+                    .getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+            getDigester().push(
+                    factory.getRenderKit(null,
+                            RenderKitFactory.HTML_BASIC_RENDER_KIT));
         }
 
-        public void end(String namespace, String name) {
+        public void end(String namespace, String name)
+        {
             getDigester().pop();
         }
 
     }
 
-
     /**
      * <p>Digester <code>Rule</code> for processing render kit identifiers.</p>
      */
-    class RenderKitIdRule extends Rule {
+    class RenderKitIdRule extends Rule
+    {
 
-        public void body(String namespace, String name, String text) {
+        public void body(String namespace, String name, String text)
+        {
             String renderKitId = text.trim();
-            RenderKitFactory factory = (RenderKitFactory)
-              FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+            RenderKitFactory factory = (RenderKitFactory) FactoryFinder
+                    .getFactory(FactoryFinder.RENDER_KIT_FACTORY);
             RenderKit renderKit = factory.getRenderKit(null, renderKitId);
-            if (renderKit == null) {
+            if (renderKit == null)
+            {
                 renderKit = new MockRenderKit();
                 factory.addRenderKit(renderKitId, renderKit);
             }
@@ -400,108 +438,136 @@ public class ConfigParser {
 
     }
 
-
     /**
      * <p>Data bean that stores information related to a renderer.</p>
      */
-    class RendererBean {
+    class RendererBean
+    {
 
         private String componentFamily;
-        public String getComponentFamily() {
+
+        public String getComponentFamily()
+        {
             return this.componentFamily;
         }
-        public void setComponentFamily(String componentFamily) {
+
+        public void setComponentFamily(String componentFamily)
+        {
             this.componentFamily = componentFamily;
         }
 
         private String rendererClass;
-        public String getRendererClass() {
+
+        public String getRendererClass()
+        {
             return this.rendererClass;
         }
-        public void setRendererClass(String rendererClass) {
+
+        public void setRendererClass(String rendererClass)
+        {
             this.rendererClass = rendererClass;
         }
 
         private String rendererType;
-        public String getRendererType() {
+
+        public String getRendererType()
+        {
             return this.rendererType;
         }
-        public void setRendererType(String rendererType) {
+
+        public void setRendererType(String rendererType)
+        {
             this.rendererType = rendererType;
         }
 
     }
 
-
     /**
      * <p>Digester <code>Rule</code> for processing renderers.</p>
      */
-    class RendererRule extends Rule {
+    class RendererRule extends Rule
+    {
 
-        public void begin(String namespace, String name, Attributes attributes) {
+        public void begin(String namespace, String name, Attributes attributes)
+        {
             getDigester().push(new RendererBean());
         }
 
-        public void end(String namespace, String name) {
+        public void end(String namespace, String name)
+        {
             RendererBean bean = (RendererBean) getDigester().pop();
             RenderKit kit = (RenderKit) getDigester().peek();
             Renderer renderer = null;
             Class clazz = null;
-            try {
+            try
+            {
                 clazz = classForName(bean.getRendererClass());
                 renderer = (Renderer) clazz.newInstance();
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Exception while trying to instantiate"
-                    + " renderer class '" + bean.getRendererClass() + "' : "
-                    + e.getMessage());
+            }
+            catch (Exception e)
+            {
+                throw new IllegalArgumentException(
+                        "Exception while trying to instantiate"
+                                + " renderer class '" + bean.getRendererClass()
+                                + "' : " + e.getMessage());
             }
             kit.addRenderer(bean.getComponentFamily(), bean.getRendererType(),
-                            renderer);
+                    renderer);
         }
 
     }
 
-
     /**
      * <p>Data bean that stores information related to a validator.</p>
      */
-    class ValidatorBean {
+    class ValidatorBean
+    {
 
         private String validatorClass;
-        public String getValidatorClass() {
+
+        public String getValidatorClass()
+        {
             return this.validatorClass;
         }
-        public void setValidatorClass(String validatorClass) {
+
+        public void setValidatorClass(String validatorClass)
+        {
             this.validatorClass = validatorClass;
         }
 
         private String validatorId;
-        public String getValidatorId() {
+
+        public String getValidatorId()
+        {
             return this.validatorId;
         }
-        public void setValidatorId(String validatorId) {
+
+        public void setValidatorId(String validatorId)
+        {
             this.validatorId = validatorId;
         }
 
     }
 
-
     /**
      * <p>Digester <code>Rule</code> for processing validators.</p>
      */
-    class ValidatorRule extends Rule {
+    class ValidatorRule extends Rule
+    {
 
-        public void begin(String namespace, String name, Attributes attributes) {
+        public void begin(String namespace, String name, Attributes attributes)
+        {
             getDigester().push(new ValidatorBean());
         }
 
-        public void end(String namespace, String name) {
+        public void end(String namespace, String name)
+        {
             ValidatorBean bean = (ValidatorBean) getDigester().pop();
             Application application = (Application) getDigester().peek();
-            application.addValidator(bean.getValidatorId(), bean.getValidatorClass());
+            application.addValidator(bean.getValidatorId(), bean
+                    .getValidatorClass());
         }
 
     }
-
 
 }

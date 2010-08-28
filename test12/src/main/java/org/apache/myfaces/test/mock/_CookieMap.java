@@ -48,7 +48,7 @@ final class _CookieMap extends _AbstractAttributeMap<Object>
     public void clear()
     {
         throw new UnsupportedOperationException(
-            "Cannot clear HttpRequest Cookies");
+                "Cannot clear HttpRequest Cookies");
     }
 
     @Override
@@ -114,14 +114,14 @@ final class _CookieMap extends _AbstractAttributeMap<Object>
     protected void setAttribute(final String key, final Object value)
     {
         throw new UnsupportedOperationException(
-            "Cannot set HttpRequest Cookies");
+                "Cannot set HttpRequest Cookies");
     }
 
     @Override
     protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
-            "Cannot remove HttpRequest Cookies");
+                "Cannot remove HttpRequest Cookies");
     }
 
     @Override
@@ -129,8 +129,9 @@ final class _CookieMap extends _AbstractAttributeMap<Object>
     {
         final Cookie[] cookies = _httpServletRequest.getCookies();
 
-        return cookies == null ? new CookieNameEnumeration(EMPTY_ARRAY) : new CookieNameEnumeration(cookies);
-  
+        return cookies == null ? new CookieNameEnumeration(EMPTY_ARRAY)
+                : new CookieNameEnumeration(cookies);
+
     }
 
     private static class CookieNameEnumeration implements Enumeration<String>

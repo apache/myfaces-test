@@ -42,7 +42,8 @@ public class DefaultRestoreViewSupport implements RestoreViewSupport
 
     private final Log log = LogFactory.getLog(DefaultRestoreViewSupport.class);
 
-    public void processComponentBinding(FacesContext facesContext, UIComponent component)
+    public void processComponentBinding(FacesContext facesContext,
+            UIComponent component)
     {
         ValueExpression binding = component.getValueExpression("binding");
         if (binding != null)
@@ -62,14 +63,16 @@ public class DefaultRestoreViewSupport implements RestoreViewSupport
         ExternalContext externalContext = facesContext.getExternalContext();
         Map requestMap = externalContext.getRequestMap();
 
-        String viewId = (String) requestMap.get(JAVAX_SERVLET_INCLUDE_PATH_INFO);
+        String viewId = (String) requestMap
+                .get(JAVAX_SERVLET_INCLUDE_PATH_INFO);
         boolean traceEnabled = log.isTraceEnabled();
         if (viewId != null)
         {
             if (traceEnabled)
             {
-                log.trace("Calculated viewId '" + viewId + "' from request param '" + JAVAX_SERVLET_INCLUDE_PATH_INFO
-                        + "'");
+                log.trace("Calculated viewId '" + viewId
+                        + "' from request param '"
+                        + JAVAX_SERVLET_INCLUDE_PATH_INFO + "'");
             }
         }
         else
@@ -77,16 +80,19 @@ public class DefaultRestoreViewSupport implements RestoreViewSupport
             viewId = externalContext.getRequestPathInfo();
             if (viewId != null && traceEnabled)
             {
-                log.trace("Calculated viewId '" + viewId + "' from request path info");
+                log.trace("Calculated viewId '" + viewId
+                        + "' from request path info");
             }
         }
 
         if (viewId == null)
         {
-            viewId = (String) requestMap.get(JAVAX_SERVLET_INCLUDE_SERVLET_PATH);
+            viewId = (String) requestMap
+                    .get(JAVAX_SERVLET_INCLUDE_SERVLET_PATH);
             if (viewId != null && traceEnabled)
             {
-                log.trace("Calculated viewId '" + viewId + "' from request param '"
+                log.trace("Calculated viewId '" + viewId
+                        + "' from request param '"
                         + JAVAX_SERVLET_INCLUDE_SERVLET_PATH + "'");
             }
         }
@@ -96,7 +102,8 @@ public class DefaultRestoreViewSupport implements RestoreViewSupport
             viewId = externalContext.getRequestServletPath();
             if (viewId != null && traceEnabled)
             {
-                log.trace("Calculated viewId '" + viewId + "' from request servlet path");
+                log.trace("Calculated viewId '" + viewId
+                        + "' from request servlet path");
             }
         }
 

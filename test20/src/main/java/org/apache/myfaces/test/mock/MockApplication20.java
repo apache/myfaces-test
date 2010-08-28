@@ -50,13 +50,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class MockApplication20 extends MockApplication12
 {
 
-
     // ------------------------------------------------------------ Constructors
 
     public MockApplication20()
     {
         super();
-        
+
         // install the 2.0-ViewHandler-Mock
         this.setViewHandler(new MockViewHandler20());
         this.setResourceHandler(new MockResourceHandler());
@@ -191,11 +190,11 @@ public class MockApplication20 extends MockApplication12
     // ------------------------------------------------------ Instance Variables
 
     private static final Log log = LogFactory.getLog(MockApplication20.class);
-    
+
     private final Map<Class<? extends SystemEvent>, SystemListenerEntry> _systemEventListenerClassMap = new ConcurrentHashMap<Class<? extends SystemEvent>, SystemListenerEntry>();
-    
+
     private Map<String, String> _defaultValidatorsIds = new HashMap<String, String>();
-    
+
     private ProjectStage _projectStage;
 
     private final Map<String, Class<?>> _behaviorClassMap = new ConcurrentHashMap<String, Class<?>>();
@@ -205,7 +204,7 @@ public class MockApplication20 extends MockApplication12
     private ResourceHandler _resourceHandler;
 
     // ----------------------------------------------------- Mock Object Methods
-    
+
     public Map<String, String> getDefaultValidatorInfo()
     {
         return Collections.unmodifiableMap(_defaultValidatorsIds);
@@ -266,7 +265,7 @@ public class MockApplication20 extends MockApplication12
 
         return event;
     }
-    
+
     private void checkNull(final Object param, final String paramName)
     {
         if (param == null)
@@ -279,11 +278,14 @@ public class MockApplication20 extends MockApplication12
     {
         if (param.length() == 0)
         {
-            throw new NullPointerException("String " + paramName + " cannot be empty.");
+            throw new NullPointerException("String " + paramName
+                    + " cannot be empty.");
         }
     }
 
-    public void publishEvent(FacesContext facesContext, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source)
+    public void publishEvent(FacesContext facesContext,
+            Class<? extends SystemEvent> systemEventClass,
+            Class<?> sourceBaseType, Object source)
     {
         checkNull(systemEventClass, "systemEventClass");
         checkNull(source, "source");
@@ -294,18 +296,21 @@ public class MockApplication20 extends MockApplication12
             if (source instanceof SystemEventListenerHolder)
             {
                 SystemEventListenerHolder holder = (SystemEventListenerHolder) source;
-    
+
                 // If the source argument implements SystemEventListenerHolder, call 
                 // SystemEventListenerHolder.getListenersForEventClass(java.lang.Class) on it, passing the systemEventClass 
                 // argument. If the list is not empty, perform algorithm traverseListenerList on the list.
-                event = _traverseListenerList(holder.getListenersForEventClass(systemEventClass), systemEventClass, source,
-                                              event);
+                event = _traverseListenerList(holder
+                        .getListenersForEventClass(systemEventClass),
+                        systemEventClass, source, event);
             }
-    
-            SystemListenerEntry systemListenerEntry = _systemEventListenerClassMap.get(systemEventClass);
+
+            SystemListenerEntry systemListenerEntry = _systemEventListenerClassMap
+                    .get(systemEventClass);
             if (systemListenerEntry != null)
             {
-                systemListenerEntry.publish(systemEventClass, sourceBaseType, source, event);
+                systemListenerEntry.publish(systemEventClass, sourceBaseType,
+                        source, event);
             }
         }
         catch (AbortProcessingException e)
@@ -317,7 +322,8 @@ public class MockApplication20 extends MockApplication12
         }
     }
 
-    public void publishEvent(FacesContext facesContext, Class<? extends SystemEvent> systemEventClass, Object source)
+    public void publishEvent(FacesContext facesContext,
+            Class<? extends SystemEvent> systemEventClass, Object source)
     {
         publishEvent(facesContext, systemEventClass, source.getClass(), source);
     }
@@ -330,7 +336,8 @@ public class MockApplication20 extends MockApplication12
         {
 
             FacesContext context = FacesContext.getCurrentInstance();
-            String stageName = context.getExternalContext().getInitParameter(ProjectStage.PROJECT_STAGE_PARAM_NAME);
+            String stageName = context.getExternalContext().getInitParameter(
+                    ProjectStage.PROJECT_STAGE_PARAM_NAME);
 
             // If a value is found found
             if (stageName != null)
@@ -349,13 +356,12 @@ public class MockApplication20 extends MockApplication12
                     //log.log(Level.SEVERE, "Couldn't discover the current project stage", e);
                 }
             }
-            
+
             _projectStage = ProjectStage.Production;
         }
 
         return _projectStage;
     }
-
 
     public void addBehavior(String behaviorId, String behaviorClass)
     {
@@ -364,9 +370,12 @@ public class MockApplication20 extends MockApplication12
         checkNull(behaviorClass, "behaviorClass");
         checkEmpty(behaviorClass, "behaviorClass");
 
-        try {
+        try
+        {
             _behaviorClassMap.put(behaviorId, Class.forName(behaviorClass));
-        } catch (ClassNotFoundException ignore) {
+        }
+        catch (ClassNotFoundException ignore)
+        {
 
         }
 
@@ -385,7 +394,9 @@ public class MockApplication20 extends MockApplication12
         final Class<?> behaviorClass = this._behaviorClassMap.get(behaviorId);
         if (behaviorClass == null)
         {
-            throw new FacesException("Could not find any registered behavior-class for behaviorId : " + behaviorId);
+            throw new FacesException(
+                    "Could not find any registered behavior-class for behaviorId : "
+                            + behaviorId);
         }
 
         try
@@ -395,18 +406,22 @@ public class MockApplication20 extends MockApplication12
         }
         catch (Exception e)
         {
-            throw new FacesException("Could not instantiate behavior: " + behaviorClass, e);
+            throw new FacesException("Could not instantiate behavior: "
+                    + behaviorClass, e);
         }
     }
 
     @Override
-    public void addValidator(String validatorId, String validatorClass) {
+    public void addValidator(String validatorId, String validatorClass)
+    {
         super.addValidator(validatorId, validatorClass);
 
-        try {
-        _validatorClassMap.put(validatorId,
-                Class.forName(validatorClass));
-        } catch (ClassNotFoundException ex) {
+        try
+        {
+            _validatorClassMap.put(validatorId, Class.forName(validatorClass));
+        }
+        catch (ClassNotFoundException ex)
+        {
             throw new FacesException(ex.getMessage());
         }
 
@@ -416,7 +431,8 @@ public class MockApplication20 extends MockApplication12
     {
         if (_validatorClassMap.containsKey(validatorId))
         {
-            _defaultValidatorsIds.put(validatorId, _validatorClassMap.get(validatorId).getName());
+            _defaultValidatorsIds.put(validatorId, _validatorClassMap.get(
+                    validatorId).getName());
         }
     }
 
@@ -432,13 +448,14 @@ public class MockApplication20 extends MockApplication12
         _resourceHandler = resourceHandler;
     }
 
-    public void subscribeToEvent(Class<? extends SystemEvent> systemEventClass, SystemEventListener listener)
+    public void subscribeToEvent(Class<? extends SystemEvent> systemEventClass,
+            SystemEventListener listener)
     {
         subscribeToEvent(systemEventClass, null, listener);
     }
 
-    public void subscribeToEvent(Class<? extends SystemEvent> systemEventClass, Class<?> sourceClass,
-                                 SystemEventListener listener)
+    public void subscribeToEvent(Class<? extends SystemEvent> systemEventClass,
+            Class<?> sourceClass, SystemEventListener listener)
     {
         checkNull(systemEventClass, "systemEventClass");
         checkNull(listener, "listener");
@@ -446,29 +463,35 @@ public class MockApplication20 extends MockApplication12
         SystemListenerEntry systemListenerEntry;
         synchronized (_systemEventListenerClassMap)
         {
-            systemListenerEntry = _systemEventListenerClassMap.get(systemEventClass);
+            systemListenerEntry = _systemEventListenerClassMap
+                    .get(systemEventClass);
             if (systemListenerEntry == null)
             {
                 systemListenerEntry = new SystemListenerEntry();
-                _systemEventListenerClassMap.put(systemEventClass, systemListenerEntry);
+                _systemEventListenerClassMap.put(systemEventClass,
+                        systemListenerEntry);
             }
         }
 
         systemListenerEntry.addListener(listener, sourceClass);
     }
 
-    public void unsubscribeFromEvent(Class<? extends SystemEvent> systemEventClass, SystemEventListener listener)
+    public void unsubscribeFromEvent(
+            Class<? extends SystemEvent> systemEventClass,
+            SystemEventListener listener)
     {
         unsubscribeFromEvent(systemEventClass, null, listener);
     }
 
-    public void unsubscribeFromEvent(Class<? extends SystemEvent> systemEventClass, Class<?> sourceClass,
-                                     SystemEventListener listener)
+    public void unsubscribeFromEvent(
+            Class<? extends SystemEvent> systemEventClass,
+            Class<?> sourceClass, SystemEventListener listener)
     {
         checkNull(systemEventClass, "systemEventClass");
         checkNull(listener, "listener");
 
-        SystemListenerEntry systemListenerEntry = _systemEventListenerClassMap.get(systemEventClass);
+        SystemListenerEntry systemListenerEntry = _systemEventListenerClassMap
+                .get(systemEventClass);
         if (systemListenerEntry != null)
         {
             systemListenerEntry.removeListener(listener, sourceClass);

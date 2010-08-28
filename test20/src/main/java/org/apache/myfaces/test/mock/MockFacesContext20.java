@@ -40,22 +40,25 @@ import javax.faces.lifecycle.Lifecycle;
  * @since 1.0.0
  *
  */
-public class MockFacesContext20 extends MockFacesContext12 {
+public class MockFacesContext20 extends MockFacesContext12
+{
 
     // ------------------------------------------------------------ Constructors
-    
-    public MockFacesContext20() {
+
+    public MockFacesContext20()
+    {
         super();
         setCurrentInstance(this);
     }
 
-
-    public MockFacesContext20(ExternalContext externalContext) {
+    public MockFacesContext20(ExternalContext externalContext)
+    {
         super(externalContext);
     }
 
-
-    public MockFacesContext20(ExternalContext externalContext, Lifecycle lifecycle) {
+    public MockFacesContext20(ExternalContext externalContext,
+            Lifecycle lifecycle)
+    {
         super(externalContext, lifecycle);
     }
 
@@ -66,7 +69,7 @@ public class MockFacesContext20 extends MockFacesContext12 {
     private PhaseId _currentPhaseId = PhaseId.RESTORE_VIEW;
     private boolean _postback;
     private PartialViewContext _partialViewContext = null;
-    private Map<Object,Object> attributes;
+    private Map<Object, Object> attributes;
     private boolean _validationFailed = false;
 
     // ----------------------------------------------------- Mock Object Methods   
@@ -75,17 +78,17 @@ public class MockFacesContext20 extends MockFacesContext12 {
     {
         return _postback;
     }
-    
+
     public void setPostback(boolean value)
     {
         _postback = value;
     }
-    
+
     public PhaseId getCurrentPhaseId()
     {
         return _currentPhaseId;
     }
-    
+
     public void setCurrentPhaseId(PhaseId _currentPhaseId)
     {
         this._currentPhaseId = _currentPhaseId;
@@ -95,7 +98,7 @@ public class MockFacesContext20 extends MockFacesContext12 {
     {
         if (attributes == null)
         {
-            attributes = new HashMap<Object,Object>();
+            attributes = new HashMap<Object, Object>();
         }
         return attributes;
     }
@@ -105,18 +108,18 @@ public class MockFacesContext20 extends MockFacesContext12 {
         if (_partialViewContext == null)
         {
             //Get through factory finder
-            PartialViewContextFactory factory = (PartialViewContextFactory)
-                FactoryFinder.getFactory(FactoryFinder.PARTIAL_VIEW_CONTEXT_FACTORY);
+            PartialViewContextFactory factory = (PartialViewContextFactory) FactoryFinder
+                    .getFactory(FactoryFinder.PARTIAL_VIEW_CONTEXT_FACTORY);
             _partialViewContext = factory.getPartialViewContext(this);
         }
         return _partialViewContext;
     }
-    
+
     public boolean isProcessingEvents()
     {
         return _processingEvents;
     }
-    
+
     public void setProcessingEvents(boolean processingEvents)
     {
         _processingEvents = processingEvents;
@@ -137,11 +140,13 @@ public class MockFacesContext20 extends MockFacesContext12 {
     {
         if (messages == null)
         {
-            return Collections.unmodifiableList(Collections.<FacesMessage>emptyList());
+            return Collections.unmodifiableList(Collections
+                    .<FacesMessage> emptyList());
         }
 
         List<FacesMessage> lst = new ArrayList<FacesMessage>();
-        for(List<FacesMessage> curLst : ((Map<String, List<FacesMessage>>) messages).values())
+        for (List<FacesMessage> curLst : ((Map<String, List<FacesMessage>>) messages)
+                .values())
         {
             lst.addAll(curLst);
         }
@@ -154,7 +159,8 @@ public class MockFacesContext20 extends MockFacesContext12 {
     {
         if (messages == null || !messages.containsKey(clientId))
         {
-            return Collections.unmodifiableList(Collections.<FacesMessage>emptyList());
+            return Collections.unmodifiableList(Collections
+                    .<FacesMessage> emptyList());
         }
 
         return ((Map<String, List<FacesMessage>>) messages).get(clientId);

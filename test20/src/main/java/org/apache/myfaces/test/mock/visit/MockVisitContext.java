@@ -49,16 +49,17 @@ public class MockVisitContext extends VisitContext
 
     public MockVisitContext(FacesContext facesContext, Set<VisitHint> hints)
     {
-        if (facesContext == null) {
+        if (facesContext == null)
+        {
             throw new NullPointerException();
         }
 
         _facesContext = facesContext;
 
         // Copy and store hints - ensure unmodifiable and non-empty
-        EnumSet<VisitHint> hintsEnumSet = ((hints == null) || (hints.isEmpty()))
-            ? EnumSet.noneOf(VisitHint.class)
-            : EnumSet.copyOf(hints);
+        EnumSet<VisitHint> hintsEnumSet = ((hints == null) || (hints.isEmpty())) ? EnumSet
+                .noneOf(VisitHint.class)
+                : EnumSet.copyOf(hints);
 
         _hints = Collections.unmodifiableSet(hintsEnumSet);
     }
@@ -85,15 +86,18 @@ public class MockVisitContext extends VisitContext
     public Collection<String> getSubtreeIdsToVisit(UIComponent component)
     {
         // Make sure component is a NamingContainer
-        if (!(component instanceof NamingContainer)) {
-            throw new IllegalArgumentException("Component is not a NamingContainer: " + component);
+        if (!(component instanceof NamingContainer))
+        {
+            throw new IllegalArgumentException(
+                    "Component is not a NamingContainer: " + component);
         }
 
         return ALL_IDS;
     }
 
     @Override
-    public VisitResult invokeVisitCallback(UIComponent component, VisitCallback callback)
+    public VisitResult invokeVisitCallback(UIComponent component,
+            VisitCallback callback)
     {
         return callback.visit(this, component);
     }

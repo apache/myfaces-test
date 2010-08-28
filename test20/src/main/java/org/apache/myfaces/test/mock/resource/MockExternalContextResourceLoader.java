@@ -42,14 +42,16 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
      * 
      * Used on getLibraryVersion to filter resource directories
      **/
-    protected static Pattern VERSION_CHECKER = Pattern.compile("/\\p{Digit}+(_\\p{Digit}*)*/");
+    protected static Pattern VERSION_CHECKER = Pattern
+            .compile("/\\p{Digit}+(_\\p{Digit}*)*/");
 
     /**
      * It checks version like this: /1.js, /1_0.js, /1_0_0.js, /100_100.js
      * 
      * Used on getResourceVersion to filter resources
      **/
-    protected static Pattern RESOURCE_VERSION_CHECKER = Pattern.compile("/\\p{Digit}+(_\\p{Digit}*)*\\..*");
+    protected static Pattern RESOURCE_VERSION_CHECKER = Pattern
+            .compile("/\\p{Digit}+(_\\p{Digit}*)*\\..*");
 
     public MockExternalContextResourceLoader(String prefix)
     {
@@ -58,7 +60,8 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
 
     protected Set<String> getResourcePaths(String path)
     {
-        return FacesContext.getCurrentInstance().getExternalContext().getResourcePaths(getPrefix() + '/' + path);
+        return FacesContext.getCurrentInstance().getExternalContext()
+                .getResourcePaths(getPrefix() + '/' + path);
     }
 
     @Override
@@ -88,7 +91,8 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
                     {
                         resourceVersion = version;
                     }
-                    else if (getVersionComparator().compare(resourceVersion, version) < 0)
+                    else if (getVersionComparator().compare(resourceVersion,
+                            version) < 0)
                     {
                         resourceVersion = version;
                     }
@@ -129,7 +133,8 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
                     {
                         libraryVersion = version;
                     }
-                    else if (getVersionComparator().compare(libraryVersion, version) < 0)
+                    else if (getVersionComparator().compare(libraryVersion,
+                            version) < 0)
                     {
                         libraryVersion = version;
                     }
@@ -144,8 +149,10 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
     {
         try
         {
-            return FacesContext.getCurrentInstance().getExternalContext().getResource(
-                getPrefix() + '/' + resourceMeta.getResourceIdentifier());
+            return FacesContext.getCurrentInstance().getExternalContext()
+                    .getResource(
+                            getPrefix() + '/'
+                                    + resourceMeta.getResourceIdentifier());
         }
         catch (MalformedURLException e)
         {
@@ -156,15 +163,19 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
     @Override
     public InputStream getResourceInputStream(MockResourceMeta resourceMeta)
     {
-        return FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(
-            getPrefix() + '/' + resourceMeta.getResourceIdentifier());
+        return FacesContext.getCurrentInstance().getExternalContext()
+                .getResourceAsStream(
+                        getPrefix() + '/'
+                                + resourceMeta.getResourceIdentifier());
     }
 
     @Override
-    public MockResourceMeta createResourceMeta(String prefix, String libraryName, String libraryVersion,
-                                           String resourceName, String resourceVersion)
+    public MockResourceMeta createResourceMeta(String prefix,
+            String libraryName, String libraryVersion, String resourceName,
+            String resourceVersion)
     {
-        return new MockResourceMeta(prefix, libraryName, libraryVersion, resourceName, resourceVersion);
+        return new MockResourceMeta(prefix, libraryName, libraryVersion,
+                resourceName, resourceVersion);
     }
 
     @Override
@@ -174,9 +185,9 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
         {
             try
             {
-                URL url =
-                    FacesContext.getCurrentInstance().getExternalContext().getResource(
-                        getPrefix() + '/' + libraryName);
+                URL url = FacesContext.getCurrentInstance()
+                        .getExternalContext().getResource(
+                                getPrefix() + '/' + libraryName);
                 if (url != null)
                 {
                     return true;
@@ -192,7 +203,8 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
             try
             {
 
-                URL url = FacesContext.getCurrentInstance().getExternalContext().getResource(libraryName);
+                URL url = FacesContext.getCurrentInstance()
+                        .getExternalContext().getResource(libraryName);
 
                 if (url != null)
                 {

@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-
 /**
  * ServletContext init parameters as Map.
  * 
@@ -50,14 +49,14 @@ final class _InitParameterMap extends _AbstractAttributeMap<String>
     protected void setAttribute(final String key, final String value)
     {
         throw new UnsupportedOperationException(
-            "Cannot set ServletContext InitParameter");
+                "Cannot set ServletContext InitParameter");
     }
 
     @Override
     protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
-            "Cannot remove ServletContext InitParameter");
+                "Cannot remove ServletContext InitParameter");
     }
 
     @Override
@@ -66,13 +65,12 @@ final class _InitParameterMap extends _AbstractAttributeMap<String>
     {
         return _servletContext.getInitParameterNames();
     }
-    
+
     @Override
     public void putAll(final Map<? extends String, ? extends String> t)
     {
         throw new UnsupportedOperationException();
     }
-
 
     @Override
     public void clear()

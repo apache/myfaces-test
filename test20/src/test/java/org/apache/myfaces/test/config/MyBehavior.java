@@ -23,6 +23,6 @@ public class MyBehavior implements Behavior
 {
     public void broadcast(BehaviorEvent event)
     {
-        
+
     }
 }

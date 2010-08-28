@@ -26,35 +26,37 @@ import javax.portlet.PortletResponse;
  * @since 1.0.0
  */
 
-public class MockPortletResponse implements PortletResponse {
+public class MockPortletResponse implements PortletResponse
+{
 
     /**
      * <p>Return a default instance.</p>
      */
-    public MockPortletResponse() {
+    public MockPortletResponse()
+    {
 
     }
-
 
     // -------------------------------------------------- PortletContext Methods
 
     /** {@inheritDoc} */
-    public void addProperty(String name, String value) {
+    public void addProperty(String name, String value)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String encodeURL(String url) {
+    public String encodeURL(String url)
+    {
 
         return url;
     }
 
-
     /** {@inheritDoc} */
-    public void setProperty(String name, String value) {
+    public void setProperty(String name, String value)
+    {
 
         throw new UnsupportedOperationException();
 

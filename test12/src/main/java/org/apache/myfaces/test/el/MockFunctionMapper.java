@@ -28,19 +28,17 @@ import javax.el.FunctionMapper;
  * @since 1.0.0
  */
 
-public class MockFunctionMapper extends FunctionMapper {
-    
+public class MockFunctionMapper extends FunctionMapper
+{
 
     // ------------------------------------------------------------ Constructors
 
-
     /** Creates a new instance of MockFunctionMapper */
-    public MockFunctionMapper() {
+    public MockFunctionMapper()
+    {
     }
-    
 
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>Map of <code>Method</code> descriptors for static methods, keyed by
@@ -48,30 +46,27 @@ public class MockFunctionMapper extends FunctionMapper {
      */
     private Map functions = new HashMap();
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Store a mapping of the specified prefix and localName to the
      * specified method, which must be static.</p>
      */
-    public void mapFunction(String prefix, String localName, Method method) {
+    public void mapFunction(String prefix, String localName, Method method)
+    {
 
         functions.put(prefix + ":" + localName, method);
 
     }
 
-
     // -------------------------------------------------- FunctionMapper Methods
 
-
     /** {@inheritDoc} */
-    public Method resolveFunction(String prefix, String localName) {
+    public Method resolveFunction(String prefix, String localName)
+    {
 
         return (Method) functions.get(prefix + ":" + localName);
 
     }
-
 
 }

@@ -28,53 +28,48 @@ import java.util.Iterator;
  * @since 1.0.0
  */
 
-class MockEnumeration implements Enumeration {
-
+class MockEnumeration implements Enumeration
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a wrapper instance.</p>
      *
      * @param iterator The <code>Iterator</code> to be wrapped
      */
-    public MockEnumeration(Iterator iterator) {
+    public MockEnumeration(Iterator iterator)
+    {
 
         this.iterator = iterator;
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The <code>Iterator</code> we are wrapping.</p>
      */
     private Iterator iterator;
 
-
     // ----------------------------------------------------- Enumeration Methods
 
-
     /** {@inheritDoc} */
-    public boolean hasMoreElements() {
+    public boolean hasMoreElements()
+    {
 
         return iterator.hasNext();
 
     }
 
-
     /** {@inheritDoc} */
-    public Object nextElement() {
+    public Object nextElement()
+    {
 
         return iterator.next();
 
     }
-
 
 }

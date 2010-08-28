@@ -33,60 +33,74 @@ import javax.servlet.http.HttpServletResponse;
  * $Id$
  * @since 1.0.0
  */
-public class MockFacesContextFactory extends FacesContextFactory {
-
+public class MockFacesContextFactory extends FacesContextFactory
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Look up the constructor we will use for creating <code>MockFacesContext</code>
      * instances.</p>
      */
-    public MockFacesContextFactory() {
+    public MockFacesContextFactory()
+    {
 
         Class clazz = null;
 
         // Try to load the 1.2 version of our mock FacesContext class
-        try {
-            clazz = this.getClass().getClassLoader().loadClass("org.apache.myfaces.test.mock.MockFacesContext12");
+        try
+        {
+            clazz = this.getClass().getClassLoader().loadClass(
+                    "org.apache.myfaces.test.mock.MockFacesContext12");
             constructor = clazz.getConstructor(facesContextSignature);
             jsf12 = true;
-        } catch (NoClassDefFoundError e) {
+        }
+        catch (NoClassDefFoundError e)
+        {
             // We are not running on JSF 1.2, so go to our fallback
             clazz = null;
             constructor = null;
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e)
+        {
             // Same as above
             clazz = null;
             constructor = null;
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e)
+        {
             throw e;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
         // Fall back to the 1.1 version if we could not load the 1.2 version
-        try {
-            if (clazz == null) {
-                clazz = this.getClass().getClassLoader().loadClass("org.apache.myfaces.test.mock.MockFacesContext");
+        try
+        {
+            if (clazz == null)
+            {
+                clazz = this.getClass().getClassLoader().loadClass(
+                        "org.apache.myfaces.test.mock.MockFacesContext");
                 constructor = clazz.getConstructor(facesContextSignature);
                 jsf12 = false;
             }
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e)
+        {
             throw e;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The constructor for creating a <code>FacesContext</code> instance,
@@ -94,82 +108,96 @@ public class MockFacesContextFactory extends FacesContextFactory {
      */
     private Constructor constructor = null;
 
-
     /**
      * <p>The parameter signature of the ExternalContext constructor we wish to call.</p>
      */
     private static Class[] externalContextSignature = new Class[] {
-        ServletContext.class, HttpServletRequest.class, HttpServletResponse.class
-    };
-
+            ServletContext.class, HttpServletRequest.class,
+            HttpServletResponse.class };
 
     /**
      * <p>The parameter signature of the FacesContext constructor we wish to call.</p>
      */
     private static Class[] facesContextSignature = new Class[] {
-        ExternalContext.class, Lifecycle.class
-    };
-
+            ExternalContext.class, Lifecycle.class };
 
     /**
      * <p>Flag indicating that we are running in a JSF 1.2 environment.</p>
      */
     private boolean jsf12 = false;
 
-
     // --------------------------------------------- FacesContextFactory Methods
-
 
     /** {@inheritDoc} */
     public FacesContext getFacesContext(Object context, Object request,
-                                        Object response,
-                                        Lifecycle lifecycle) throws FacesException {
+            Object response, Lifecycle lifecycle) throws FacesException
+    {
 
         // Select the appropriate MockExternalContext implementation class
         Class clazz = MockExternalContext.class;
-        if (jsf12) {
-            try {
-                clazz = this.getClass().getClassLoader().loadClass
-                  ("org.apache.myfaces.test.mock.MockExternalContext12");
-            } catch (RuntimeException e) {
+        if (jsf12)
+        {
+            try
+            {
+                clazz = this.getClass().getClassLoader().loadClass(
+                        "org.apache.myfaces.test.mock.MockExternalContext12");
+            }
+            catch (RuntimeException e)
+            {
                 throw e;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new FacesException(e);
             }
         }
 
         // Select the constructor we wish to call
         Constructor mecConstructor = null;
-        try {
+        try
+        {
             mecConstructor = clazz.getConstructor(externalContextSignature);
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e)
+        {
             throw e;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
         // Construct an appropriate MockExternalContext instance
         MockExternalContext externalContext = null;
-        try {
-            externalContext = (MockExternalContext) mecConstructor.newInstance
-              (new Object[] { context, request, response });
-        } catch (RuntimeException e) {
+        try
+        {
+            externalContext = (MockExternalContext) mecConstructor
+                    .newInstance(new Object[] { context, request, response });
+        }
+        catch (RuntimeException e)
+        {
             throw e;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
         // Construct an appropriate MockFacesContext instance and return it
-        try {
-            return (MockFacesContext)
-              constructor.newInstance(new Object[] { externalContext, lifecycle });
-        } catch (RuntimeException e) {
+        try
+        {
+            return (MockFacesContext) constructor.newInstance(new Object[] {
+                    externalContext, lifecycle });
+        }
+        catch (RuntimeException e)
+        {
             throw e;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
     }
-
 
 }

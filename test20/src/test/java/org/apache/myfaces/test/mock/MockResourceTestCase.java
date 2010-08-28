@@ -34,67 +34,84 @@ import org.apache.myfaces.test.mock.resource.MockSimpleResourceHandler;
 /**
  * Test case for resource handling
  */
-public class MockResourceTestCase extends AbstractJsfTestCase {
+public class MockResourceTestCase extends AbstractJsfTestCase
+{
 
     private File _documentRoot;
 
-    public MockResourceTestCase(String name) {
+    public MockResourceTestCase(String name)
+    {
         super(name);
     }
 
     // Set up instance variables required by this test case.
-    protected void setUp() throws Exception {
+    protected void setUp() throws Exception
+    {
         super.setUp();
-        _documentRoot = new File("src/test/resources/org/apache/myfaces/test/mock/resources");
+        _documentRoot = new File(
+                "src/test/resources/org/apache/myfaces/test/mock/resources");
     }
 
     // Return the tests included in this test case.
-    public static Test suite() {
+    public static Test suite()
+    {
         return (new TestSuite(MockResourceTestCase.class));
     }
 
     // Tear down instance variables required by this test case.
-    protected void tearDown() throws Exception {
+    protected void tearDown() throws Exception
+    {
         super.tearDown();
     }
 
-    public void testGetResource() throws Exception {
+    public void testGetResource() throws Exception
+    {
 
-        Resource resource = new MockSimpleResource(null, "testlib", null, "testfile.js", null, _documentRoot);
+        Resource resource = new MockSimpleResource(null, "testlib", null,
+                "testfile.js", null, _documentRoot);
 
         URL resourceUrl = resource.getURL();
         assertNotNull("Could not find resource", resourceUrl);
-        assertTrue(resourceUrl.toString().endsWith("org/apache/myfaces/test/mock/resources/testlib/testfile.js"));
+        assertTrue(resourceUrl.toString().endsWith(
+                "org/apache/myfaces/test/mock/resources/testlib/testfile.js"));
     }
 
-    public void testGetNotExistingResource() throws Exception {
+    public void testGetNotExistingResource() throws Exception
+    {
 
-        Resource resource = new MockSimpleResource(null, "testlib", null, "notexisting.js", null, _documentRoot);
+        Resource resource = new MockSimpleResource(null, "testlib", null,
+                "notexisting.js", null, _documentRoot);
 
         assertNull(resource.getURL());
     }
 
-    public void testGetAsStream() throws Exception {
-        Resource resource = new MockSimpleResource(null, "testlib", null, "testfile.js", null, _documentRoot);
+    public void testGetAsStream() throws Exception
+    {
+        Resource resource = new MockSimpleResource(null, "testlib", null,
+                "testfile.js", null, _documentRoot);
         InputStream stream = resource.getInputStream();
         assertNotNull(stream);
         assertTrue(stream.read() != -1);
     }
 
-    public void testCreateResource() throws Exception {
+    public void testCreateResource() throws Exception
+    {
         ResourceHandler handler = new MockSimpleResourceHandler(_documentRoot);
         Resource resource = handler.createResource("testfile.js", "testlib");
         assertNotNull("resource could not be created", resource);
-        assertTrue(resource.getURL().toString().endsWith("org/apache/myfaces/test/mock/resources/testlib/testfile.js"));
+        assertTrue(resource.getURL().toString().endsWith(
+                "org/apache/myfaces/test/mock/resources/testlib/testfile.js"));
     }
 
-    public void testResourceHandler() throws Exception {
-       ResourceHandler handler = new MockSimpleResourceHandler(_documentRoot);
+    public void testResourceHandler() throws Exception
+    {
+        ResourceHandler handler = new MockSimpleResourceHandler(_documentRoot);
 
         assertTrue(handler.libraryExists("testlib"));
         assertFalse(handler.libraryExists("notexistinglib"));
 
-        assertEquals("javax.faces.resource.Script", handler.getRendererTypeForResourceName("testfile.js"));
+        assertEquals("javax.faces.resource.Script", handler
+                .getRendererTypeForResourceName("testfile.js"));
     }
 
 }

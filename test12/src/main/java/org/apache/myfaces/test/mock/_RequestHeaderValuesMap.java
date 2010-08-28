@@ -50,7 +50,8 @@ final class _RequestHeaderValuesMap extends _AbstractAttributeMap<String[]>
         String[] ret = _valueCache.get(key);
         if (ret == null)
         {
-            _valueCache.put(key, ret = toArray(_httpServletRequest.getHeaders(key)));
+            _valueCache.put(key, ret = toArray(_httpServletRequest
+                    .getHeaders(key)));
         }
 
         return ret;
@@ -59,13 +60,15 @@ final class _RequestHeaderValuesMap extends _AbstractAttributeMap<String[]>
     @Override
     protected void setAttribute(final String key, final String[] value)
     {
-        throw new UnsupportedOperationException("Cannot set HttpServletRequest HeaderValues");
+        throw new UnsupportedOperationException(
+                "Cannot set HttpServletRequest HeaderValues");
     }
 
     @Override
     protected void removeAttribute(final String key)
     {
-        throw new UnsupportedOperationException("Cannot remove HttpServletRequest HeaderValues");
+        throw new UnsupportedOperationException(
+                "Cannot remove HttpServletRequest HeaderValues");
     }
 
     @Override

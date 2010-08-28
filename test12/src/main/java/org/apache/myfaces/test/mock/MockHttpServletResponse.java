@@ -41,20 +41,19 @@ import javax.servlet.http.HttpServletResponse;
  * $Id$
  * @since 1.0.0
  */
-public class MockHttpServletResponse implements HttpServletResponse {
-
+public class MockHttpServletResponse implements HttpServletResponse
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Return a default instance.</p>
      */
-    public MockHttpServletResponse() { }
-
+    public MockHttpServletResponse()
+    {
+    }
 
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Retrieve the first value that was set for the specified header,
@@ -62,38 +61,41 @@ public class MockHttpServletResponse implements HttpServletResponse {
      *
      * @param name Header name to look up
      */
-    public String getHeader(String name) {
+    public String getHeader(String name)
+    {
         String match = name + ":";
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
-            if (header.startsWith(match)) {
+            if (header.startsWith(match))
+            {
                 return header.substring(match.length() + 1).trim();
             }
         }
         return null;
     }
-    
+
     public Cookie getCookie(String name)
     {
-        return (Cookie)cookies.get(name);
+        return (Cookie) cookies.get(name);
     }
-    
+
     /**
      * <p>Return the text message for the HTTP status that was set.</p>
      */
-    public String getMessage() {
+    public String getMessage()
+    {
         return this.message;
     }
-
 
     /**
      * <p>Return the HTTP status code that was set.</p>
      */
-    public int getStatus() {
+    public int getStatus()
+    {
         return this.status;
     }
-
 
     /**
      * <p>Set the <code>ServletOutputStream</code> to be returned by a call to
@@ -104,10 +106,10 @@ public class MockHttpServletResponse implements HttpServletResponse {
      * @deprecated Let the <code>getOutputStream()</code> method create and
      *  return an instance of <code>MockServletOutputStream</code> for you
      */
-    public void setOutputStream(ServletOutputStream stream) {
+    public void setOutputStream(ServletOutputStream stream)
+    {
         this.stream = stream;
     }
-
 
     /**
      * <p>Set the <code>PrintWriter</code> to be returned by a call to
@@ -118,13 +120,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
      * @deprecated Let the <code>getWriter()</code> method create and return
      *  an instance of <code>MockPrintWriter</code> for you
      */
-    public void setWriter(PrintWriter writer) {
+    public void setWriter(PrintWriter writer)
+    {
         this.writer = writer;
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private String encoding = "ISO-8859-1";
     private String contentType = "text/html";
@@ -133,7 +134,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     private int status = HttpServletResponse.SC_OK;
     private ServletOutputStream stream = null;
     private PrintWriter writer = null;
-    
+
     private boolean committed = false;
     private long contentLength = 0;
     private int bufferSize = 0;
@@ -142,77 +143,75 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     // -------------------------------------------- HttpServletResponse Methods
 
-
     /** {@inheritDoc} */
     public void addCookie(Cookie cookie)
     {
         cookies.put(cookie.getName(), cookie);
     }
 
-
     /** {@inheritDoc} */
-    public void addDateHeader(String name, long value) {
+    public void addDateHeader(String name, long value)
+    {
 
         headers.add(name + ": " + formatDate(value));
 
     }
 
-
     /** {@inheritDoc} */
-    public void addHeader(String name, String value) {
+    public void addHeader(String name, String value)
+    {
 
         headers.add(name + ": " + value);
 
     }
 
-
     /** {@inheritDoc} */
-    public void addIntHeader(String name, int value) {
+    public void addIntHeader(String name, int value)
+    {
 
         headers.add(name + ": " + value);
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean containsHeader(String name) {
+    public boolean containsHeader(String name)
+    {
 
         return getHeader(name) != null;
 
     }
 
-
     /** {@inheritDoc} */
-    public String encodeRedirectUrl(String url) {
+    public String encodeRedirectUrl(String url)
+    {
 
         return encodeRedirectURL(url);
 
     }
 
-
     /** {@inheritDoc} */
-    public String encodeRedirectURL(String url) {
+    public String encodeRedirectURL(String url)
+    {
 
         return url;
 
     }
 
-
     /** {@inheritDoc} */
-    public String encodeUrl(String url) {
+    public String encodeUrl(String url)
+    {
 
         return encodeURL(url);
 
     }
 
-
     /** {@inheritDoc} */
-    public String encodeURL(String url) {
+    public String encodeURL(String url)
+    {
 
         return url;
 
     }
-
 
     /** {@inheritDoc} */
     public void sendError(int status)
@@ -224,7 +223,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.status = status;
         this.committed = true;
     }
-
 
     /** {@inheritDoc} */
     public void sendError(int status, String message)
@@ -238,10 +236,11 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.committed = true;
     }
 
-
     /** {@inheritDoc} */
-    public void sendRedirect(String location) {
-        if (this.committed) {
+    public void sendRedirect(String location)
+    {
+        if (this.committed)
+        {
             throw new IllegalStateException("Response is already committed");
         }
         this.status = HttpServletResponse.SC_MOVED_TEMPORARILY;
@@ -249,33 +248,32 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.committed = true;
     }
 
-
     /** {@inheritDoc} */
-    public void setDateHeader(String name, long value) {
+    public void setDateHeader(String name, long value)
+    {
 
         removeHeader(name);
         addDateHeader(name, value);
 
     }
 
-
     /** {@inheritDoc} */
-    public void setHeader(String name, String value) {
+    public void setHeader(String name, String value)
+    {
 
         removeHeader(name);
         addHeader(name, value);
 
     }
 
-
     /** {@inheritDoc} */
-    public void setIntHeader(String name, int value) {
+    public void setIntHeader(String name, int value)
+    {
 
         removeHeader(name);
         addIntHeader(name, value);
 
     }
-
 
     /** {@inheritDoc} */
     public void setStatus(int status)
@@ -283,45 +281,42 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.status = status;
     }
 
-
     /** {@inheritDoc} */
-    public void setStatus(int status, String message) {
+    public void setStatus(int status, String message)
+    {
         this.status = status;
         this.message = message;
     }
 
-
     // ------------------------------------------------ ServletResponse Methods
-
 
     /** {@inheritDoc} */
     public void flushBuffer()
     {
-    
+
     }
 
-
     /** {@inheritDoc} */
-    public int getBufferSize() {
+    public int getBufferSize()
+    {
         return bufferSize;
     }
 
-
     /** {@inheritDoc} */
-    public String getCharacterEncoding() {
+    public String getCharacterEncoding()
+    {
 
         return this.encoding;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getContentType() {
+    public String getContentType()
+    {
 
         return this.contentType;
 
     }
-
 
     /** {@inheritDoc} */
     public Locale getLocale()
@@ -329,13 +324,16 @@ public class MockHttpServletResponse implements HttpServletResponse {
         return this.locale;
     }
 
-
     /** {@inheritDoc} */
-    public ServletOutputStream getOutputStream() throws IOException {
+    public ServletOutputStream getOutputStream() throws IOException
+    {
 
-        if (stream == null) {
-            if (writer != null) {
-                throw new IllegalStateException("Cannot call getOutputStream() after getWriter() has been called");
+        if (stream == null)
+        {
+            if (writer != null)
+            {
+                throw new IllegalStateException(
+                        "Cannot call getOutputStream() after getWriter() has been called");
             }
             stream = new MockServletOutputStream(new ByteArrayOutputStream());
         }
@@ -343,13 +341,16 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     }
 
-
     /** {@inheritDoc} */
-    public PrintWriter getWriter() throws IOException {
+    public PrintWriter getWriter() throws IOException
+    {
 
-        if (writer == null) {
-            if (stream != null) {
-                throw new IllegalStateException("Cannot call getWriter() after getOutputStream() was called");
+        if (writer == null)
+        {
+            if (stream != null)
+            {
+                throw new IllegalStateException(
+                        "Cannot call getWriter() after getOutputStream() was called");
             }
             writer = new MockPrintWriter(new CharArrayWriter());
         }
@@ -357,25 +358,21 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     }
 
-
     /** {@inheritDoc} */
     public boolean isCommitted()
     {
         return committed;
     }
 
-
     /** {@inheritDoc} */
     public void reset()
     {
     }
 
-
     /** {@inheritDoc} */
     public void resetBuffer()
     {
     }
-
 
     /** {@inheritDoc} */
     public void setBufferSize(int size)
@@ -383,14 +380,13 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.bufferSize = size;
     }
 
-
     /** {@inheritDoc} */
-    public void setCharacterEncoding(String charset) {
+    public void setCharacterEncoding(String charset)
+    {
 
         this.encoding = charset;
 
     }
-
 
     /** {@inheritDoc} */
     public void setContentLength(int length)
@@ -398,14 +394,13 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.contentLength = length;
     }
 
-
     /** {@inheritDoc} */
-    public void setContentType(String type) {
+    public void setContentType(String type)
+    {
 
         contentType = type;
 
     }
-
 
     /** {@inheritDoc} */
     public void setLocale(Locale locale)
@@ -413,20 +408,18 @@ public class MockHttpServletResponse implements HttpServletResponse {
         this.locale = locale;
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>The date formatting helper we will use in <code>httpTimestamp()</code>.
      * Note that usage of this helper must be synchronized.</p>
      */
-    private static SimpleDateFormat format =
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
-    static {
+    private static SimpleDateFormat format = new SimpleDateFormat(
+            "EEE, dd MMM yyyy HH:mm:ss zzz");
+    static
+    {
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
-
 
     /**
      * <p>Return a properly formatted String version of the specified
@@ -434,27 +427,29 @@ public class MockHttpServletResponse implements HttpServletResponse {
      *
      * @param date Date/time, expressed as milliseconds since the epoch
      */
-    private String formatDate(long date) {
+    private String formatDate(long date)
+    {
         return format.format(new Date(date));
     }
-
 
     /**
      * <p>Remove any header that has been set with the specific name.</p>
      *
      * @param name Header name to look up
      */
-    private void removeHeader(String name) {
+    private void removeHeader(String name)
+    {
         String match = name + ":";
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
-            if (header.startsWith(match)) {
+            if (header.startsWith(match))
+            {
                 headers.remove();
                 return;
             }
         }
     }
-
 
 }

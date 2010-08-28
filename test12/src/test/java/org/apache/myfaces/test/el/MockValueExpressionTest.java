@@ -32,13 +32,13 @@ import org.apache.myfaces.test.base.AbstractJsfTestCase;
  */
 public class MockValueExpressionTest extends AbstractJsfTestCase
 {
-    
-    public MockValueExpressionTest(String name) 
+
+    public MockValueExpressionTest(String name)
     {
         super(name);
     }
 
-    public void testSetValue() 
+    public void testSetValue()
     {
         // set value of #{foo} to BAR via ValueExpression
         ELContext elContext = facesContext.getELContext();
@@ -48,7 +48,7 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
         assertEquals("BAR", externalContext.getRequestMap().get("foo"));
     }
 
-    public void testGetValue() 
+    public void testGetValue()
     {
         // set value of #{foo} to BAR in request scope
         externalContext.getRequestMap().put("foo", "BAR");

@@ -29,86 +29,82 @@ import javax.faces.context.FacesContext;
  * $Id$
  * @since 1.0.0
  */
-public class MockStateManager extends StateManager {
-
+public class MockStateManager extends StateManager
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockStateManager() {
+    public MockStateManager()
+    {
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ---------------------------------------------------- StateManager Methods
 
-
     /** {@inheritDoc} */
-    public SerializedView saveSerializedView(FacesContext context) {
+    public SerializedView saveSerializedView(FacesContext context)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public Object getTreeStructureToSave(FacesContext context) {
+    public Object getTreeStructureToSave(FacesContext context)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public Object getComponentStateToSave(FacesContext context) {
+    public Object getComponentStateToSave(FacesContext context)
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
     /** {@inheritDoc} */
     public void writeState(FacesContext context, SerializedView view)
-      throws IOException {
+            throws IOException
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
     /** {@inheritDoc} */
     public UIViewRoot restoreView(FacesContext context, String viewId,
-                                  String renderKitId) {
+            String renderKitId)
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
     /** {@inheritDoc} */
     public UIViewRoot restoreTreeStructure(FacesContext context, String viewId,
-                                           String renderKitId) {
+            String renderKitId)
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
     /** {@inheritDoc} */
     public void restoreComponentState(FacesContext context, UIViewRoot view,
-                                      String renderKitId) {
+            String renderKitId)
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
 }

@@ -32,20 +32,19 @@ import javax.faces.context.FacesContext;
  * @since 1.0.0
  */
 
-public class MockNavigationHandler extends NavigationHandler {
-
+public class MockNavigationHandler extends NavigationHandler
+{
 
     // ------------------------------------------------------------ Constructors
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockNavigationHandler() {
+    public MockNavigationHandler()
+    {
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Add a outcome-viewId pair to the destinations map.</p>
@@ -53,15 +52,14 @@ public class MockNavigationHandler extends NavigationHandler {
      * @param outcome Logical outcome string
      * @param viewId Destination view identifier
      */
-    public void addDestination(String outcome, String viewId) {
+    public void addDestination(String outcome, String viewId)
+    {
 
         destinations.put(outcome, viewId);
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>Set of destination view ids, keyed by logical outcome String
@@ -69,9 +67,7 @@ public class MockNavigationHandler extends NavigationHandler {
      */
     private Map destinations = new HashMap();
 
-
     // ----------------------------------------------- NavigationHandler Methods
-
 
     /**
      * <p>Process the specified navigation request.</p>
@@ -80,32 +76,33 @@ public class MockNavigationHandler extends NavigationHandler {
      * @param action Action method being executed
      * @param outcome Logical outcome from this action method
      */
-    public void handleNavigation(FacesContext context,
-                                 String action, String outcome) {
+    public void handleNavigation(FacesContext context, String action,
+            String outcome)
+    {
 
         // Navigate solely based on outcome, if we get a match
         String viewId = (String) destinations.get(outcome);
-        if (viewId != null) {
-            UIViewRoot view = getViewHandler(context).createView(context, viewId);
+        if (viewId != null)
+        {
+            UIViewRoot view = getViewHandler(context).createView(context,
+                    viewId);
             context.setViewRoot(view);
         }
 
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Return the <code>ViewHandler</code> instance for this application.</p>
      *
      * @param context <code>FacesContext</code> for the current request
      */
-    private ViewHandler getViewHandler(FacesContext context) {
+    private ViewHandler getViewHandler(FacesContext context)
+    {
 
         return context.getApplication().getViewHandler();
 
     }
-
 
 }

@@ -56,16 +56,16 @@ import org.apache.myfaces.test.el.MockExpressionFactory;
  *
  * @since 1.0.0
  */
-public class MockApplication12 extends MockApplication {
-    
+public class MockApplication12 extends MockApplication
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockApplication12() {
+    public MockApplication12()
+    {
 
         super();
 
@@ -74,27 +74,22 @@ public class MockApplication12 extends MockApplication {
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>A list of resource bundles configured for this application.</p>
      */
     private Map bundles = new HashMap();
 
-
     /**
      * <p>The set of configured ELContextListener instances.</p>
      */
     private List elContextListeners = new ArrayList();
 
-
     /**
      * <p>Expression factory for this instance.</p>
      */
     private ExpressionFactory expressionFactory = null;
-
 
     /**
      * <p>The configured composite resolver to be returned by <code>getELResolver()</code>.
@@ -102,15 +97,12 @@ public class MockApplication12 extends MockApplication {
      */
     private ELResolver resolver = null;
 
-
     /**
      * <p>The set of ELResolver instances configured on this instance.</p>
      */
     private List resolvers = new ArrayList();
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Add the specified resource bundle to those associated with
@@ -119,37 +111,38 @@ public class MockApplication12 extends MockApplication {
      * @param name Name under which to add this resource bundle
      * @param bundle ResourceBundle to add
      */
-    public void addResourceBundle(String name, ResourceBundle bundle) {
+    public void addResourceBundle(String name, ResourceBundle bundle)
+    {
         bundles.put(name, bundle);
     }
-
 
     /**
      * <p>Return a <code>Map</code> of the resource bundles configured
      * for this application, keyed by name.</p>
      */
-    public Map getResourceBundles() {
+    public Map getResourceBundles()
+    {
         return bundles;
     }
 
-
     // ----------------------------------------------------- Application Methods
 
-
     /** {@inheritDoc} */
-    public void addELContextListener(ELContextListener listener) {
+    public void addELContextListener(ELContextListener listener)
+    {
 
         elContextListeners.add(listener);
 
     }
 
-
     /** {@inheritDoc} */
-    public void addELResolver(ELResolver resolver) {
+    public void addELResolver(ELResolver resolver)
+    {
 
         // Simulate the restriction that you cannot add resolvers after
         // the first request has been processed.
-        if (this.resolver != null) {
+        if (this.resolver != null)
+        {
             throw new IllegalStateException("Cannot add resolvers now");
         }
 
@@ -157,53 +150,57 @@ public class MockApplication12 extends MockApplication {
 
     }
 
-
     /** {@inheritDoc} */
     public UIComponent createComponent(ValueExpression expression,
-                                       FacesContext context,
-                                       String componentType) {
+            FacesContext context, String componentType)
+    {
 
         UIComponent component = null;
-        try {
-            component = (UIComponent) expression.getValue(context.getELContext());
-            if (component == null) {
+        try
+        {
+            component = (UIComponent) expression.getValue(context
+                    .getELContext());
+            if (component == null)
+            {
                 component = createComponent(componentType);
                 expression.setValue(context.getELContext(), component);
             }
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
         return component;
 
     }
 
-
     /** {@inheritDoc} */
     public Object evaluateExpressionGet(FacesContext context,
-                                        String expression,
-                                        Class expectedType) throws ELException {
+            String expression, Class expectedType) throws ELException
+    {
 
-        ValueExpression ve = getExpressionFactory().createValueExpression
-          (context.getELContext(), expression, expectedType);
+        ValueExpression ve = getExpressionFactory().createValueExpression(
+                context.getELContext(), expression, expectedType);
         return ve.getValue(context.getELContext());
 
     }
 
-
     /** {@inheritDoc} */
-    public ELContextListener[] getELContextListeners() {
+    public ELContextListener[] getELContextListeners()
+    {
 
-        return (ELContextListener[])
-          elContextListeners.toArray(new ELContextListener[elContextListeners.size()]);
+        return (ELContextListener[]) elContextListeners
+                .toArray(new ELContextListener[elContextListeners.size()]);
 
     }
 
-
     /** {@inheritDoc} */
-    public ELResolver getELResolver() {
+    public ELResolver getELResolver()
+    {
 
-        if (resolver == null) {
+        if (resolver == null)
+        {
 
             // Configure a default ELResolver per Section 5.6.2 of JSF 1.2
             CompositeELResolver composite = new CompositeELResolver();
@@ -215,7 +212,8 @@ public class MockApplication12 extends MockApplication {
             nested.add(new FacesVariableResolverChainWrapper());
             nested.add(new FacesPropertyResolverChainWrapper());
             Iterator items = resolvers.iterator();
-            while (items.hasNext()) {
+            while (items.hasNext())
+            {
                 nested.add((ELResolver) items.next());
             }
             composite.add(nested);
@@ -237,46 +235,48 @@ public class MockApplication12 extends MockApplication {
 
     }
 
-
     /** {@inheritDoc} */
-    public ExpressionFactory getExpressionFactory() {
+    public ExpressionFactory getExpressionFactory()
+    {
 
         return this.expressionFactory;
 
     }
 
-
     /** {@inheritDoc} */
-    public ResourceBundle getResourceBundle(FacesContext context, String name) {
+    public ResourceBundle getResourceBundle(FacesContext context, String name)
+    {
 
-        if ((context == null) || (name == null)) {
+        if ((context == null) || (name == null))
+        {
             throw new NullPointerException();
         }
         Locale locale = null;
         UIViewRoot viewRoot = context.getViewRoot();
-        if (viewRoot != null) {
+        if (viewRoot != null)
+        {
             locale = viewRoot.getLocale();
         }
-        if (locale == null) {
+        if (locale == null)
+        {
             locale = Locale.getDefault();
         }
-        try 
+        try
         {
             return ResourceBundle.getBundle(name, locale);
         }
-        catch (MissingResourceException e) 
+        catch (MissingResourceException e)
         {
             return null;
         }
     }
 
-
     /** {@inheritDoc} */
-    public void removeELContextListener(ELContextListener listener) {
+    public void removeELContextListener(ELContextListener listener)
+    {
 
         elContextListeners.remove(listener);
 
     }
-
 
 }

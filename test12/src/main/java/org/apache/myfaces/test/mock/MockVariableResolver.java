@@ -36,78 +36,106 @@ import javax.faces.el.VariableResolver;
  * @since 1.0.0
  */
 
-public class MockVariableResolver extends VariableResolver {
-
+public class MockVariableResolver extends VariableResolver
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockVariableResolver() {
+    public MockVariableResolver()
+    {
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ------------------------------------------------ VariableResolver Methods
 
-
     /** {@inheritDoc} */
-    public Object resolveVariable(FacesContext context, String name) {
+    public Object resolveVariable(FacesContext context, String name)
+    {
 
-        if ((context == null) || (name == null)) {
+        if ((context == null) || (name == null))
+        {
             throw new NullPointerException();
         }
 
         // Check for magic names
-        if ("application".equals(name)) {
+        if ("application".equals(name))
+        {
             return external().getContext();
-        } else if ("applicationScope".equals(name)) {
+        }
+        else if ("applicationScope".equals(name))
+        {
             return external().getApplicationMap();
-        } else if ("cookie".equals(name)) {
+        }
+        else if ("cookie".equals(name))
+        {
             return external().getRequestCookieMap();
-        } else if ("facesContext".equals(name)) {
+        }
+        else if ("facesContext".equals(name))
+        {
             return FacesContext.getCurrentInstance();
-        } else if ("header".equals(name)) {
+        }
+        else if ("header".equals(name))
+        {
             return external().getRequestHeaderMap();
-        } else if ("headerValues".equals(name)) {
+        }
+        else if ("headerValues".equals(name))
+        {
             return external().getRequestHeaderValuesMap();
-        } else if ("param".equals(name)) {
+        }
+        else if ("param".equals(name))
+        {
             return external().getRequestParameterMap();
-        } else if ("paramValues".equals(name)) {
+        }
+        else if ("paramValues".equals(name))
+        {
             return external().getRequestParameterValuesMap();
-        } else if ("request".equals(name)) {
+        }
+        else if ("request".equals(name))
+        {
             return external().getRequest();
-        } else if ("requestScope".equals(name)) {
+        }
+        else if ("requestScope".equals(name))
+        {
             return external().getRequestMap();
-        } else if ("response".equals(name)) {
+        }
+        else if ("response".equals(name))
+        {
             return external().getResponse();
-        } else if ("session".equals(name)) {
+        }
+        else if ("session".equals(name))
+        {
             return external().getSession(true);
-        } else if ("sessionScope".equals(name)) {
+        }
+        else if ("sessionScope".equals(name))
+        {
             return external().getSessionMap();
-        } else if ("view".equals(name)) {
+        }
+        else if ("view".equals(name))
+        {
             return FacesContext.getCurrentInstance().getViewRoot();
         }
 
         // Search ascending scopes for non-magic names
         Map map = null;
         map = external().getRequestMap();
-        if (map.containsKey(name)) {
+        if (map.containsKey(name))
+        {
             return map.get(name);
         }
         map = external().getSessionMap();
-        if ((map != null) && (map.containsKey(name))) {
+        if ((map != null) && (map.containsKey(name)))
+        {
             return map.get(name);
         }
         map = external().getApplicationMap();
-        if (map.containsKey(name)) {
+        if (map.containsKey(name))
+        {
             return map.get(name);
         }
 
@@ -116,19 +144,16 @@ public class MockVariableResolver extends VariableResolver {
 
     }
 
-
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Return the <code>ExternalContext</code> for this request.</p>
      */
-    private ExternalContext external() {
+    private ExternalContext external()
+    {
 
         return FacesContext.getCurrentInstance().getExternalContext();
 
     }
-
 
 }

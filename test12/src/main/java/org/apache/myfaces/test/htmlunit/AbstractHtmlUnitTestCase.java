@@ -33,8 +33,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-
-
 /**
  * <p>Abstract base class for system integration tests based on HtmlUnit.
  * These tests will expect a system property named <code>url</code> to be
@@ -43,32 +41,29 @@ import junit.framework.TestSuite;
  * 
  * @since 1.0.0
  */
-public abstract class AbstractHtmlUnitTestCase extends TestCase {
-
+public abstract class AbstractHtmlUnitTestCase extends TestCase
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a new instance of this test case.</p>
      *
      * @param name Name of the new test case
      */
-    public AbstractHtmlUnitTestCase(String name) {
+    public AbstractHtmlUnitTestCase(String name)
+    {
 
         super(name);
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The most recently retrieved page from the server.</p>
      */
     protected HtmlPage page = null;
-
 
     /**
      * <p>The calculated URL for the installed "systest" web application.
@@ -78,22 +73,20 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      */
     protected URL url = null;
 
-
     /**
      * <p>The web client for this test case.</p>
      */
     protected WebClient webClient = null;
 
-
     // ------------------------------------------------------ Test Setup Methods
-
 
     /**
      * <p>Set up the instance variables required for this test case.</p>
      *
      * @exception Exception if an error occurs
      */
-    protected void setUp() throws Exception {
+    protected void setUp() throws Exception
+    {
 
         // Calculate the URL for the installed "systest" web application
         String url = System.getProperty("url");
@@ -104,21 +97,21 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
 
     }
 
-
     /**
      * <p>Return the set of tests included in this test suite.</p>
      */
-    public static Test suite() {
+    public static Test suite()
+    {
 
         return (new TestSuite(AbstractHtmlUnitTestCase.class));
 
     }
 
-
     /**
      * <p>Tear down instance variables required by this test case.</p>
      */
-    protected void tearDown() throws Exception {
+    protected void tearDown() throws Exception
+    {
 
         page = null;
         url = null;
@@ -126,10 +119,7 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
 
     }
 
-
-
     // ------------------------------------------------------- Protected Methods
-
 
     /**
      * <p>Return the body element for the most recently retrieved page.
@@ -137,19 +127,21 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *
      * @exception Exception if an error occurs
      */
-    protected HtmlBody body() throws Exception {
+    protected HtmlBody body() throws Exception
+    {
 
         Iterator elements = page.getAllHtmlChildElements();
-        while (elements.hasNext()) {
+        while (elements.hasNext())
+        {
             HtmlElement element = (HtmlElement) elements.next();
-            if (element instanceof HtmlBody) {
+            if (element instanceof HtmlBody)
+            {
                 return ((HtmlBody) element);
             }
         }
         return (null);
 
     }
-
 
     /**
      * <p>Return the HTML element with the specified <code>id</code> from the
@@ -160,16 +152,19 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *
      * @exception Exception if an error occurs
      */
-    protected HtmlElement element(String id) throws Exception {
+    protected HtmlElement element(String id) throws Exception
+    {
 
-        try {
+        try
+        {
             return (page.getHtmlElementById(id));
-        } catch (ElementNotFoundException e) {
+        }
+        catch (ElementNotFoundException e)
+        {
             return (null);
         }
 
     }
-
 
     /**
      * <p>Return the form with the specified <code>id</code> from the most
@@ -180,12 +175,15 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *
      * @exception Exception if an error occurs
      */
-    protected HtmlForm form(String id) throws Exception {
+    protected HtmlForm form(String id) throws Exception
+    {
 
         Iterator forms = page.getForms().iterator();
-        while (forms.hasNext()) {
+        while (forms.hasNext())
+        {
             HtmlForm form = (HtmlForm) forms.next();
-            if (id.equals(form.getAttributeValue("id"))) {
+            if (id.equals(form.getAttributeValue("id")))
+            {
                 return (form);
             }
         }
@@ -193,26 +191,27 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
 
     }
 
-
     /**
      * <p>Return the head element for the most recently retrieved page.
      * If there is no such element, return <code>null</code>.</p>
      *
      * @exception Exception if an error occurs
      */
-    protected HtmlHead head() throws Exception {
+    protected HtmlHead head() throws Exception
+    {
 
         Iterator elements = page.getAllHtmlChildElements();
-        while (elements.hasNext()) {
+        while (elements.hasNext())
+        {
             HtmlElement element = (HtmlElement) elements.next();
-            if (element instanceof HtmlHead) {
+            if (element instanceof HtmlHead)
+            {
                 return ((HtmlHead) element);
             }
         }
         return (null);
 
     }
-
 
     /**
      * <p>Click the specified hyperlink, and retrieve the subsequent page,
@@ -223,7 +222,8 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected HtmlPage link(HtmlAnchor anchor) throws IOException {
+    protected HtmlPage link(HtmlAnchor anchor) throws IOException
+    {
 
         HtmlPage page = (HtmlPage) anchor.click();
         this.page = page;
@@ -231,16 +231,15 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
 
     }
 
-
     /**
      * <p>Return the currently stored page reference.</p>
      */
-    protected HtmlPage page() {
+    protected HtmlPage page()
+    {
 
         return this.page;
 
     }
-
 
     /**
      * <p>Retrieve and return the page at the specified context relative path.
@@ -253,14 +252,14 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *  does not begin with a '/' character
      * @exception Exception if a different error occurs
      */
-    protected HtmlPage page(String path) throws Exception {
+    protected HtmlPage page(String path) throws Exception
+    {
 
         HtmlPage page = (HtmlPage) webClient.getPage(url(path));
         this.page = page;
         return (page);
 
     }
-
 
     /**
      * <p>Reset the stored page reference to the specified value.  This is
@@ -269,12 +268,12 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *
      * @param page Previously saved page to which to reset
      */
-    protected void reset(HtmlPage page) {
+    protected void reset(HtmlPage page)
+    {
 
         this.page = page;
 
     }
-
 
     /**
      * <p>Submit the current page, using the specified component, and retrieve
@@ -285,7 +284,8 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected HtmlPage submit(HtmlSubmitInput submit) throws IOException {
+    protected HtmlPage submit(HtmlSubmitInput submit) throws IOException
+    {
 
         HtmlPage page = (HtmlPage) submit.click();
         this.page = page;
@@ -293,19 +293,18 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
 
     }
 
-
     /**
      * <p>Return the page title from the most recently retrieved page.
      * Any leading and trailing whitespace will be trimmed.</p>
      *
      * @exception Exception if an error occurs
      */
-    protected String title() throws Exception {
+    protected String title() throws Exception
+    {
 
         return (page.getTitleText().trim());
 
     }
-
 
     /**
      * <p>Calculate and return an absolute URL for the specified context
@@ -317,15 +316,16 @@ public abstract class AbstractHtmlUnitTestCase extends TestCase {
      *  does not begin with a '/' character
      * @exception Exception if a different error ocurs
      */
-    protected URL url(String path) throws Exception {
+    protected URL url(String path) throws Exception
+    {
 
-        if (path.charAt(0) != '/') {
+        if (path.charAt(0) != '/')
+        {
             throw new IllegalArgumentException("Context path '" + path
-                                               + "' does not start with '/'");
+                    + "' does not start with '/'");
         }
         return new URL(url, path.substring(1));
 
     }
-
 
 }

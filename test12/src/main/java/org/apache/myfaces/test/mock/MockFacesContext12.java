@@ -34,66 +34,67 @@ import org.apache.myfaces.test.el.MockELContext;
  *
  * @since 1.0.0
  */
-public class MockFacesContext12 extends MockFacesContext {
-
+public class MockFacesContext12 extends MockFacesContext
+{
 
     // ------------------------------------------------------------ Constructors
 
-
-    public MockFacesContext12() {
+    public MockFacesContext12()
+    {
         super();
         setCurrentInstance(this);
     }
 
-
-    public MockFacesContext12(ExternalContext externalContext) {
+    public MockFacesContext12(ExternalContext externalContext)
+    {
         super(externalContext);
     }
 
-
-    public MockFacesContext12(ExternalContext externalContext, Lifecycle lifecycle) {
+    public MockFacesContext12(ExternalContext externalContext,
+            Lifecycle lifecycle)
+    {
         super(externalContext, lifecycle);
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Set the <code>ELContext</code> instance for this instance.</p>
      *
      * @param elContext The new ELContext
      */
-    public void setELContext(ELContext elContext) {
+    public void setELContext(ELContext elContext)
+    {
 
         this.elContext = elContext;
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private ELContext elContext = null;
 
-
     // ---------------------------------------------------- FacesContext Methods
 
-
     /** {@inheritDoc} */
-    public ELContext getELContext() {
+    public ELContext getELContext()
+    {
 
-        if (this.elContext == null) {
+        if (this.elContext == null)
+        {
 
             // Initialize a new ELContext
             this.elContext = new MockELContext();
             this.elContext.putContext(FacesContext.class, this);
 
             // Notify interested listeners that this ELContext was created
-            ELContextListener[] listeners = getApplication().getELContextListeners();
-            if ((listeners != null) && (listeners.length > 0)) {
+            ELContextListener[] listeners = getApplication()
+                    .getELContextListeners();
+            if ((listeners != null) && (listeners.length > 0))
+            {
                 ELContextEvent event = new ELContextEvent(this.elContext);
-                for (int i = 0; i < listeners.length; i++) {
+                for (int i = 0; i < listeners.length; i++)
+                {
                     listeners[i].contextCreated(event);
                 }
             }
@@ -103,12 +104,11 @@ public class MockFacesContext12 extends MockFacesContext {
 
     }
 
-
     /** {@inheritDoc} */
-    public void release() {
+    public void release()
+    {
         super.release();
         this.elContext = null;
     }
-
 
 }

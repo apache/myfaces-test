@@ -31,29 +31,27 @@ import java.util.Iterator;
  * 
  * @since 1.0.0
  */
-public abstract class AbstractViewControllerTestCase extends AbstractJsfTestCase {
+public abstract class AbstractViewControllerTestCase extends
+        AbstractJsfTestCase
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a new instance of this test case.</p>
      *
      * @param name Test case name
      */
-    public AbstractViewControllerTestCase(String name) {
+    public AbstractViewControllerTestCase(String name)
+    {
         super(name);
     }
 
-
     // ---------------------------------------------------- Overall Test Methods
-
 
     // ------------------------------------------------------ Instance Variables
 
-
     // ------------------------------------------------------- Protected Methods
-
 
     /**
      * <p>Test that the specified number of messages have been queued on the
@@ -62,18 +60,19 @@ public abstract class AbstractViewControllerTestCase extends AbstractJsfTestCase
      *
      * @param expected The expected number of messages
      */
-    protected void checkMessageCount(int expected) {
+    protected void checkMessageCount(int expected)
+    {
 
         int actual = 0;
         Iterator messages = facesContext.getMessages();
-        while (messages.hasNext()) {
+        while (messages.hasNext())
+        {
             messages.next();
             actual++;
         }
         assertEquals("Complete message count", expected, actual);
 
     }
-
 
     /**
      * <p>Test that the specified number of messages have been queued on the
@@ -83,17 +82,18 @@ public abstract class AbstractViewControllerTestCase extends AbstractJsfTestCase
      *  count queued messages
      * @param expected The expected number of messages
      */
-    protected void checkMessageCount(String clientId, int expected) {
+    protected void checkMessageCount(String clientId, int expected)
+    {
 
         int actual = 0;
         Iterator messages = facesContext.getMessages(clientId);
-        while (messages.hasNext()) {
+        while (messages.hasNext())
+        {
             messages.next();
             actual++;
         }
         assertEquals("Complete message count", expected, actual);
 
     }
-
 
 }

@@ -30,90 +30,86 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @since 1.0.0
  */
-public class MockExternalContext12 extends MockExternalContext {
-
+public class MockExternalContext12 extends MockExternalContext
+{
 
     // ------------------------------------------------------------ Constructors
 
-
     public MockExternalContext12(ServletContext context,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response)
+    {
         super(context, request, response);
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------- ExternalContext Methods
 
-
     /** {@inheritDoc} */
-    public String getRequestCharacterEncoding() {
+    public String getRequestCharacterEncoding()
+    {
 
         return this.request.getCharacterEncoding();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRequestContentType() {
+    public String getRequestContentType()
+    {
 
         return this.request.getContentType();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getResponseCharacterEncoding() {
+    public String getResponseCharacterEncoding()
+    {
 
         return this.response.getCharacterEncoding();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getResponseContentType() {
+    public String getResponseContentType()
+    {
 
         return this.response.getContentType();
 
     }
 
-
     /** {@inheritDoc} */
-    public void setRequest(Object request) {
+    public void setRequest(Object request)
+    {
 
         this.request = (HttpServletRequest) request;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setRequestCharacterEncoding(String encoding) throws UnsupportedEncodingException {
+    public void setRequestCharacterEncoding(String encoding)
+            throws UnsupportedEncodingException
+    {
 
         this.request.setCharacterEncoding(encoding);
 
     }
 
-
     /** {@inheritDoc} */
-    public void setResponse(Object response) {
+    public void setResponse(Object response)
+    {
 
         this.response = (HttpServletResponse) response;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setResponseCharacterEncoding(String encoding) {
+    public void setResponseCharacterEncoding(String encoding)
+    {
 
         this.response.setCharacterEncoding(encoding);
 
     }
-
 
 }

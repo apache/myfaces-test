@@ -40,19 +40,23 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
 {
     public MockSubKeyMap(Map<String, Object> base, String prefix)
     {
-        if (base == null) {
+        if (base == null)
+        {
             throw new NullPointerException();
         }
-        if (prefix == null) {
+        if (prefix == null)
+        {
             throw new NullPointerException();
         }
 
         // Optimize the scenario where we're wrapping another SubKeyMap
-        if (base instanceof MockSubKeyMap) {
+        if (base instanceof MockSubKeyMap)
+        {
             _base = ((MockSubKeyMap) base)._base;
             _prefix = ((MockSubKeyMap) base)._prefix + prefix;
         }
-        else {
+        else
+        {
             _base = base;
             _prefix = prefix;
         }
@@ -88,7 +92,8 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
     @Override
     public boolean containsKey(Object key)
     {
-        if (!(key instanceof String)) {
+        if (!(key instanceof String))
+        {
             return false;
         }
 
@@ -98,7 +103,8 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
     @Override
     public Set<Map.Entry<String, V>> entrySet()
     {
-        if (_entrySet == null) {
+        if (_entrySet == null)
+        {
             _entrySet = new Entries<V>();
         }
         return _entrySet;
@@ -106,7 +112,8 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
 
     private String _getBaseKey(Object key)
     {
-        if (key == null) {
+        if (key == null)
+        {
             throw new NullPointerException();
         }
         // Yes, I want a ClassCastException if it's not a String
@@ -116,8 +123,10 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
     private List<String> _gatherKeys()
     {
         List<String> list = new ArrayList<String>();
-        for (String key : _base.keySet()) {
-            if (key != null && key.startsWith(_prefix)) {
+        for (String key : _base.keySet())
+        {
+            if (key != null && key.startsWith(_prefix))
+            {
                 list.add(key);
             }
         }
@@ -150,8 +159,10 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
         public int size()
         {
             int size = 0;
-            for (String key : _base.keySet()) {
-                if (key != null && key.startsWith(_prefix)) {
+            for (String key : _base.keySet())
+            {
+                if (key != null && key.startsWith(_prefix))
+                {
                     size++;
                 }
             }
@@ -163,11 +174,13 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
         public boolean isEmpty()
         {
             Iterator<String> keys = _base.keySet().iterator();
-            while (keys.hasNext()) {
+            while (keys.hasNext())
+            {
                 String key = keys.next();
                 // Short-circuit:  the default implementation would always
                 // need to iterate to find the total size.
-                if (key != null && key.startsWith(_prefix)) {
+                if (key != null && key.startsWith(_prefix))
+                {
                     return false;
                 }
             }
@@ -179,9 +192,11 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
         public void clear()
         {
             Iterator<String> keys = _base.keySet().iterator();
-            while (keys.hasNext()) {
+            while (keys.hasNext())
+            {
                 String key = keys.next();
-                if (key != null && key.startsWith(_prefix)) {
+                if (key != null && key.startsWith(_prefix))
+                {
                     keys.remove();
                 }
             }
@@ -209,7 +224,8 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
 
         public void remove()
         {
-            if (_currentKey == null) {
+            if (_currentKey == null)
+            {
                 throw new IllegalStateException();
             }
 
@@ -231,7 +247,8 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
 
         public String getKey()
         {
-            if (_key == null) {
+            if (_key == null)
+            {
                 _key = _baseKey.substring(_prefix.length());
             }
             return _key;
@@ -251,12 +268,13 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
         @Override
         public boolean equals(Object o)
         {
-            if (!(o instanceof Map.Entry)) {
+            if (!(o instanceof Map.Entry))
+            {
                 return false;
             }
             Map.Entry<String, V> e = (Map.Entry<String, V>) o;
             return _equals(getKey(), e.getKey())
-                && _equals(getValue(), e.getValue());
+                    && _equals(getValue(), e.getValue());
         }
 
         @Override
@@ -265,7 +283,7 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
             Object key = getKey();
             Object value = getValue();
             return ((key == null) ? 0 : key.hashCode())
-                ^ ((value == null) ? 0 : value.hashCode());
+                    ^ ((value == null) ? 0 : value.hashCode());
         }
 
         private String _baseKey;
@@ -274,7 +292,8 @@ final class MockSubKeyMap<V> extends AbstractMap<String, V>
 
     static private boolean _equals(Object a, Object b)
     {
-        if (a == null) {
+        if (a == null)
+        {
             return b == null;
         }
         return a.equals(b);

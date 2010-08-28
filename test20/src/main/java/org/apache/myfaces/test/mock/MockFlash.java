@@ -45,20 +45,21 @@ public class MockFlash extends Flash
      * Key on app map to keep current instance
      */
     static protected final String FLASH_INSTANCE = MockFlash.class.getName()
-        + ".INSTANCE";
+            + ".INSTANCE";
 
     /**
      * Key used to check if there is the current request will be or was redirected
      */
     static protected final String FLASH_REDIRECT = MockFlash.class.getName()
-        + ".REDIRECT";
+            + ".REDIRECT";
 
     /**
      * Key used to check if this request should keep messages (like tomahawk sandbox RedirectTracker.
      * Used when post-redirect-get pattern is used)
      */
-    static protected final String FLASH_KEEP_MESSAGES = MockFlash.class.getName()
-        + ".KEEP_MESSAGES";
+    static protected final String FLASH_KEEP_MESSAGES = MockFlash.class
+            .getName()
+            + ".KEEP_MESSAGES";
 
     static protected final String FLASH_KEEP_MESSAGES_LIST = "KEEPMESSAGESLIST";
 
@@ -66,19 +67,23 @@ public class MockFlash extends Flash
      * Session map prefix to flash maps
      */
     static protected final String FLASH_SCOPE_CACHE = MockFlash.class.getName()
-        + ".SCOPE";
+            + ".SCOPE";
 
-    static protected final String FLASH_CURRENT_MAP_CACHE = MockFlash.class.getName()
-        + ".CURRENTMAP.CACHE";
+    static protected final String FLASH_CURRENT_MAP_CACHE = MockFlash.class
+            .getName()
+            + ".CURRENTMAP.CACHE";
 
-    static protected final String FLASH_CURRENT_MAP_KEY = MockFlash.class.getName()
-        + ".CURRENTMAP.KEY";
+    static protected final String FLASH_CURRENT_MAP_KEY = MockFlash.class
+            .getName()
+            + ".CURRENTMAP.KEY";
 
-    static protected final String FLASH_POSTBACK_MAP_CACHE = MockFlash.class.getName()
-        + ".POSTBACKMAP.CACHE";
+    static protected final String FLASH_POSTBACK_MAP_CACHE = MockFlash.class
+            .getName()
+            + ".POSTBACKMAP.CACHE";
 
-    static protected final String FLASH_POSTBACK_MAP_KEY = MockFlash.class.getName()
-        + ".POSTBACKMAP.KEY";
+    static protected final String FLASH_POSTBACK_MAP_KEY = MockFlash.class
+            .getName()
+            + ".POSTBACKMAP.KEY";
 
     static private final char SEPARATOR_CHAR = '.';
 
@@ -96,11 +101,13 @@ public class MockFlash extends Flash
     private static long _getSeed()
     {
         SecureRandom rng;
-        try {
+        try
+        {
             // try SHA1 first
             rng = SecureRandom.getInstance("SHA1PRNG");
         }
-        catch (NoSuchAlgorithmException e) {
+        catch (NoSuchAlgorithmException e)
+        {
             // SHA1 not present, so try the default (which could potentially not be
             // cryptographically secure)
             rng = new SecureRandom();
@@ -137,8 +144,10 @@ public class MockFlash extends Flash
         Map<String, Object> applicationMap = context.getApplicationMap();
         Flash flash = (Flash) applicationMap.get(FLASH_INSTANCE);
 
-        synchronized (applicationMap) {
-            if (flash == null) {
+        synchronized (applicationMap)
+        {
+            if (flash == null)
+            {
                 flash = new MockFlash();
                 context.getApplicationMap().put(FLASH_INSTANCE, flash);
             }
@@ -152,7 +161,7 @@ public class MockFlash extends Flash
      */
     @SuppressWarnings("unchecked")
     private Map<String, Object> _getMapFromSession(FacesContext context,
-                                                   String token, boolean createIfNeeded)
+            String token, boolean createIfNeeded)
     {
         ExternalContext external = context.getExternalContext();
         Object session = external.getSession(true);
@@ -161,11 +170,13 @@ public class MockFlash extends Flash
 
         // Synchronize on the session object to ensure that
         // we don't ever create two different caches
-        synchronized (session) {
+        synchronized (session)
+        {
             map = (Map<String, Object>) external.getSessionMap().get(token);
-            if ((map == null) && createIfNeeded) {
+            if ((map == null) && createIfNeeded)
+            {
                 map = new MockSubKeyMap<Object>(context.getExternalContext()
-                    .getSessionMap(), token);
+                        .getSessionMap(), token);
             }
         }
 
@@ -186,9 +197,12 @@ public class MockFlash extends Flash
     @SuppressWarnings("unchecked")
     protected Map<String, Object> getCurrentRequestMap(FacesContext context)
     {
-        Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
-        Map<String, Object> map = (Map<String, Object>) requestMap.get(FLASH_CURRENT_MAP_CACHE);
-        if (map == null) {
+        Map<String, Object> requestMap = context.getExternalContext()
+                .getRequestMap();
+        Map<String, Object> map = (Map<String, Object>) requestMap
+                .get(FLASH_CURRENT_MAP_CACHE);
+        if (map == null)
+        {
             String token = (String) requestMap.get(FLASH_CURRENT_MAP_KEY);
             String fullToken = FLASH_SCOPE_CACHE + SEPARATOR_CHAR + token;
             map = _getMapFromSession(context, fullToken, true);
@@ -200,11 +214,15 @@ public class MockFlash extends Flash
     @SuppressWarnings("unchecked")
     protected Map<String, Object> getPostbackRequestMap(FacesContext context)
     {
-        Map<String, Object> requestMap = context.getExternalContext().getRequestMap();
-        Map<String, Object> map = (Map<String, Object>) requestMap.get(FLASH_POSTBACK_MAP_CACHE);
-        if (map == null) {
+        Map<String, Object> requestMap = context.getExternalContext()
+                .getRequestMap();
+        Map<String, Object> map = (Map<String, Object>) requestMap
+                .get(FLASH_POSTBACK_MAP_CACHE);
+        if (map == null)
+        {
             String token = (String) requestMap.get(FLASH_POSTBACK_MAP_KEY);
-            if (token == null && isRedirect()) {
+            if (token == null && isRedirect())
+            {
                 // In post-redirect-get, request values are reset, so we need
                 // to get the postback key again.
                 token = _getPostbackMapKey(context.getExternalContext());
@@ -264,11 +282,13 @@ public class MockFlash extends Flash
     private Map<String, Object> getCurrentPhaseMap()
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        if (PhaseId.RENDER_RESPONSE.equals(facesContext.getCurrentPhaseId()) ||
-            !facesContext.isPostback() || isRedirect()) {
+        if (PhaseId.RENDER_RESPONSE.equals(facesContext.getCurrentPhaseId())
+                || !facesContext.isPostback() || isRedirect())
+        {
             return getCurrentRequestMap(facesContext);
         }
-        else {
+        else
+        {
             return getPostbackRequestMap(facesContext);
         }
     }
@@ -290,34 +310,42 @@ public class MockFlash extends Flash
     @Override
     public void doPrePhaseActions(FacesContext facesContext)
     {
-        Map<String, Object> requestMap = facesContext.getExternalContext().getRequestMap();
+        Map<String, Object> requestMap = facesContext.getExternalContext()
+                .getRequestMap();
 
-        if (PhaseId.RESTORE_VIEW.equals(facesContext.getCurrentPhaseId())) {
+        if (PhaseId.RESTORE_VIEW.equals(facesContext.getCurrentPhaseId()))
+        {
             // Generate token and put on requestMap
             // It is necessary to set this token always, because on the next request
             // it should be possible to change postback map.
             String currentToken = _getNextToken();
             requestMap.put(FLASH_CURRENT_MAP_KEY, currentToken);
 
-            if (facesContext.isPostback()) {
+            if (facesContext.isPostback())
+            {
                 //Retore token
-                String previousToken = _getPostbackMapKey(facesContext.getExternalContext());
+                String previousToken = _getPostbackMapKey(facesContext
+                        .getExternalContext());
 
-                if (previousToken != null) {
+                if (previousToken != null)
+                {
                     requestMap.put(FLASH_POSTBACK_MAP_KEY, previousToken);
                 }
             }
 
-            if (isKeepMessages()) {
+            if (isKeepMessages())
+            {
                 restoreMessages(facesContext);
             }
         }
 
         //
-        if (PhaseId.RENDER_RESPONSE.equals(facesContext.getCurrentPhaseId())) {
+        if (PhaseId.RENDER_RESPONSE.equals(facesContext.getCurrentPhaseId()))
+        {
             // Put current map on next previous map
             // but only if this request is not a redirect
-            if (!isRedirect()) {
+            if (!isRedirect())
+            {
                 _addPostbackMapKey(facesContext.getExternalContext());
             }
         }
@@ -326,22 +354,29 @@ public class MockFlash extends Flash
     @Override
     public void doPostPhaseActions(FacesContext facesContext)
     {
-        if (PhaseId.RENDER_RESPONSE.equals(facesContext.getCurrentPhaseId())) {
+        if (PhaseId.RENDER_RESPONSE.equals(facesContext.getCurrentPhaseId()))
+        {
             //Remove previous flash from session
-            Map<String, Object> requestMap = facesContext.getExternalContext().getRequestMap();
+            Map<String, Object> requestMap = facesContext.getExternalContext()
+                    .getRequestMap();
             String token = (String) requestMap.get(FLASH_POSTBACK_MAP_KEY);
 
-            if (token != null) {
+            if (token != null)
+            {
                 _removeAllChildren(facesContext);
             }
 
-            if (isKeepMessages()) {
+            if (isKeepMessages())
+            {
                 saveMessages(facesContext);
             }
         }
-        else if (isRedirect() &&
-            (facesContext.getResponseComplete() || facesContext.getRenderResponse())) {
-            if (isKeepMessages()) {
+        else if (isRedirect()
+                && (facesContext.getResponseComplete() || facesContext
+                        .getRenderResponse()))
+        {
+            if (isKeepMessages())
+            {
                 saveMessages(facesContext);
             }
         }
@@ -363,27 +398,37 @@ public class MockFlash extends Flash
     {
         List<MessageEntry> messageList = null;
 
-        Iterator<String> iterClientIds = facesContext.getClientIdsWithMessages();
-        while (iterClientIds.hasNext()) {
+        Iterator<String> iterClientIds = facesContext
+                .getClientIdsWithMessages();
+        while (iterClientIds.hasNext())
+        {
             String clientId = (String) iterClientIds.next();
-            Iterator<FacesMessage> iterMessages = facesContext.getMessages(clientId);
+            Iterator<FacesMessage> iterMessages = facesContext
+                    .getMessages(clientId);
 
-            while (iterMessages.hasNext()) {
+            while (iterMessages.hasNext())
+            {
                 FacesMessage message = iterMessages.next();
 
-                if (messageList == null) {
+                if (messageList == null)
+                {
                     messageList = new ArrayList<MessageEntry>();
                 }
                 messageList.add(new MessageEntry(clientId, message));
             }
         }
 
-        if (messageList != null) {
-            if (isRedirect()) {
-                getPostbackRequestMap(facesContext).put(FLASH_KEEP_MESSAGES_LIST, messageList);
+        if (messageList != null)
+        {
+            if (isRedirect())
+            {
+                getPostbackRequestMap(facesContext).put(
+                        FLASH_KEEP_MESSAGES_LIST, messageList);
             }
-            else {
-                getCurrentRequestMap(facesContext).put(FLASH_KEEP_MESSAGES_LIST, messageList);
+            else
+            {
+                getCurrentRequestMap(facesContext).put(
+                        FLASH_KEEP_MESSAGES_LIST, messageList);
             }
         }
     }
@@ -391,21 +436,23 @@ public class MockFlash extends Flash
     protected void restoreMessages(FacesContext facesContext)
     {
         Map<String, Object> postbackMap = getPostbackRequestMap(facesContext);
-        List<MessageEntry> messageList = (List<MessageEntry>)
-            postbackMap.get(FLASH_KEEP_MESSAGES_LIST);
+        List<MessageEntry> messageList = (List<MessageEntry>) postbackMap
+                .get(FLASH_KEEP_MESSAGES_LIST);
 
-        if (messageList != null) {
+        if (messageList != null)
+        {
             Iterator iterMessages = messageList.iterator();
 
-            while (iterMessages.hasNext()) {
+            while (iterMessages.hasNext())
+            {
                 MessageEntry message = (MessageEntry) iterMessages.next();
-                facesContext.addMessage((String) message.clientId, (FacesMessage) message.message);
+                facesContext.addMessage((String) message.clientId,
+                        (FacesMessage) message.message);
             }
 
             postbackMap.remove(FLASH_KEEP_MESSAGES_LIST);
         }
     }
-
 
     //private void _addPreviousToken
 
@@ -416,14 +463,18 @@ public class MockFlash extends Flash
     {
         String token = null;
         Object response = externalContext.getResponse();
-        if (response instanceof HttpServletResponse) {
+        if (response instanceof HttpServletResponse)
+        {
             //Use a cookie
-            Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(FLASH_POSTBACK_MAP_KEY);
-            if (cookie != null) {
+            Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(
+                    FLASH_POSTBACK_MAP_KEY);
+            if (cookie != null)
+            {
                 token = cookie.getValue();
             }
         }
-        else {
+        else
+        {
             //Use HttpSession or PortletSession object
             Map<String, Object> sessionMap = externalContext.getSessionMap();
             token = (String) sessionMap.get(FLASH_POSTBACK_MAP_KEY);
@@ -439,13 +490,13 @@ public class MockFlash extends Flash
     private void _addPostbackMapKey(ExternalContext externalContext)
     {
         Object response = externalContext.getResponse();
-        String token = (String) externalContext.getRequestMap().get(FLASH_CURRENT_MAP_KEY);
+        String token = (String) externalContext.getRequestMap().get(
+                FLASH_CURRENT_MAP_KEY);
 
         //Use HttpSession or PortletSession object
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         sessionMap.put(FLASH_POSTBACK_MAP_KEY, token);
     }
-
 
     /**
      * For check if there is a redirect we to take into accout this points:
@@ -462,16 +513,19 @@ public class MockFlash extends Flash
         ExternalContext externalContext = facesContext.getExternalContext();
         Map<String, Object> requestMap = externalContext.getRequestMap();
         Boolean redirect = (Boolean) requestMap.get(FLASH_REDIRECT);
-        if (redirect == null) {
+        if (redirect == null)
+        {
             Object response = externalContext.getResponse();
-            if (response instanceof HttpServletResponse) {
+            if (response instanceof HttpServletResponse)
+            {
                 // Request values are lost after a redirect. We can create a
                 // temporal cookie to pass the params between redirect calls.
                 // It is better than use HttpSession object, because this cookie
                 // is never sent by the server.
                 Cookie cookie = (Cookie) externalContext.getRequestCookieMap()
-                    .get(FLASH_REDIRECT);
-                if (cookie != null) {
+                        .get(FLASH_REDIRECT);
+                if (cookie != null)
+                {
                     redirect = Boolean.TRUE;
                     HttpServletResponse httpResponse = (HttpServletResponse) response;
                     // A redirect happened, so it is safe to remove the cookie, setting
@@ -482,24 +536,28 @@ public class MockFlash extends Flash
                     httpResponse.addCookie(cookie);
                     requestMap.put(FLASH_REDIRECT, redirect);
                 }
-                else {
+                else
+                {
                     redirect = Boolean.FALSE;
                 }
             }
-            else {
+            else
+            {
                 // Note that on portlet world we can't create cookies,
                 // so we are forced to use the session map. Anyway,
                 // according to the Bridge implementation(for example see
                 // org.apache.myfaces.portlet.faces.bridge.BridgeImpl)
                 // session object is created at start faces request
                 Map<String, Object> sessionMap = externalContext
-                    .getSessionMap();
+                        .getSessionMap();
                 redirect = (Boolean) sessionMap.get(FLASH_REDIRECT);
-                if (redirect != null) {
+                if (redirect != null)
+                {
                     sessionMap.remove(FLASH_REDIRECT);
                     requestMap.put(FLASH_REDIRECT, redirect);
                 }
-                else {
+                else
+                {
                     redirect = Boolean.FALSE;
                 }
             }
@@ -515,9 +573,11 @@ public class MockFlash extends Flash
         Map<String, Object> requestMap = externalContext.getRequestMap();
 
         Boolean previousRedirect = (Boolean) requestMap.get(FLASH_REDIRECT);
-        previousRedirect = (previousRedirect == null) ? Boolean.FALSE : previousRedirect;
+        previousRedirect = (previousRedirect == null) ? Boolean.FALSE
+                : previousRedirect;
 
-        if (!previousRedirect.booleanValue() && redirect) {
+        if (!previousRedirect.booleanValue() && redirect)
+        {
             // This request contains a redirect. This condition is in general
             // triggered by a NavigationHandler. After a redirect all request scope
             // values get lost, so in order to preserve this value we need to
@@ -536,7 +596,8 @@ public class MockFlash extends Flash
     public void keep(String key)
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, Object> requestMap = facesContext.getExternalContext().getRequestMap();
+        Map<String, Object> requestMap = facesContext.getExternalContext()
+                .getRequestMap();
         Object value = requestMap.get(key);
         getCurrentRequestMap(facesContext).put(key, value);
     }
@@ -547,7 +608,8 @@ public class MockFlash extends Flash
     @Override
     public void putNow(String key, Object value)
     {
-        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(key, value);
+        FacesContext.getCurrentInstance().getExternalContext().getRequestMap()
+                .put(key, value);
     }
 
     @Override
@@ -557,16 +619,19 @@ public class MockFlash extends Flash
         ExternalContext externalContext = facesContext.getExternalContext();
         Map<String, Object> requestMap = externalContext.getRequestMap();
         Boolean keepMessages = (Boolean) requestMap.get(FLASH_KEEP_MESSAGES);
-        if (keepMessages == null) {
+        if (keepMessages == null)
+        {
             Object response = externalContext.getResponse();
-            if (response instanceof HttpServletResponse) {
+            if (response instanceof HttpServletResponse)
+            {
                 // Request values are lost after a redirect. We can create a
                 // temporal cookie to pass the params between redirect calls.
                 // It is better than use HttpSession object, because this cookie
                 // is never sent by the server.
                 Cookie cookie = (Cookie) externalContext.getRequestCookieMap()
-                    .get(FLASH_KEEP_MESSAGES);
-                if (cookie != null) {
+                        .get(FLASH_KEEP_MESSAGES);
+                if (cookie != null)
+                {
                     keepMessages = Boolean.TRUE;
                     HttpServletResponse httpResponse = (HttpServletResponse) response;
                     // It is safe to remove the cookie, setting
@@ -577,24 +642,28 @@ public class MockFlash extends Flash
                     httpResponse.addCookie(cookie);
                     requestMap.put(FLASH_KEEP_MESSAGES, keepMessages);
                 }
-                else {
+                else
+                {
                     keepMessages = Boolean.FALSE;
                 }
             }
-            else {
+            else
+            {
                 // Note that on portlet world we can't create cookies,
                 // so we are forced to use the session map. Anyway,
                 // according to the Bridge implementation(for example see
                 // org.apache.myfaces.portlet.faces.bridge.BridgeImpl)
                 // session object is created at start faces request
                 Map<String, Object> sessionMap = externalContext
-                    .getSessionMap();
+                        .getSessionMap();
                 keepMessages = (Boolean) sessionMap.get(FLASH_KEEP_MESSAGES);
-                if (keepMessages != null) {
+                if (keepMessages != null)
+                {
                     sessionMap.remove(FLASH_KEEP_MESSAGES);
                     requestMap.put(FLASH_KEEP_MESSAGES, keepMessages);
                 }
-                else {
+                else
+                {
                     keepMessages = Boolean.FALSE;
                 }
             }
@@ -613,11 +682,15 @@ public class MockFlash extends Flash
         ExternalContext externalContext = facesContext.getExternalContext();
         Map<String, Object> requestMap = externalContext.getRequestMap();
 
-        Boolean previousKeepMessages = (Boolean) requestMap.get(FLASH_KEEP_MESSAGES);
-        previousKeepMessages = (previousKeepMessages == null) ? Boolean.FALSE : previousKeepMessages;
+        Boolean previousKeepMessages = (Boolean) requestMap
+                .get(FLASH_KEEP_MESSAGES);
+        previousKeepMessages = (previousKeepMessages == null) ? Boolean.FALSE
+                : previousKeepMessages;
 
-        if (!previousKeepMessages.booleanValue() && keepMessages) {
-            externalContext.getSessionMap().put(FLASH_KEEP_MESSAGES, keepMessages);
+        if (!previousKeepMessages.booleanValue() && keepMessages)
+        {
+            externalContext.getSessionMap().put(FLASH_KEEP_MESSAGES,
+                    keepMessages);
         }
         requestMap.put(FLASH_KEEP_MESSAGES, keepMessages);
     }
@@ -644,14 +717,17 @@ public class MockFlash extends Flash
 
     public Object get(Object key)
     {
-        if (key == null) {
+        if (key == null)
+        {
             return null;
         }
 
-        if ("keepMessages".equals(key)) {
+        if ("keepMessages".equals(key))
+        {
             return isKeepMessages();
         }
-        else if ("redirect".equals(key)) {
+        else if ("redirect".equals(key))
+        {
             return isRedirect();
         }
 
@@ -659,7 +735,8 @@ public class MockFlash extends Flash
         Map<String, Object> postbackMap = getPostbackRequestMap(context);
         Object returnValue = null;
 
-        if (postbackMap != null) {
+        if (postbackMap != null)
+        {
             returnValue = postbackMap.get(key);
         }
 
@@ -678,21 +755,25 @@ public class MockFlash extends Flash
 
     public Object put(String key, Object value)
     {
-        if (key == null) {
+        if (key == null)
+        {
             return null;
         }
 
-        if ("keepMessages".equals(key)) {
+        if ("keepMessages".equals(key))
+        {
             Boolean booleanValue = convertToBoolean(value);
             this.setKeepMessages(booleanValue);
             return booleanValue;
         }
-        else if ("redirect".equals(key)) {
+        else if ("redirect".equals(key))
+        {
             Boolean booleanValue = convertToBoolean(value);
             this.setRedirect(booleanValue);
             return booleanValue;
         }
-        else {
+        else
+        {
             Object returnValue = getCurrentPhaseMap().put(key, value);
             return returnValue;
         }
@@ -701,10 +782,12 @@ public class MockFlash extends Flash
     private Boolean convertToBoolean(Object value)
     {
         Boolean booleanValue;
-        if (value instanceof Boolean) {
+        if (value instanceof Boolean)
+        {
             booleanValue = (Boolean) value;
         }
-        else {
+        else
+        {
             booleanValue = Boolean.parseBoolean(value.toString());
         }
         return booleanValue;

@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
  * HttpSession attibutes as Map.
  *
@@ -69,7 +68,8 @@ final class _SessionMap extends _AbstractAttributeMap<Object>
     protected Enumeration<String> getAttributeNames()
     {
         final HttpSession httpSession = _getSession();
-        return (httpSession == null) ? _NullEnumeration.instance() : httpSession.getAttributeNames();
+        return (httpSession == null) ? _NullEnumeration.instance()
+                : httpSession.getAttributeNames();
     }
 
     @Override
@@ -77,9 +77,9 @@ final class _SessionMap extends _AbstractAttributeMap<Object>
     {
         throw new UnsupportedOperationException();
     }
-    
+
     // we can use public void clear() from super-class
-    
+
     private HttpSession _getSession()
     {
         return _httpRequest.getSession(false);

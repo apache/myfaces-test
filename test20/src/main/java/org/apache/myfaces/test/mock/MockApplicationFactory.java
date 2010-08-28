@@ -28,25 +28,22 @@ import javax.faces.application.ApplicationFactory;
  * @since 1.0.0
  */
 
-public class MockApplicationFactory extends ApplicationFactory {
-
+public class MockApplicationFactory extends ApplicationFactory
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockApplicationFactory() {
+    public MockApplicationFactory()
+    {
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The <code>Application</code> instance to be returned by
@@ -54,54 +51,78 @@ public class MockApplicationFactory extends ApplicationFactory {
      */
     private Application application = null;
 
-
     // --------------------------------------------- AppolicationFactory Methods
 
-
     /** {@inheritDoc} */
-    public Application getApplication() {
+    public Application getApplication()
+    {
 
-        if (this.application == null) {
+        if (this.application == null)
+        {
             Class clazz = null;
-            
-            try {
-                clazz = this.getClass().getClassLoader().loadClass
-                  ("org.apache.myfaces.test.mock.MockApplication20");
+
+            try
+            {
+                clazz = this.getClass().getClassLoader().loadClass(
+                        "org.apache.myfaces.test.mock.MockApplication20");
                 this.application = (MockApplication) clazz.newInstance();
-            } catch (NoClassDefFoundError e) {
+            }
+            catch (NoClassDefFoundError e)
+            {
                 clazz = null; // We are not running in a JSF 1.2 environment
-            } catch (ClassNotFoundException e) {
+            }
+            catch (ClassNotFoundException e)
+            {
                 clazz = null; // Same as above
-            } catch (RuntimeException e) {
+            }
+            catch (RuntimeException e)
+            {
                 throw e;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new FacesException(e);
             }
-            
+
             if (clazz == null)
             {
-                try {
-                    clazz = this.getClass().getClassLoader().loadClass
-                      ("org.apache.myfaces.test.mock.MockApplication12");
+                try
+                {
+                    clazz = this.getClass().getClassLoader().loadClass(
+                            "org.apache.myfaces.test.mock.MockApplication12");
                     this.application = (MockApplication) clazz.newInstance();
-                } catch (NoClassDefFoundError e) {
+                }
+                catch (NoClassDefFoundError e)
+                {
                     clazz = null; // We are not running in a JSF 1.2 environment
-                } catch (ClassNotFoundException e) {
+                }
+                catch (ClassNotFoundException e)
+                {
                     clazz = null; // Same as above
-                } catch (RuntimeException e) {
+                }
+                catch (RuntimeException e)
+                {
                     throw e;
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     throw new FacesException(e);
                 }
             }
-            if (clazz == null) {
-                try {
-                    clazz = this.getClass().getClassLoader().loadClass
-                      ("org.apache.myfaces.test.mock.MockApplication");
+            if (clazz == null)
+            {
+                try
+                {
+                    clazz = this.getClass().getClassLoader().loadClass(
+                            "org.apache.myfaces.test.mock.MockApplication");
                     this.application = (MockApplication) clazz.newInstance();
-                } catch (RuntimeException e) {
+                }
+                catch (RuntimeException e)
+                {
                     throw e;
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     throw new FacesException(e);
                 }
             }
@@ -110,13 +131,12 @@ public class MockApplicationFactory extends ApplicationFactory {
 
     }
 
-
     /** {@inheritDoc} */
-    public void setApplication(Application application) {
+    public void setApplication(Application application)
+    {
 
         this.application = application;
 
     }
-
 
 }

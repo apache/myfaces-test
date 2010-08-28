@@ -59,7 +59,9 @@ public class MockSimpleResource extends Resource
      * @param resourceVersion resource version if any
      * @param documentRoot    parent folder of resource directories. Must not be <code>null</code>
      */
-    public MockSimpleResource(String prefix, String libraryName, String libraryVersion, String resourceName, String resourceVersion, File documentRoot)
+    public MockSimpleResource(String prefix, String libraryName,
+            String libraryVersion, String resourceName, String resourceVersion,
+            File documentRoot)
     {
         _prefix = prefix;
         _libraryName = libraryName;
@@ -68,7 +70,8 @@ public class MockSimpleResource extends Resource
         _resourceVersion = resourceVersion;
         _documentRoot = documentRoot;
 
-        if (_documentRoot == null) {
+        if (_documentRoot == null)
+        {
             throw new IllegalArgumentException("documentRoot must not be null");
         }
     }
@@ -90,7 +93,7 @@ public class MockSimpleResource extends Resource
     {
         return _libraryName;
     }
-    
+
     @Override
     public void setLibraryName(String libraryName)
     {
@@ -100,8 +103,8 @@ public class MockSimpleResource extends Resource
     @Override
     public InputStream getInputStream() throws IOException
     {
-        MockServletContext servletContext = (MockServletContext)
-            FacesContext.getCurrentInstance().getExternalContext().getContext();
+        MockServletContext servletContext = (MockServletContext) FacesContext
+                .getCurrentInstance().getExternalContext().getContext();
         servletContext.setDocumentRoot(_documentRoot);
         return servletContext.getResourceAsStream(buildResourcePath());
     }
@@ -121,13 +124,16 @@ public class MockSimpleResource extends Resource
     @Override
     public URL getURL()
     {
-        MockServletContext servletContext = (MockServletContext)
-            FacesContext.getCurrentInstance().getExternalContext().getContext();
+        MockServletContext servletContext = (MockServletContext) FacesContext
+                .getCurrentInstance().getExternalContext().getContext();
         servletContext.setDocumentRoot(_documentRoot);
 
-        try {
+        try
+        {
             return servletContext.getResource(buildResourcePath());
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e)
+        {
             return null;
         }
     }
@@ -143,38 +149,47 @@ public class MockSimpleResource extends Resource
         StringBuilder builder = new StringBuilder();
         builder.append('/');
         boolean firstSlashAdded = false;
-        if (_prefix != null && _prefix.length() > 0) {
+        if (_prefix != null && _prefix.length() > 0)
+        {
             builder.append(_prefix);
             firstSlashAdded = true;
         }
-        if (_libraryName != null) {
-            if (firstSlashAdded) {
+        if (_libraryName != null)
+        {
+            if (firstSlashAdded)
+            {
                 builder.append('/');
             }
             builder.append(_libraryName);
             firstSlashAdded = true;
         }
-        if (_libraryVersion != null) {
-            if (firstSlashAdded) {
+        if (_libraryVersion != null)
+        {
+            if (firstSlashAdded)
+            {
                 builder.append('/');
             }
             builder.append(_libraryVersion);
             firstSlashAdded = true;
         }
-        if (_resourceName != null) {
-            if (firstSlashAdded) {
+        if (_resourceName != null)
+        {
+            if (firstSlashAdded)
+            {
                 builder.append('/');
             }
             builder.append(_resourceName);
             firstSlashAdded = true;
         }
-        if (_resourceVersion != null) {
-            if (firstSlashAdded) {
+        if (_resourceVersion != null)
+        {
+            if (firstSlashAdded)
+            {
                 builder.append('/');
             }
             builder.append(_resourceVersion);
-            builder.append(
-                _resourceName.substring(_resourceName.lastIndexOf('.')));
+            builder.append(_resourceName.substring(_resourceName
+                    .lastIndexOf('.')));
         }
 
         return builder.toString();

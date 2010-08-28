@@ -27,13 +27,16 @@ import javax.faces.event.PhaseId;
  * @author Nikolay Petrov
  * @since 1.0.0
  */
-class ProcessValidationsExecutor implements PhaseExecutor {
-  public boolean execute(FacesContext facesContext) {
-    facesContext.getViewRoot().processValidators(facesContext);
-    return false;
-  }
+class ProcessValidationsExecutor implements PhaseExecutor
+{
+    public boolean execute(FacesContext facesContext)
+    {
+        facesContext.getViewRoot().processValidators(facesContext);
+        return false;
+    }
 
-  public PhaseId getPhase() {
-    return PhaseId.PROCESS_VALIDATIONS;
-  }
+    public PhaseId getPhase()
+    {
+        return PhaseId.PROCESS_VALIDATIONS;
+    }
 }

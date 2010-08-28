@@ -23,8 +23,7 @@ package org.apache.myfaces.test.runner;
 public class WebXmlParameter
 {
     public static final String PARAMETER_KEY = "PARAMETER";
-    
-    static final String PARAMETER = WebXmlUtils
-            .getInitParameter(PARAMETER_KEY);
+
+    static final String PARAMETER = WebXmlUtils.getInitParameter(PARAMETER_KEY);
 
 }

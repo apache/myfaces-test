@@ -29,52 +29,55 @@ import org.apache.myfaces.test.mock.data.Bean;
 public class ValueBindingTest extends AbstractJsfTestCase
 {
 
-  public ValueBindingTest(String name) {
-    super(name);
-  }
+    public ValueBindingTest(String name)
+    {
+        super(name);
+    }
 
-  protected void setUp() throws Exception
-  {
-    super.setUp();
-  }
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+    }
 
-  protected void tearDown() throws Exception
-  {
-    super.tearDown();
-  }
-  
-  public static Test suite() {
-    return (new TestSuite(ValueBindingTest.class));
-  }
-  
-  public void testRenderButtonWithValueBinding() throws IOException {
-    ValueBinding vb= facesContext.getApplication().
-                     createValueBinding("#{ bean.name }");
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+    }
 
-    Bean bean = new Bean();
-    bean.setName("Matthias");
-    
-    facesContext.getExternalContext().getRequestMap().put("bean",
-        bean);
-    
-    assertEquals("Matthias", vb.getValue(facesContext).toString());
-    
-    vb = facesContext.getApplication().createValueBinding("#{requestScope['bean']}");
-    
-    Bean copy = (Bean) vb.getValue(facesContext);
-    assertNotNull(copy);
-    assertTrue(bean == copy);
+    public static Test suite()
+    {
+        return (new TestSuite(ValueBindingTest.class));
+    }
 
-    facesContext.getExternalContext().getRequestMap().put("org.apache.shale.bean",
-            bean);
+    public void testRenderButtonWithValueBinding() throws IOException
+    {
+        ValueBinding vb = facesContext.getApplication().createValueBinding(
+                "#{ bean.name }");
 
-    vb = facesContext.getApplication().createValueBinding("#{requestScope['org.apache.shale.bean']}");
-    
-    copy = (Bean) vb.getValue(facesContext);
-    assertNotNull(copy);
-    assertTrue(bean == copy);
+        Bean bean = new Bean();
+        bean.setName("Matthias");
 
+        facesContext.getExternalContext().getRequestMap().put("bean", bean);
 
-  }
+        assertEquals("Matthias", vb.getValue(facesContext).toString());
+
+        vb = facesContext.getApplication().createValueBinding(
+                "#{requestScope['bean']}");
+
+        Bean copy = (Bean) vb.getValue(facesContext);
+        assertNotNull(copy);
+        assertTrue(bean == copy);
+
+        facesContext.getExternalContext().getRequestMap().put(
+                "org.apache.shale.bean", bean);
+
+        vb = facesContext.getApplication().createValueBinding(
+                "#{requestScope['org.apache.shale.bean']}");
+
+        copy = (Bean) vb.getValue(facesContext);
+        assertNotNull(copy);
+        assertTrue(bean == copy);
+
+    }
 
 }

@@ -67,7 +67,8 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
             return false;
         }
 
-        for (final Enumeration<String> e = getAttributeNames(); e.hasMoreElements();)
+        for (final Enumeration<String> e = getAttributeNames(); e
+                .hasMoreElements();)
         {
             final Object value = getAttribute(e.nextElement());
             if (findValue.equals(value))
@@ -133,7 +134,8 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
     public int size()
     {
         int size = 0;
-        for (final Enumeration<String> e = getAttributeNames(); e.hasMoreElements();)
+        for (final Enumeration<String> e = getAttributeNames(); e
+                .hasMoreElements();)
         {
             size++;
             e.nextElement();
@@ -206,14 +208,16 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
         // from getAttributeNames() will contain exactly the attribute names from the time
         // getAttributeNames() was called and it will not be updated if attributes are 
         // removed or added.
-        protected final Iterator<String> _i = Collections.list(getAttributeNames()).iterator();
+        protected final Iterator<String> _i = Collections.list(
+                getAttributeNames()).iterator();
         protected String _currentKey;
 
         public void remove()
         {
             if (_currentKey == null)
             {
-                throw new NoSuchElementException("You must call next() at least once");
+                throw new NoSuchElementException(
+                        "You must call next() at least once");
             }
             _AbstractAttributeMap.this.remove(_currentKey);
         }
@@ -314,7 +318,7 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
                 return false;
             }
 
-            final Entry<String, V> entry = (Entry<String, V>)o;
+            final Entry<String, V> entry = (Entry<String, V>) o;
             final Object key = entry.getKey();
             final Object value = entry.getValue();
             if (key == null || value == null)
@@ -334,15 +338,17 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
                 return false;
             }
 
-            final Entry<String, V> entry = (Entry<String, V>)o;
+            final Entry<String, V> entry = (Entry<String, V>) o;
             final Object key = entry.getKey();
             final Object value = entry.getValue();
-            if (key == null || value == null || !value.equals(_AbstractAttributeMap.this.get(key)))
+            if (key == null || value == null
+                    || !value.equals(_AbstractAttributeMap.this.get(key)))
             {
                 return false;
             }
 
-            return _AbstractAttributeMap.this.remove(((Entry<String, V>)o).getKey()) != null;
+            return _AbstractAttributeMap.this.remove(((Entry<String, V>) o)
+                    .getKey()) != null;
         }
     }
 
@@ -350,7 +356,8 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
      * Not very efficient since it generates a new instance of <code>Entry</code> for each element and still internaly
      * uses the <code>KeyIterator</code>. It is more efficient to use the <code>KeyIterator</code> directly.
      */
-    private final class EntryIterator extends AbstractAttributeIterator<Entry<String, V>>
+    private final class EntryIterator extends
+            AbstractAttributeIterator<Entry<String, V>>
     {
         @Override
         protected Entry<String, V> getValue(final String attributeName)
@@ -389,7 +396,8 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
         public int hashCode()
         {
             int result = 1;
-            result = 31 * result + ((_currentKey == null) ? 0 : _currentKey.hashCode());
+            result = 31 * result
+                    + ((_currentKey == null) ? 0 : _currentKey.hashCode());
             return result;
         }
 
@@ -402,7 +410,7 @@ abstract class _AbstractAttributeMap<V> extends AbstractMap<String, V>
                 return false;
             if (getClass() != obj.getClass())
                 return false;
-            final EntrySetEntry other = (EntrySetEntry)obj;
+            final EntrySetEntry other = (EntrySetEntry) obj;
             if (_currentKey == null)
             {
                 if (other._currentKey != null)

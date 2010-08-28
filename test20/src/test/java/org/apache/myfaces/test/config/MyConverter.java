@@ -24,13 +24,18 @@ import javax.faces.convert.Converter;
 /**
  * <p>Concrete converter implementation for testing.</p>
  */
-public class MyConverter implements Converter {
+public class MyConverter implements Converter
+{
 
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+    public Object getAsObject(FacesContext context, UIComponent component,
+            String value)
+    {
         throw new UnsupportedOperationException();
     }
 
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
+    public String getAsString(FacesContext context, UIComponent component,
+            Object value)
+    {
         throw new UnsupportedOperationException();
     }
 

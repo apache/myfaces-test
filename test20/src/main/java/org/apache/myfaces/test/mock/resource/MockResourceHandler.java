@@ -49,33 +49,37 @@ public class MockResourceHandler extends ResourceHandler
     private boolean _resourceRequest;
 
     private MockResourceHandlerSupport resourceHandlerSupport;
-    
+
     private ClassLoader _classLoader;
 
     public MockResourceHandler()
     {
         _classLoader = getContextClassLoader();
-        resourceHandlerSupport = new MockResourceHandlerSupport(true, ".jsf",_classLoader);
+        resourceHandlerSupport = new MockResourceHandlerSupport(true, ".jsf",
+                _classLoader);
     }
-    
+
     public MockResourceHandler(ClassLoader classLoader)
     {
         if (classLoader == null)
             _classLoader = getContextClassLoader();
         else
             _classLoader = classLoader;
-        
-        resourceHandlerSupport = new MockResourceHandlerSupport(true, ".jsf",_classLoader);
+
+        resourceHandlerSupport = new MockResourceHandlerSupport(true, ".jsf",
+                _classLoader);
     }
-    
-    public MockResourceHandler(boolean extensionMapping, String mapping, ClassLoader classLoader)
+
+    public MockResourceHandler(boolean extensionMapping, String mapping,
+            ClassLoader classLoader)
     {
         if (classLoader == null)
             _classLoader = getContextClassLoader();
         else
             _classLoader = classLoader;
-        
-        resourceHandlerSupport = new MockResourceHandlerSupport(extensionMapping, mapping,_classLoader);
+
+        resourceHandlerSupport = new MockResourceHandlerSupport(
+                extensionMapping, mapping, _classLoader);
     }
 
     @Override
@@ -91,14 +95,16 @@ public class MockResourceHandler extends ResourceHandler
     }
 
     @Override
-    public Resource createResource(String resourceName, String libraryName, String contentType)
+    public Resource createResource(String resourceName, String libraryName,
+            String contentType)
     {
         Resource resource = null;
-        
+
         if (contentType == null)
         {
             //Resolve contentType using ExternalContext.getMimeType
-            contentType = FacesContext.getCurrentInstance().getExternalContext().getMimeType(resourceName);
+            contentType = FacesContext.getCurrentInstance()
+                    .getExternalContext().getMimeType(resourceName);
         }
 
         for (MockResourceLoader loader : getResourceHandlerSupport()
@@ -116,21 +122,22 @@ public class MockResourceHandler extends ResourceHandler
         }
         return resource;
     }
-    
+
     /**
      * This method try to create a ResourceMeta for a specific resource
      * loader. If no library, or resource is found, just return null,
      * so the algorithm in createResource can continue checking with the 
      * next registered ResourceLoader. 
      */
-    protected MockResourceMeta deriveResourceMeta(MockResourceLoader resourceLoader,
-            String resourceName, String libraryName)
+    protected MockResourceMeta deriveResourceMeta(
+            MockResourceLoader resourceLoader, String resourceName,
+            String libraryName)
     {
         String localePrefix = getLocalePrefixForLocateResource();
         String resourceVersion = null;
         String libraryVersion = null;
         MockResourceMeta resourceId = null;
-        
+
         //1. Try to locate resource in a localized path
         if (localePrefix != null)
         {
@@ -141,34 +148,37 @@ public class MockResourceHandler extends ResourceHandler
 
                 if (null != libraryVersion)
                 {
-                    String pathToResource = localePrefix + '/'
-                            + libraryName + '/' + libraryVersion + '/'
-                            + resourceName;
+                    String pathToResource = localePrefix + '/' + libraryName
+                            + '/' + libraryVersion + '/' + resourceName;
                     resourceVersion = resourceLoader
                             .getResourceVersion(pathToResource);
                 }
                 else
                 {
-                    String pathToResource = localePrefix + '/'
-                            + libraryName + '/' + resourceName;
+                    String pathToResource = localePrefix + '/' + libraryName
+                            + '/' + resourceName;
                     resourceVersion = resourceLoader
                             .getResourceVersion(pathToResource);
                 }
 
-                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID
+                        .equals(resourceVersion)))
                 {
-                    resourceId = resourceLoader.createResourceMeta(localePrefix, libraryName,
-                            libraryVersion, resourceName, resourceVersion);
+                    resourceId = resourceLoader.createResourceMeta(
+                            localePrefix, libraryName, libraryVersion,
+                            resourceName, resourceVersion);
                 }
             }
             else
             {
                 resourceVersion = resourceLoader
-                        .getResourceVersion(localePrefix + '/'+ resourceName);
-                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
-                {               
-                    resourceId = resourceLoader.createResourceMeta(localePrefix, null, null,
-                            resourceName, resourceVersion);
+                        .getResourceVersion(localePrefix + '/' + resourceName);
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID
+                        .equals(resourceVersion)))
+                {
+                    resourceId = resourceLoader.createResourceMeta(
+                            localePrefix, null, null, resourceName,
+                            resourceVersion);
                 }
             }
 
@@ -179,9 +189,9 @@ public class MockResourceHandler extends ResourceHandler
                 {
                     resourceId = null;
                 }
-            }            
+            }
         }
-        
+
         //2. Try to localize resource in a non localized path
         if (resourceId == null)
         {
@@ -198,27 +208,29 @@ public class MockResourceHandler extends ResourceHandler
                 }
                 else
                 {
-                    String pathToResource = (libraryName + '/'
-                            + resourceName);
+                    String pathToResource = (libraryName + '/' + resourceName);
                     resourceVersion = resourceLoader
                             .getResourceVersion(pathToResource);
                 }
 
-                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
-                {               
-                    resourceId = resourceLoader.createResourceMeta(null, libraryName,
-                            libraryVersion, resourceName, resourceVersion);
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID
+                        .equals(resourceVersion)))
+                {
+                    resourceId = resourceLoader.createResourceMeta(null,
+                            libraryName, libraryVersion, resourceName,
+                            resourceVersion);
                 }
             }
             else
             {
                 resourceVersion = resourceLoader
                         .getResourceVersion(resourceName);
-                
-                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID.equals(resourceVersion)))
-                {               
-                    resourceId = resourceLoader.createResourceMeta(null, null, null,
-                            resourceName, resourceVersion);
+
+                if (!(resourceVersion != null && MockResourceLoader.VERSION_INVALID
+                        .equals(resourceVersion)))
+                {
+                    resourceId = resourceLoader.createResourceMeta(null, null,
+                            null, resourceName, resourceVersion);
                 }
             }
 
@@ -229,19 +241,21 @@ public class MockResourceHandler extends ResourceHandler
                 {
                     resourceId = null;
                 }
-            }            
+            }
         }
-        
+
         return resourceId;
-    }    
+    }
 
     @Override
     public String getRendererTypeForResourceName(String resourceName)
     {
-        if (resourceName.endsWith(".js")) {
+        if (resourceName.endsWith(".js"))
+        {
             return "javax.faces.resource.Script";
         }
-        else if (resourceName.endsWith(".css")) {
+        else if (resourceName.endsWith(".css"))
+        {
             return "javax.faces.resource.Stylesheet";
         }
         return null;
@@ -266,19 +280,24 @@ public class MockResourceHandler extends ResourceHandler
 
         String pathToLib;
 
-        if (localePrefix != null) {
+        if (localePrefix != null)
+        {
             //Check with locale
             pathToLib = localePrefix + '/' + libraryName;
         }
-        else {
+        else
+        {
             pathToLib = libraryName;
         }
 
-        try {
-            URL url = FacesContext.getCurrentInstance().getExternalContext().getResource("/" + pathToLib);
+        try
+        {
+            URL url = FacesContext.getCurrentInstance().getExternalContext()
+                    .getResource("/" + pathToLib);
             return (url != null);
         }
-        catch (MalformedURLException e) {
+        catch (MalformedURLException e)
+        {
             return false;
         }
     }
@@ -290,18 +309,23 @@ public class MockResourceHandler extends ResourceHandler
 
         String bundleName = context.getApplication().getMessageBundle();
 
-        if (null != bundleName) {
+        if (null != bundleName)
+        {
             Locale locale = context.getApplication().getViewHandler()
-                .calculateLocale(context);
+                    .calculateLocale(context);
 
-            ResourceBundle bundle = ResourceBundle
-                .getBundle(bundleName, locale, getContextClassLoader());
+            ResourceBundle bundle = ResourceBundle.getBundle(bundleName,
+                    locale, getContextClassLoader());
 
-            if (bundle != null) {
-                try {
-                    localePrefix = bundle.getString(ResourceHandler.LOCALE_PREFIX);
+            if (bundle != null)
+            {
+                try
+                {
+                    localePrefix = bundle
+                            .getString(ResourceHandler.LOCALE_PREFIX);
                 }
-                catch (MissingResourceException e) {
+                catch (MissingResourceException e)
+                {
                     // Ignore it and return null
                 }
             }
@@ -317,22 +341,29 @@ public class MockResourceHandler extends ResourceHandler
      */
     static ClassLoader getContextClassLoader()
     {
-        if (System.getSecurityManager() != null) {
-            try {
-                ClassLoader cl = AccessController.doPrivileged(new PrivilegedExceptionAction<ClassLoader>()
-                {
-                    public ClassLoader run() throws PrivilegedActionException
-                    {
-                        return Thread.currentThread().getContextClassLoader();
-                    }
-                });
+        if (System.getSecurityManager() != null)
+        {
+            try
+            {
+                ClassLoader cl = AccessController
+                        .doPrivileged(new PrivilegedExceptionAction<ClassLoader>()
+                        {
+                            public ClassLoader run()
+                                    throws PrivilegedActionException
+                            {
+                                return Thread.currentThread()
+                                        .getContextClassLoader();
+                            }
+                        });
                 return cl;
             }
-            catch (PrivilegedActionException pae) {
+            catch (PrivilegedActionException pae)
+            {
                 throw new FacesException(pae);
             }
         }
-        else {
+        else
+        {
             return Thread.currentThread().getContextClassLoader();
         }
     }

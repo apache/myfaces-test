@@ -32,27 +32,25 @@ import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 
-
 /**
  * <p>Mock implementation of <code>ValueBinding</code>.</p>
  * 
  * @since 1.0.0
  */
-public class MockValueBinding extends ValueBinding implements StateHolder {
-
+public class MockValueBinding extends ValueBinding implements StateHolder
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockValueBinding() {
+    public MockValueBinding()
+    {
 
         this(null, null);
 
     }
-
 
     /**
      * <p>Construct a new value binding for the specified expression.</p>
@@ -60,11 +58,14 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
      * @param application Application instance to be wrapped
      * @param ref Expression to be wrapped
      */
-    public MockValueBinding(Application application, String ref) {
+    public MockValueBinding(Application application, String ref)
+    {
 
         this.application = application;
-        if (ref != null) {
-            if (ref.startsWith("#{") && ref.endsWith("}")) {
+        if (ref != null)
+        {
+            if (ref.startsWith("#{") && ref.endsWith("}"))
+            {
                 ref = ref.substring(2, ref.length() - 1);
             }
         }
@@ -72,43 +73,39 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Return the expression string for this value binding.</p>
      */
-    public String ref() {
+    public String ref()
+    {
 
         return this.ref;
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The <code>Application</code> instance for this application.</p>
      */
     private transient Application application; // Restored as necessary
 
-
     /**
      * <p>The expression this value binding will evaluate.</p>
      */
     private String ref;
 
-
     // ---------------------------------------------------- ValueBinding Methods
 
-
     /** {@inheritDoc} */
-    public Object getValue(FacesContext context)
-        throws EvaluationException, PropertyNotFoundException {
+    public Object getValue(FacesContext context) throws EvaluationException,
+            PropertyNotFoundException
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
         List names = parse(ref);
@@ -117,13 +114,15 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
         VariableResolver vr = application().getVariableResolver();
         String name = (String) names.get(0);
         Object base = vr.resolveVariable(context, name);
-        if (names.size() < 2) {
+        if (names.size() < 2)
+        {
             return (base);
         }
 
         // Resolve the property names
         PropertyResolver pr = application().getPropertyResolver();
-        for (int i = 1; i < names.size(); i++) {
+        for (int i = 1; i < names.size(); i++)
+        {
             base = pr.getValue(base, (String) names.get(i));
         }
 
@@ -132,12 +131,13 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
 
     }
 
-
     /** {@inheritDoc} */
     public void setValue(FacesContext context, Object value)
-        throws EvaluationException, PropertyNotFoundException {
+            throws EvaluationException, PropertyNotFoundException
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
         List names = parse(ref);
@@ -146,25 +146,28 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
         VariableResolver vr = application().getVariableResolver();
         String name = (String) names.get(0);
         Object base = vr.resolveVariable(context, name);
-        if (names.size() < 2) {
-            if ("applicationScope".equals(name)
-                || "requestScope".equals(name)
-                || "sessionScope".equals(name)) {
-                throw new ReferenceSyntaxException("Cannot set '"
-                                                   + name + "'");
+        if (names.size() < 2)
+        {
+            if ("applicationScope".equals(name) || "requestScope".equals(name)
+                    || "sessionScope".equals(name))
+            {
+                throw new ReferenceSyntaxException("Cannot set '" + name + "'");
             }
             Map map = econtext().getRequestMap();
-            if (map.containsKey(name)) {
+            if (map.containsKey(name))
+            {
                 map.put(name, value);
                 return;
             }
             map = econtext().getSessionMap();
-            if ((map != null) && (map.containsKey(name))) {
+            if ((map != null) && (map.containsKey(name)))
+            {
                 map.put(name, value);
                 return;
             }
             map = econtext().getApplicationMap();
-            if (map.containsKey(name)) {
+            if (map.containsKey(name))
+            {
                 map.put(name, value);
                 return;
             }
@@ -174,7 +177,8 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
 
         // Resolve the property names
         PropertyResolver pr = application().getPropertyResolver();
-        for (int i = 1; i < (names.size() - 1); i++) {
+        for (int i = 1; i < (names.size() - 1); i++)
+        {
             // System.out.println("  property=" + names.get(i));
             base = pr.getValue(base, (String) names.get(i));
         }
@@ -184,12 +188,13 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
 
     }
 
-
     /** {@inheritDoc} */
     public boolean isReadOnly(FacesContext context)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
         List names = parse(ref);
@@ -198,13 +203,15 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
         VariableResolver vr = application().getVariableResolver();
         String name = (String) names.get(0);
         Object base = vr.resolveVariable(context, name);
-        if (names.size() < 2) {
+        if (names.size() < 2)
+        {
             return true;
         }
 
         // Resolve the property names
         PropertyResolver pr = application().getPropertyResolver();
-        for (int i = 1; i < names.size() - 1; i++) {
+        for (int i = 1; i < names.size() - 1; i++)
+        {
             base = pr.getValue(base, (String) names.get(i));
         }
 
@@ -213,12 +220,12 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
 
     }
 
-
     /** {@inheritDoc} */
-    public Class getType(FacesContext context)
-        throws PropertyNotFoundException {
+    public Class getType(FacesContext context) throws PropertyNotFoundException
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
         List names = parse(ref);
@@ -227,13 +234,15 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
         VariableResolver vr = application().getVariableResolver();
         String name = (String) names.get(0);
         Object base = vr.resolveVariable(context, name);
-        if (names.size() < 2) {
+        if (names.size() < 2)
+        {
             return base.getClass();
         }
 
         // Resolve the property names
         PropertyResolver pr = application().getPropertyResolver();
-        for (int i = 1; i < names.size() - 1; i++) {
+        for (int i = 1; i < names.size() - 1; i++)
+        {
             base = pr.getValue(base, (String) names.get(i));
         }
 
@@ -243,18 +252,18 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
     }
 
     /** {@inheritDoc} */
-    public String getExpressionString() {
+    public String getExpressionString()
+    {
 
         return "#{" + ref + "}";
 
     }
 
-
     // ----------------------------------------------------- StateHolder Methods
 
-
     /** {@inheritDoc} */
-    public Object saveState(FacesContext context) {
+    public Object saveState(FacesContext context)
+    {
 
         Object[] values = new Object[1];
         values[0] = ref;
@@ -262,113 +271,127 @@ public class MockValueBinding extends ValueBinding implements StateHolder {
 
     }
 
-
     /** {@inheritDoc} */
-    public void restoreState(FacesContext context, Object state) {
+    public void restoreState(FacesContext context, Object state)
+    {
 
         Object[] values = (Object[]) state;
         ref = (String) values[0];
 
     }
 
-
     /**
      * <p>Flag indicating that this value is transient.</p>
      */
     private boolean transientFlag = false;
 
-
     /** {@inheritDoc} */
-    public boolean isTransient() {
+    public boolean isTransient()
+    {
 
         return this.transientFlag;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setTransient(boolean transientFlag) {
+    public void setTransient(boolean transientFlag)
+    {
 
         this.transientFlag = transientFlag;
 
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Return the relevant <code>Application</code> instance.</p>
      */
-    private Application application() {
+    private Application application()
+    {
 
-        if (application == null) {
+        if (application == null)
+        {
             application = FacesContext.getCurrentInstance().getApplication();
         }
         return (application);
 
     }
 
-
     /**
      * <p>Return the relevant <code>ExternalContext</code> instance.</p>
      */
-    private ExternalContext econtext() {
+    private ExternalContext econtext()
+    {
 
         return (FacesContext.getCurrentInstance().getExternalContext());
 
     }
-
 
     /**
      * <p>Return a list of the expression elements in this expression.</p>
      *
      * @param ref Expression to be parsed
      */
-    private List parse(String ref) {
+    private List parse(String ref)
+    {
 
         List names = new ArrayList();
         StringBuffer expr = new StringBuffer(ref);
         boolean isBlockOn = false;
-        for (int i = expr.length() - 1; i > -1; i--) {
-            if (expr.charAt(i) == ' ') {
+        for (int i = expr.length() - 1; i > -1; i--)
+        {
+            if (expr.charAt(i) == ' ')
+            {
                 expr.deleteCharAt(i);
-            } else if (expr.charAt(i) == ']') {
+            }
+            else if (expr.charAt(i) == ']')
+            {
                 expr.deleteCharAt(i);
-            } else if (expr.charAt(i) == '[') {
+            }
+            else if (expr.charAt(i) == '[')
+            {
                 expr.deleteCharAt(i);
-            } else if (expr.charAt(i) == '\'') {
-                if (!isBlockOn) {
+            }
+            else if (expr.charAt(i) == '\'')
+            {
+                if (!isBlockOn)
+                {
                     expr.deleteCharAt(i);
-                } else {
+                }
+                else
+                {
                     names.add(0, expr.substring(i + 1));
                     expr.delete(i, expr.length());
                 }
                 isBlockOn = !isBlockOn;
-            } else if (expr.charAt(i) == '.' && !isBlockOn) {
+            }
+            else if (expr.charAt(i) == '.' && !isBlockOn)
+            {
                 names.add(0, expr.substring(i + 1));
                 expr.delete(i, expr.length());
             }
         }
 
-        if (expr.length() > 0) {
+        if (expr.length() > 0)
+        {
             names.add(0, expr.toString());
         }
 
-        if (names.size() < 1) {
-            throw new ReferenceSyntaxException("No expression in '"
-                    + ref + "'");
+        if (names.size() < 1)
+        {
+            throw new ReferenceSyntaxException("No expression in '" + ref + "'");
         }
-        for (int i = 0; i < names.size(); i++) {
+        for (int i = 0; i < names.size(); i++)
+        {
             String name = (String) names.get(i);
-            if (name.length() < 1) {
-                throw new ReferenceSyntaxException("Invalid expression '"
-                        + ref + "'");
+            if (name.length() < 1)
+            {
+                throw new ReferenceSyntaxException("Invalid expression '" + ref
+                        + "'");
             }
         }
         return (names);
 
     }
-
 
 }

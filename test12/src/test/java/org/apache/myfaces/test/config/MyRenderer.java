@@ -22,6 +22,7 @@ import javax.faces.render.Renderer;
 /**
  * <p>Concrete renderer implementation for testing.</p>
  */
-public class MyRenderer extends Renderer {
-    
+public class MyRenderer extends Renderer
+{
+
 }

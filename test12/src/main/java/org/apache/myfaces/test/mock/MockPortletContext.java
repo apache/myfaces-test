@@ -36,7 +36,8 @@ import javax.portlet.PortletRequestDispatcher;
  * $Id$
  * @since 1.0.0
  */
-public class MockPortletContext implements PortletContext {
+public class MockPortletContext implements PortletContext
+{
 
     // ----------------------------------------------------- Mock Object Methods
 
@@ -47,12 +48,12 @@ public class MockPortletContext implements PortletContext {
      * @param name Parameter name
      * @param value Parameter value
      */
-    public void addInitParameter(String name, String value) {
+    public void addInitParameter(String name, String value)
+    {
 
         parameters.put(name, value);
 
     }
-
 
     /**
      * <p>Add a new MIME type mapping to the set of mappings recognized by this
@@ -61,12 +62,12 @@ public class MockPortletContext implements PortletContext {
      * @param extension Extension to check for (without the period)
      * @param contentType Corresponding content type
      */
-    public void addMimeType(String extension, String contentType) {
+    public void addMimeType(String extension, String contentType)
+    {
 
         mimeTypes.put(extension, contentType);
 
     }
-
 
     /**
      * <p>Set the document root for <code>getRealPath()</code> resolution.
@@ -74,7 +75,8 @@ public class MockPortletContext implements PortletContext {
      *
      * @param documentRoot The new base directory
      */
-    public void setDocumentRoot(File documentRoot) {
+    public void setDocumentRoot(File documentRoot)
+    {
 
         this.documentRoot = documentRoot;
 
@@ -87,55 +89,55 @@ public class MockPortletContext implements PortletContext {
     private Hashtable mimeTypes = new Hashtable();
     private Hashtable parameters = new Hashtable();
 
-
     // -------------------------------------------------- PortletContext Methods
 
-
     /** {@inheritDoc} */
-    public Object getAttribute(String name) {
+    public Object getAttribute(String name)
+    {
 
         return attributes.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getAttributeNames() {
+    public Enumeration getAttributeNames()
+    {
 
         return attributes.keys();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getInitParameter(String name) {
+    public String getInitParameter(String name)
+    {
 
         return (String) parameters.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getInitParameterNames() {
+    public Enumeration getInitParameterNames()
+    {
 
         return parameters.keys();
 
     }
 
-
     /** {@inheritDoc} */
-    public int getMajorVersion() {
+    public int getMajorVersion()
+    {
 
         return 1;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getMimeType(String path) {
+    public String getMimeType(String path)
+    {
 
         int period = path.lastIndexOf('.');
-        if (period < 0) {
+        if (period < 0)
+        {
             return null;
         }
         String extension = path.substring(period + 1);
@@ -143,114 +145,136 @@ public class MockPortletContext implements PortletContext {
 
     }
 
-
-    public int getMinorVersion() {
+    public int getMinorVersion()
+    {
 
         // TODO Auto-generated method stub
         return 0;
     }
 
-
-    public PortletRequestDispatcher getNamedDispatcher(String arg0) {
+    public PortletRequestDispatcher getNamedDispatcher(String arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getPortletContextName() {
+    public String getPortletContextName()
+    {
 
         return "MockPortletContext";
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRealPath(String path) {
+    public String getRealPath(String path)
+    {
 
-        if (documentRoot != null) {
-            if (!path.startsWith("/")) {
+        if (documentRoot != null)
+        {
+            if (!path.startsWith("/"))
+            {
                 throw new IllegalArgumentException("The specified path ('"
                         + path + "') does not start with a '/' character");
             }
             File resolved = new File(documentRoot, path.substring(1));
-            try {
+            try
+            {
                 return resolved.getCanonicalPath();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 return resolved.getAbsolutePath();
             }
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public PortletRequestDispatcher getRequestDispatcher(String arg0) {
+    public PortletRequestDispatcher getRequestDispatcher(String arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public URL getResource(String path) throws MalformedURLException {
+    public URL getResource(String path) throws MalformedURLException
+    {
 
-        if (documentRoot != null) {
-            if (!path.startsWith("/")) {
+        if (documentRoot != null)
+        {
+            if (!path.startsWith("/"))
+            {
                 throw new MalformedURLException("The specified path ('" + path
                         + "') does not start with a '/' character");
             }
             File resolved = new File(documentRoot, path.substring(1));
-            if (resolved.exists()) {
+            if (resolved.exists())
+            {
                 return resolved.toURL();
-            } else {
+            }
+            else
+            {
                 return null;
             }
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public InputStream getResourceAsStream(String path) {
+    public InputStream getResourceAsStream(String path)
+    {
 
-        try {
+        try
+        {
             URL url = getResource(path);
-            if (url != null) {
+            if (url != null)
+            {
                 return url.openStream();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             ;
         }
         return null;
 
     }
 
-
     /** {@inheritDoc} */
-    public Set getResourcePaths(String path) {
+    public Set getResourcePaths(String path)
+    {
 
-        if (documentRoot == null) {
+        if (documentRoot == null)
+        {
             return null;
         }
 
         // Enforce the leading slash restriction
-        if (!path.startsWith("/")) {
+        if (!path.startsWith("/"))
+        {
             throw new IllegalArgumentException("The specified path ('" + path
                     + "') does not start with a '/' character");
         }
 
         // Locate the File node for this path's directory (if it exists)
         File node = new File(documentRoot, path.substring(1));
-        if (!node.exists()) {
+        if (!node.exists())
+        {
             return null;
         }
-        if (!node.isDirectory()) {
+        if (!node.isDirectory())
+        {
             return null;
         }
 
@@ -258,13 +282,16 @@ public class MockPortletContext implements PortletContext {
         // directory
         Set set = new HashSet();
         String[] files = node.list();
-        if (files == null) {
+        if (files == null)
+        {
             return null;
         }
-        for (int i = 0; i < files.length; i++) {
+        for (int i = 0; i < files.length; i++)
+        {
             String subfile = path + files[i];
             File subnode = new File(node, files[i]);
-            if (subnode.isDirectory()) {
+            if (subnode.isDirectory())
+            {
                 subfile += "/";
             }
             set.add(subfile);
@@ -275,48 +302,51 @@ public class MockPortletContext implements PortletContext {
 
     }
 
-
     /** {@inheritDoc} */
-    public String getServerInfo() {
+    public String getServerInfo()
+    {
 
         return "MockPortletContext";
     }
 
-
     /** {@inheritDoc} */
-    public void log(String message) {
+    public void log(String message)
+    {
 
         System.out.println(message);
 
     }
 
-
     /** {@inheritDoc} */
-    public void log(String message, Throwable exception) {
+    public void log(String message, Throwable exception)
+    {
 
         System.out.println(message);
         exception.printStackTrace();
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeAttribute(String name) {
+    public void removeAttribute(String name)
+    {
 
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             attributes.remove(name);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void setAttribute(String name, Object value) {
+    public void setAttribute(String name, Object value)
+    {
 
-        if (name == null) {
+        if (name == null)
+        {
             throw new IllegalArgumentException("Attribute name cannot be null");
         }
-        if (value == null) {
+        if (value == null)
+        {
             removeAttribute(name);
             return;
         }

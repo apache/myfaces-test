@@ -16,7 +16,6 @@
  */
 package org.apache.myfaces.test.mock.resource;
 
-
 /**
  * Store additional info used by MockResource and MockResourceHandler
  * 
@@ -37,25 +36,32 @@ public class MockResourceHandlerSupport
     {
         _extensionMapping = true;
         _mapping = ".jsf";
-        _resourceLoaders = new MockResourceLoader[]{ new MockExternalContextResourceLoader("/resources"),
-                new MockClassLoaderResourceLoader(MockResourceHandler.getContextClassLoader(), "META-INF/resources")};
+        _resourceLoaders = new MockResourceLoader[] {
+                new MockExternalContextResourceLoader("/resources"),
+                new MockClassLoaderResourceLoader(MockResourceHandler
+                        .getContextClassLoader(), "META-INF/resources") };
     }
-    
+
     public MockResourceHandlerSupport(boolean extensionMapping, String mapping)
     {
         super();
         _extensionMapping = extensionMapping;
         _mapping = mapping;
-        _resourceLoaders = new MockResourceLoader[]{ new MockExternalContextResourceLoader("/resources"),
-                new MockClassLoaderResourceLoader(MockResourceHandler.getContextClassLoader(), "META-INF/resources")};
+        _resourceLoaders = new MockResourceLoader[] {
+                new MockExternalContextResourceLoader("/resources"),
+                new MockClassLoaderResourceLoader(MockResourceHandler
+                        .getContextClassLoader(), "META-INF/resources") };
     }
 
-    public MockResourceHandlerSupport(boolean extensionMapping, String mapping, ClassLoader classLoader)
+    public MockResourceHandlerSupport(boolean extensionMapping, String mapping,
+            ClassLoader classLoader)
     {
         _extensionMapping = extensionMapping;
         _mapping = mapping;
-        _resourceLoaders = new MockResourceLoader[]{ new MockExternalContextResourceLoader("/resources"),
-                new MockClassLoaderResourceLoader(classLoader, "META-INF/resources")};
+        _resourceLoaders = new MockResourceLoader[] {
+                new MockExternalContextResourceLoader("/resources"),
+                new MockClassLoaderResourceLoader(classLoader,
+                        "META-INF/resources") };
     }
 
     public MockResourceHandlerSupport(boolean extensionMapping, String mapping,
@@ -76,7 +82,7 @@ public class MockResourceHandlerSupport
     {
         return _extensionMapping;
     }
-    
+
     public void setExtensionMapping(boolean extensionMapping)
     {
         _extensionMapping = extensionMapping;
@@ -91,12 +97,12 @@ public class MockResourceHandlerSupport
     {
         return _mapping;
     }
-    
+
     public void setMapping(String prefix)
     {
         _mapping = prefix;
     }
-    
+
     /**
      * Return an array of resource loaders used to find resources
      * using the standard. The order of ResourceLoaders define
@@ -106,7 +112,7 @@ public class MockResourceHandlerSupport
      */
     public MockResourceLoader[] getResourceLoaders()
     {
-        return _resourceLoaders; 
+        return _resourceLoaders;
     }
 
     public void setResourceLoaders(MockResourceLoader[] resourceLoaders)

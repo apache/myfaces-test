@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * HttpServletRequest headers as Map.
  * 
@@ -50,14 +49,14 @@ final class _RequestHeaderMap extends _AbstractAttributeMap<String>
     protected void setAttribute(final String key, final String value)
     {
         throw new UnsupportedOperationException(
-            "Cannot set HttpServletRequest Header");
+                "Cannot set HttpServletRequest Header");
     }
 
     @Override
     protected void removeAttribute(final String key)
     {
         throw new UnsupportedOperationException(
-            "Cannot remove HttpServletRequest Header");
+                "Cannot remove HttpServletRequest Header");
     }
 
     @Override
@@ -73,10 +72,9 @@ final class _RequestHeaderMap extends _AbstractAttributeMap<String>
         throw new UnsupportedOperationException();
     }
 
-
     @Override
     public void clear()
     {
         throw new UnsupportedOperationException();
-    }    
+    }
 }

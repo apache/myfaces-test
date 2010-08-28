@@ -24,17 +24,16 @@ public class MockResponseStateManager extends ResponseStateManager
     // ------------------------------------------------------------ Constructors
 
     // ------------------------------------------------------ Instance Variables
-    
+
     private static final int TREE_PARAM = 0;
     private static final int STATE_PARAM = 1;
     private static final int VIEWID_PARAM = 2;
     private static final String ZIP_CHARSET = "ISO-8859-1";
 
-    
     // ----------------------------------------------------- Mock Object Methods
 
     // -------------------------------------------------- ResponseStateManager Methods
-    
+
     public Object getState(FacesContext facesContext, String viewId)
     {
         Object[] savedState = getSavedState(facesContext);
@@ -46,7 +45,8 @@ public class MockResponseStateManager extends ResponseStateManager
         return new Object[] { savedState[TREE_PARAM], savedState[STATE_PARAM] };
     }
 
-    public Object getTreeStructureToRestore(FacesContext facesContext, String viewId)
+    public Object getTreeStructureToRestore(FacesContext facesContext,
+            String viewId)
     {
         // Although this method won't be called anymore,
         // it has been kept for backward compatibility.
@@ -74,17 +74,19 @@ public class MockResponseStateManager extends ResponseStateManager
 
     public boolean isPostback(FacesContext context)
     {
-        return context.getExternalContext().getRequestParameterMap().containsKey(ResponseStateManager.VIEW_STATE_PARAM);
+        return context.getExternalContext().getRequestParameterMap()
+                .containsKey(ResponseStateManager.VIEW_STATE_PARAM);
     }
 
-    public void writeState(FacesContext facescontext, SerializedView serializedview)
-            throws IOException
+    public void writeState(FacesContext facescontext,
+            SerializedView serializedview) throws IOException
     {
         ResponseWriter responseWriter = facescontext.getResponseWriter();
 
         Object[] savedState = new Object[3];
 
-        if (facescontext.getApplication().getStateManager().isSavingStateInClient(facescontext))
+        if (facescontext.getApplication().getStateManager()
+                .isSavingStateInClient(facescontext))
         {
             Object treeStruct = serializedview.getStructure();
             Object compStates = serializedview.getState();
@@ -121,10 +123,11 @@ public class MockResponseStateManager extends ResponseStateManager
         writeRenderKitIdField(facescontext, responseWriter);
     }
 
-    private void writeViewStateField(FacesContext facesContext, ResponseWriter responseWriter, Object savedState)
-    throws IOException
+    private void writeViewStateField(FacesContext facesContext,
+            ResponseWriter responseWriter, Object savedState)
+            throws IOException
     {
-        
+
         String serializedState = construct(facesContext, savedState);
         responseWriter.startElement("input", null);
         responseWriter.writeAttribute("type", "hidden", null);
@@ -132,23 +135,28 @@ public class MockResponseStateManager extends ResponseStateManager
         responseWriter.writeAttribute("value", serializedState, null);
         responseWriter.endElement("input");
     }
-    
 
-    private void writeRenderKitIdField(FacesContext facesContext, ResponseWriter responseWriter) throws IOException
+    private void writeRenderKitIdField(FacesContext facesContext,
+            ResponseWriter responseWriter) throws IOException
     {
-    
-        String defaultRenderKitId = facesContext.getApplication().getDefaultRenderKitId();
-        if (defaultRenderKitId != null && !RenderKitFactory.HTML_BASIC_RENDER_KIT.equals(defaultRenderKitId))
+
+        String defaultRenderKitId = facesContext.getApplication()
+                .getDefaultRenderKitId();
+        if (defaultRenderKitId != null
+                && !RenderKitFactory.HTML_BASIC_RENDER_KIT
+                        .equals(defaultRenderKitId))
         {
             responseWriter.startElement("input", null);
             responseWriter.writeAttribute("type", "hidden", null);
-            responseWriter.writeAttribute("name", ResponseStateManager.RENDER_KIT_ID_PARAM, null);
+            responseWriter.writeAttribute("name",
+                    ResponseStateManager.RENDER_KIT_ID_PARAM, null);
             responseWriter.writeAttribute("value", defaultRenderKitId, null);
             responseWriter.endElement("input");
         }
     }
-    
-    private String construct(FacesContext facesContext, Object savedState) throws IOException
+
+    private String construct(FacesContext facesContext, Object savedState)
+            throws IOException
     {
         byte[] bytes = null;
         ByteArrayOutputStream baos = null;
@@ -168,7 +176,7 @@ public class MockResponseStateManager extends ResponseStateManager
                 {
                     oos.close();
                 }
-                catch(IOException e)
+                catch (IOException e)
                 {
                 }
                 finally
@@ -182,7 +190,7 @@ public class MockResponseStateManager extends ResponseStateManager
                 {
                     baos.close();
                 }
-                catch(IOException e)
+                catch (IOException e)
                 {
                 }
                 finally
@@ -193,19 +201,20 @@ public class MockResponseStateManager extends ResponseStateManager
         }
         return new String(new _Hex().encode(bytes), ZIP_CHARSET);
     }
-    
-    private Object reconstruct(FacesContext facesContext, String encodedState) throws IOException
+
+    private Object reconstruct(FacesContext facesContext, String encodedState)
+            throws IOException
     {
         byte[] bytes = encodedState.getBytes(ZIP_CHARSET);
-        
+
         ByteArrayInputStream input = null;
         ObjectInputStream s = null;
         Object object = null;
-        
+
         try
         {
             input = new ByteArrayInputStream(bytes);
-            s = new ObjectInputStream(input); 
+            s = new ObjectInputStream(input);
             object = s.readObject();
         }
         catch (ClassNotFoundException e)
@@ -220,7 +229,7 @@ public class MockResponseStateManager extends ResponseStateManager
                 {
                     s.close();
                 }
-                catch(IOException e)
+                catch (IOException e)
                 {
                 }
                 finally
@@ -234,7 +243,7 @@ public class MockResponseStateManager extends ResponseStateManager
                 {
                     input.close();
                 }
-                catch(IOException e)
+                catch (IOException e)
                 {
                 }
                 finally
@@ -246,31 +255,34 @@ public class MockResponseStateManager extends ResponseStateManager
         return object;
     }
 
-    private Object[] getSavedState(FacesContext facesContext) {
-        Object encodedState = 
-            facesContext.getExternalContext().
-                getRequestParameterMap().get(VIEW_STATE_PARAM);
-        if(encodedState==null || (((String) encodedState).length() == 0)) { 
+    private Object[] getSavedState(FacesContext facesContext)
+    {
+        Object encodedState = facesContext.getExternalContext()
+                .getRequestParameterMap().get(VIEW_STATE_PARAM);
+        if (encodedState == null || (((String) encodedState).length() == 0))
+        {
             return null;
         }
 
         Object[] savedState = null;
-        
+
         try
         {
-            savedState = (Object[])reconstruct(facesContext, (String)encodedState);
+            savedState = (Object[]) reconstruct(facesContext,
+                    (String) encodedState);
         }
-        catch(IOException e)
+        catch (IOException e)
         {
-            facesContext.getExternalContext().log("Cannot reconstruct view state", e);
+            facesContext.getExternalContext().log(
+                    "Cannot reconstruct view state", e);
         }
 
         if (savedState == null)
         {
             return null;
         }
-        
-        String restoredViewId = (String)savedState[VIEWID_PARAM];
+
+        String restoredViewId = (String) savedState[VIEWID_PARAM];
 
         if (restoredViewId == null)
         {

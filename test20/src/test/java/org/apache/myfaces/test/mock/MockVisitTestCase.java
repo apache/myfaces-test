@@ -66,11 +66,13 @@ public class MockVisitTestCase extends AbstractJsfTestCase
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         VisitContextFactory factory = new MockVisitContextFactory();
-        VisitContext visitContext = factory.getVisitContext(facesContext, null, null);
+        VisitContext visitContext = factory.getVisitContext(facesContext, null,
+                null);
 
         VisitCallback callback = new MockVisitCallback();
         UIComponent component = facesContext.getViewRoot();
-        assertEquals(VisitResult.ACCEPT, visitContext.invokeVisitCallback(component, callback));
+        assertEquals(VisitResult.ACCEPT, visitContext.invokeVisitCallback(
+                component, callback));
     }
 
 }

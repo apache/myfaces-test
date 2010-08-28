@@ -20,7 +20,6 @@ package org.apache.myfaces.test.mock;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 
-
 /**
  * <p>Mock implementation of <code>PrintWriter</code>.</p>
  *
@@ -28,62 +27,56 @@ import java.io.PrintWriter;
  * @since 1.0.0
  */
 
-public class MockPrintWriter extends PrintWriter {
-
+public class MockPrintWriter extends PrintWriter
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Return a default instance.</p>
      *
      * @param writer Temporary buffer storage for us to use
      */
-    public MockPrintWriter(CharArrayWriter writer) {
+    public MockPrintWriter(CharArrayWriter writer)
+    {
         super(writer);
         this.caw = writer;
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Return the content that has been written to this writer.</p>
      */
-    public char[] content() {
+    public char[] content()
+    {
         return caw.toCharArray();
     }
-
 
     /**
      * <p>Reset this output stream so that it appears no content has been
      * written.</p>
      */
-    public void reset() {
+    public void reset()
+    {
         caw.reset();
     }
-
 
     /**
      * <p>Return the number of characters that have been written to this writer.</p>
      */
-    public int size() {
+    public int size()
+    {
         return caw.size();
     }
 
-
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The writer we will use for buffering.</p>
      */
     private CharArrayWriter caw = null;
 
-
     // ----------------------------------------------------- PrintWriter Methods
-
 
 }

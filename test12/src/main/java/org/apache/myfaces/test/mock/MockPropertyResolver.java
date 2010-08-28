@@ -34,101 +34,114 @@ import javax.faces.el.PropertyResolver;
  * @since 1.0.0
  */
 
-public class MockPropertyResolver extends PropertyResolver {
-
+public class MockPropertyResolver extends PropertyResolver
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockPropertyResolver() {
+    public MockPropertyResolver()
+    {
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ------------------------------------------------ PropertyResolver Methods
 
-
     /** {@inheritDoc} */
     public Object getValue(Object base, Object property)
-        throws EvaluationException, PropertyNotFoundException {
+            throws EvaluationException, PropertyNotFoundException
+    {
 
-        if (base == null) {
+        if (base == null)
+        {
             throw new NullPointerException();
         }
-        if (base instanceof Map) {
+        if (base instanceof Map)
+        {
             return ((Map) base).get(property);
         }
         String name = property.toString();
         PropertyDescriptor descriptor = descriptor(base.getClass(), name);
-        try {
+        try
+        {
             return descriptor.getReadMethod().invoke(base, (Object[]) null);
-        } catch (IllegalAccessException e) {
+        }
+        catch (IllegalAccessException e)
+        {
             throw new EvaluationException(e);
-        } catch (InvocationTargetException e) {
+        }
+        catch (InvocationTargetException e)
+        {
             throw new EvaluationException(e.getTargetException());
         }
 
     }
 
-
     /** {@inheritDoc} */
     public Object getValue(Object base, int index)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
         return getValue(base, "" + index);
 
     }
 
-
     /** {@inheritDoc} */
     public void setValue(Object base, Object property, Object value)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
-        if (base == null) {
+        if (base == null)
+        {
             throw new NullPointerException();
         }
-        if (base instanceof Map) {
+        if (base instanceof Map)
+        {
             ((Map) base).put(property, value);
             return;
         }
         String name = property.toString();
         PropertyDescriptor descriptor = descriptor(base.getClass(), name);
-        try {
+        try
+        {
             descriptor.getWriteMethod().invoke(base, new Object[] { value });
-        } catch (IllegalAccessException e) {
+        }
+        catch (IllegalAccessException e)
+        {
             throw new EvaluationException(e);
-        } catch (InvocationTargetException e) {
+        }
+        catch (InvocationTargetException e)
+        {
             throw new EvaluationException(e.getTargetException());
         }
 
     }
 
-
     /** {@inheritDoc} */
     public void setValue(Object base, int index, Object value)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
         setValue(base, "" + index, value);
 
     }
 
-
     /** {@inheritDoc} */
     public boolean isReadOnly(Object base, Object property)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
-        if (base == null) {
+        if (base == null)
+        {
             throw new NullPointerException();
         }
-        if (base instanceof Map) {
+        if (base instanceof Map)
+        {
             return false; // We have no way to know anything more specific
         }
         String name = property.toString();
@@ -137,28 +150,33 @@ public class MockPropertyResolver extends PropertyResolver {
 
     }
 
-
     /** {@inheritDoc} */
     public boolean isReadOnly(Object base, int index)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
         return isReadOnly(base, "" + index);
 
     }
 
-
     /** {@inheritDoc} */
     public Class getType(Object base, Object property)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
-        if (base == null) {
+        if (base == null)
+        {
             throw new NullPointerException();
         }
-        if (base instanceof Map) {
+        if (base instanceof Map)
+        {
             Object value = ((Map) base).get(property);
-            if (value != null) {
+            if (value != null)
+            {
                 return value.getClass();
-            } else {
+            }
+            else
+            {
                 return Object.class;
             }
         }
@@ -168,18 +186,16 @@ public class MockPropertyResolver extends PropertyResolver {
 
     }
 
-
     /** {@inheritDoc} */
     public Class getType(Object base, int index)
-        throws PropertyNotFoundException {
+            throws PropertyNotFoundException
+    {
 
         return getType(base, "" + index);
 
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Return the <code>PropertyDescriptor</code> for the specified
@@ -193,20 +209,28 @@ public class MockPropertyResolver extends PropertyResolver {
      * @exception PropertyNotFoundException if the specified property does
      *  not exist on the specified class
      */
-    private PropertyDescriptor descriptor(Class clazz, String name) {
+    private PropertyDescriptor descriptor(Class clazz, String name)
+    {
 
-        System.err.println("descriptor(class=" + clazz.getName() + ", name=" + name);
+        System.err.println("descriptor(class=" + clazz.getName() + ", name="
+                + name);
         BeanInfo info = null;
-        try {
+        try
+        {
             info = Introspector.getBeanInfo(clazz);
             System.err.println("  Found BeanInfo " + info);
-        } catch (IntrospectionException e) {
+        }
+        catch (IntrospectionException e)
+        {
             throw new EvaluationException(e);
         }
         PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
-        for (int i = 0; i < descriptors.length; i++) {
-            if (name.equals(descriptors[i].getName())) {
-                System.err.print("  Found PropertyDescriptor " + descriptors[i]);
+        for (int i = 0; i < descriptors.length; i++)
+        {
+            if (name.equals(descriptors[i].getName()))
+            {
+                System.err
+                        .print("  Found PropertyDescriptor " + descriptors[i]);
                 return descriptors[i];
             }
         }
@@ -214,6 +238,5 @@ public class MockPropertyResolver extends PropertyResolver {
         throw new PropertyNotFoundException(name);
 
     }
-
 
 }

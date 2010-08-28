@@ -28,27 +28,23 @@ import javax.faces.event.ActionListener;
  * @since 1.0.0
  */
 
-public class MockActionListener implements ActionListener {
-
+public class MockActionListener implements ActionListener
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockActionListener() {
+    public MockActionListener()
+    {
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
 
-
     // -------------------------------------------------- ActionListener Methods
-
 
     /**
      * <p>Process the specified <code>ActionEvent</code>.</p>
@@ -58,9 +54,10 @@ public class MockActionListener implements ActionListener {
      * @exception AbortProcessingException if further event firing
      *  should be skipped
      */
-    public void processAction(ActionEvent event) throws AbortProcessingException {
+    public void processAction(ActionEvent event)
+            throws AbortProcessingException
+    {
         // FIXME - provide default implementation
     }
-
 
 }

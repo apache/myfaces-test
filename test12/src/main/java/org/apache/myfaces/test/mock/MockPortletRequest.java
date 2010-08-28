@@ -37,24 +37,25 @@ import javax.portlet.WindowState;
  * @since 1.0.0
  */
 
-public class MockPortletRequest implements PortletRequest {
+public class MockPortletRequest implements PortletRequest
+{
 
     // ------------------------------------------------------------ Constructors
 
-    public MockPortletRequest() {
+    public MockPortletRequest()
+    {
 
         super();
 
     }
 
-
-    public MockPortletRequest(PortletSession session) {
+    public MockPortletRequest(PortletSession session)
+    {
 
         super();
         this.session = session;
 
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
@@ -64,10 +65,12 @@ public class MockPortletRequest implements PortletRequest {
      * @param name Parameter name
      * @param value Parameter value
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(String name, String value)
+    {
 
         String[] values = (String[]) parameters.get(name);
-        if (values == null) {
+        if (values == null)
+        {
             String[] results = new String[] { value };
             parameters.put(name, results);
             return;
@@ -79,37 +82,37 @@ public class MockPortletRequest implements PortletRequest {
 
     }
 
-
     /**
      * <p> Set the <code>PortletSession</code> associated with this request.
      * </p>
      *
      * @param session The new session
      */
-    public void setPortletSession(PortletSession session) {
+    public void setPortletSession(PortletSession session)
+    {
 
         this.session = session;
     }
-
 
     /**
      * <p> Set the <code>Locale</code> associated with this request. </p>
      *
      * @param locale The new locale
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(Locale locale)
+    {
 
         this.locale = locale;
 
     }
-
 
     /**
      * <p> Set the <code>Principal</code> associated with this request. </p>
      *
      * @param principal The new Principal
      */
-    public void setUserPrincipal(Principal principal) {
+    public void setUserPrincipal(Principal principal)
+    {
 
         this.principal = principal;
 
@@ -124,294 +127,303 @@ public class MockPortletRequest implements PortletRequest {
     private Principal principal = null;
     private PortletSession session = null;
 
-
     // -------------------------------------------------- PortletRequest Methods
 
-
     /** {@inheritDoc} */
-    public String getAuthType() {
+    public String getAuthType()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getContextPath() {
+    public String getContextPath()
+    {
 
         return contextPath;
 
     }
 
-
     /** {@inheritDoc} */
-    public Object getAttribute(String name) {
+    public Object getAttribute(String name)
+    {
 
         return attributes.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getAttributeNames() {
+    public Enumeration getAttributeNames()
+    {
 
         return new MockEnumeration(attributes.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public Locale getLocale() {
+    public Locale getLocale()
+    {
 
         return locale;
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getLocales() {
+    public Enumeration getLocales()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getParameter(String name) {
+    public String getParameter(String name)
+    {
 
         String[] values = (String[]) parameters.get(name);
-        if (values != null) {
+        if (values != null)
+        {
             return values[0];
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public Map getParameterMap() {
+    public Map getParameterMap()
+    {
 
         return parameters;
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getParameterNames() {
+    public Enumeration getParameterNames()
+    {
 
         return new MockEnumeration(parameters.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public String[] getParameterValues(String name) {
+    public String[] getParameterValues(String name)
+    {
 
         return (String[]) parameters.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public PortalContext getPortalContext() {
+    public PortalContext getPortalContext()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public PortletMode getPortletMode() {
+    public PortletMode getPortletMode()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public PortletSession getPortletSession() {
+    public PortletSession getPortletSession()
+    {
 
         return getPortletSession(true);
 
     }
 
-
     /** {@inheritDoc} */
-    public PortletSession getPortletSession(boolean create) {
+    public PortletSession getPortletSession(boolean create)
+    {
 
-        if (create && (session == null)) {
+        if (create && (session == null))
+        {
             throw new UnsupportedOperationException();
         }
         return session;
 
     }
 
-
     /** {@inheritDoc} */
-    public PortletPreferences getPreferences() {
+    public PortletPreferences getPreferences()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getProperties(String arg0) {
+    public Enumeration getProperties(String arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getProperty(String arg0) {
+    public String getProperty(String arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getPropertyNames() {
+    public Enumeration getPropertyNames()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRemoteUser() {
+    public String getRemoteUser()
+    {
 
-        if (principal != null) {
+        if (principal != null)
+        {
             return principal.getName();
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRequestedSessionId() {
+    public String getRequestedSessionId()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getResponseContentType() {
+    public String getResponseContentType()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getResponseContentTypes() {
+    public Enumeration getResponseContentTypes()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getScheme() {
+    public String getScheme()
+    {
 
         return ("http");
 
     }
 
-
     /** {@inheritDoc} */
-    public String getServerName() {
+    public String getServerName()
+    {
 
         return ("localhost");
 
     }
 
-
     /** {@inheritDoc} */
-    public int getServerPort() {
+    public int getServerPort()
+    {
 
         return (8080);
 
     }
 
-
     /** {@inheritDoc} */
-    public Principal getUserPrincipal() {
+    public Principal getUserPrincipal()
+    {
 
         return principal;
 
     }
 
-
     /** {@inheritDoc} */
-    public WindowState getWindowState() {
+    public WindowState getWindowState()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isPortletModeAllowed(PortletMode arg0) {
+    public boolean isPortletModeAllowed(PortletMode arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isRequestedSessionIdValid() {
+    public boolean isRequestedSessionIdValid()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isSecure() {
+    public boolean isSecure()
+    {
 
         return false;
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isUserInRole(String arg0) {
+    public boolean isUserInRole(String arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isWindowStateAllowed(WindowState arg0) {
+    public boolean isWindowStateAllowed(WindowState arg0)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeAttribute(String name) {
+    public void removeAttribute(String name)
+    {
 
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             attributes.remove(name);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void setAttribute(String name, Object value) {
+    public void setAttribute(String name, Object value)
+    {
 
-        if (name == null) {
+        if (name == null)
+        {
             throw new IllegalArgumentException("Attribute name cannot be null");
         }
-        if (value == null) {
+        if (value == null)
+        {
             removeAttribute(name);
             return;
         }

@@ -27,15 +27,15 @@ package org.apache.myfaces.test.mock.resource;
  */
 public class MockResourceMeta
 {
-    
+
     private final String _prefix;
     private final String _libraryName;
     private final String _libraryVersion;
     private final String _resourceName;
     private final String _resourceVersion;
-    
-    public MockResourceMeta(String prefix, String libraryName, String libraryVersion,
-            String resourceName, String resourceVersion)
+
+    public MockResourceMeta(String prefix, String libraryName,
+            String libraryVersion, String resourceName, String resourceVersion)
     {
         _prefix = prefix;
         _libraryName = libraryName;
@@ -47,12 +47,12 @@ public class MockResourceMeta
     public String getLibraryName()
     {
         return _libraryName;
-    }    
-    
+    }
+
     public String getResourceName()
     {
         return _resourceName;
-    }    
+    }
 
     public String getLocalePrefix()
     {
@@ -68,7 +68,7 @@ public class MockResourceMeta
     {
         return _resourceVersion;
     }
-    
+
     public String getResourceIdentifier()
     {
         StringBuilder builder = new StringBuilder();
@@ -80,28 +80,32 @@ public class MockResourceMeta
         }
         if (_libraryName != null)
         {
-            if (firstSlashAdded) builder.append('/');
+            if (firstSlashAdded)
+                builder.append('/');
             builder.append(_libraryName);
             firstSlashAdded = true;
         }
         if (_libraryVersion != null)
         {
-            if (firstSlashAdded) builder.append('/');
+            if (firstSlashAdded)
+                builder.append('/');
             builder.append(_libraryVersion);
             firstSlashAdded = true;
         }
         if (_resourceName != null)
         {
-            if (firstSlashAdded) builder.append('/');
+            if (firstSlashAdded)
+                builder.append('/');
             builder.append(_resourceName);
             firstSlashAdded = true;
         }
         if (_resourceVersion != null)
         {
-            if (firstSlashAdded) builder.append('/');
+            if (firstSlashAdded)
+                builder.append('/');
             builder.append(_resourceVersion);
-            builder.append(
-                    _resourceName.substring(_resourceName.lastIndexOf('.')));
+            builder.append(_resourceName.substring(_resourceName
+                    .lastIndexOf('.')));
             firstSlashAdded = true;
         }
 

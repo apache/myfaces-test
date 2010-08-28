@@ -25,12 +25,10 @@ import javax.el.ELResolver;
  * 
  * @since 1.0.0
  */
-abstract class AbstractELResolver extends ELResolver {
-    
-
+abstract class AbstractELResolver extends ELResolver
+{
 
     // ------------------------------------------------------- Protected Methods
-
 
     /**
      * <p>Create and return a <code>FeatureDescriptor</code> configured with
@@ -47,27 +45,32 @@ abstract class AbstractELResolver extends ELResolver {
      * @param designTime Flag indicating feature is resolvable at design time
      */
     protected FeatureDescriptor descriptor(String name, String displayName,
-      String description, boolean expert, boolean hidden, boolean preferred,
-      Object type, boolean designTime) {
+            String description, boolean expert, boolean hidden,
+            boolean preferred, Object type, boolean designTime)
+    {
 
-      FeatureDescriptor descriptor = new FeatureDescriptor();
+        FeatureDescriptor descriptor = new FeatureDescriptor();
 
-      descriptor.setName(name);
-      descriptor.setDisplayName(displayName);
-      descriptor.setShortDescription(description);
-      descriptor.setExpert(expert);
-      descriptor.setHidden(hidden);
-      descriptor.setPreferred(preferred);
-      descriptor.setValue(ELResolver.TYPE, type);
-      if (designTime) {
-          descriptor.setValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME, Boolean.TRUE);
-      } else {
-          descriptor.setValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME, Boolean.FALSE);
-      }
+        descriptor.setName(name);
+        descriptor.setDisplayName(displayName);
+        descriptor.setShortDescription(description);
+        descriptor.setExpert(expert);
+        descriptor.setHidden(hidden);
+        descriptor.setPreferred(preferred);
+        descriptor.setValue(ELResolver.TYPE, type);
+        if (designTime)
+        {
+            descriptor.setValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME,
+                    Boolean.TRUE);
+        }
+        else
+        {
+            descriptor.setValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME,
+                    Boolean.FALSE);
+        }
 
-      return descriptor;
+        return descriptor;
 
     }
-
 
 }

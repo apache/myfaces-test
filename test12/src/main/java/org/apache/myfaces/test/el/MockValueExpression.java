@@ -35,17 +35,15 @@ import javax.faces.context.FacesContext;
  * 
  * @since 1.0.0
  */
-public class MockValueExpression extends ValueExpression {
-    
+public class MockValueExpression extends ValueExpression
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * Serial version UID.
      */
     private static final long serialVersionUID = -8649071428507512623L;
-
 
     /**
      * <p>Construct a new expression for the specified expression string.</p>
@@ -53,9 +51,11 @@ public class MockValueExpression extends ValueExpression {
      * @param expression Expression string to be evaluated
      * @param expectedType Expected type of the result
      */
-    public MockValueExpression(String expression, Class expectedType) {
+    public MockValueExpression(String expression, Class expectedType)
+    {
 
-        if (expression == null) {
+        if (expression == null)
+        {
             throw new NullPointerException("Expression string cannot be null");
         }
         this.expression = expression;
@@ -64,30 +64,24 @@ public class MockValueExpression extends ValueExpression {
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The parsed elements of this expression.</p>
      */
     private String[] elements = null;
 
-
     /**
      * <p>The expected result type for <code>getValue()</code> calls.</p>
      */
     private Class expectedType = null;
-
 
     /**
      * <p>The original expression string used to create this expression.</p>
      */
     private String expression = null;
 
-
     // ------------------------------------------------------ Expression Methods
-
 
     /**
      * <p>Return <code>true</code> if this expression is equal to the
@@ -95,62 +89,65 @@ public class MockValueExpression extends ValueExpression {
      *
      * @param obj Object to be compared
      */
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
 
-        if ((obj != null) & (obj instanceof ValueExpression)) {
-            return expression.equals(((ValueExpression) obj).getExpressionString());
-        } else {
+        if ((obj != null) & (obj instanceof ValueExpression))
+        {
+            return expression.equals(((ValueExpression) obj)
+                    .getExpressionString());
+        }
+        else
+        {
             return false;
         }
 
     }
 
-
     /**
      * <p>Return the original String used to create this expression,
      * unmodified.</p>
      */
-    public String getExpressionString() {
+    public String getExpressionString()
+    {
 
         return this.expression;
 
     }
 
-
     /**
      * <p>Return the hash code for this expression.</p>
      */
-    public int hashCode() {
+    public int hashCode()
+    {
 
         return this.expression.hashCode();
 
     }
 
-
     /**
      * <p>Return <code>true</code> if the expression string for this expression
      * contains only literal text.</p>
      */
-    public boolean isLiteralText() {
+    public boolean isLiteralText()
+    {
 
         return (expression.indexOf("${") < 0) && (expression.indexOf("#{") < 0);
 
     }
 
-
     // ------------------------------------------------- ValueExpression Methods
-
 
     /**
      * <p>Return the type that the result of this expression will
      * be coerced to.</p>
      */
-    public Class getExpectedType() {
+    public Class getExpectedType()
+    {
 
         return this.expectedType;
 
     }
-
 
     /**
      * <p>Evaluate this expression relative to the specified context,
@@ -159,20 +156,24 @@ public class MockValueExpression extends ValueExpression {
      *
      * @param context ELContext for this evaluation
      */
-    public Class getType(ELContext context) {
+    public Class getType(ELContext context)
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
         Object value = getValue(context);
-        if (value == null) {
+        if (value == null)
+        {
             return null;
-        } else {
+        }
+        else
+        {
             return value.getClass();
         }
 
     }
-
 
     /**
      * <p>Evaluate this expression relative to the specified context,
@@ -180,25 +181,30 @@ public class MockValueExpression extends ValueExpression {
      *
      * @param context ELContext for this evaluation
      */
-    public Object getValue(ELContext context) {
+    public Object getValue(ELContext context)
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
-        if (isLiteralText()) {
+        if (isLiteralText())
+        {
             return expression;
         }
 
-        FacesContext fcontext = (FacesContext) context.getContext(FacesContext.class);
+        FacesContext fcontext = (FacesContext) context
+                .getContext(FacesContext.class);
         ELResolver resolver = fcontext.getApplication().getELResolver();
         Object base = null;
-        for (int i = 0; i < elements.length; i++) {
+        for (int i = 0; i < elements.length; i++)
+        {
             base = resolver.getValue(context, base, elements[i]);
         }
-        return fcontext.getApplication().getExpressionFactory().coerceToType(base, getExpectedType());
+        return fcontext.getApplication().getExpressionFactory().coerceToType(
+                base, getExpectedType());
 
     }
-
 
     /**
      * <p>Evaluate this expression relative to the specified context,
@@ -207,26 +213,30 @@ public class MockValueExpression extends ValueExpression {
      *
      * @param context ELContext for this evaluation
      */
-    public boolean isReadOnly(ELContext context) {
+    public boolean isReadOnly(ELContext context)
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
-        if (isLiteralText()) {
+        if (isLiteralText())
+        {
             return true;
         }
 
-        FacesContext fcontext = (FacesContext) context.getContext(FacesContext.class);
+        FacesContext fcontext = (FacesContext) context
+                .getContext(FacesContext.class);
         ELResolver resolver = fcontext.getApplication().getELResolver();
         Object base = null;
-        for (int i = 0; i < elements.length - 1; i++) {
+        for (int i = 0; i < elements.length - 1; i++)
+        {
             base = resolver.getValue(context, base, elements[i]);
         }
-        return resolver.isReadOnly(context, base, elements[elements.length - 1]);
+        return resolver
+                .isReadOnly(context, base, elements[elements.length - 1]);
 
     }
-
-
 
     /**
      * <p>Evaluate this expression relative to the specified context,
@@ -235,74 +245,98 @@ public class MockValueExpression extends ValueExpression {
      * @param context ELContext for this evaluation
      * @param value Value to which the result should be set
      */
-    public void setValue(ELContext context, Object value) {
+    public void setValue(ELContext context, Object value)
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
 
-        FacesContext fcontext = (FacesContext) context.getContext(FacesContext.class);
+        FacesContext fcontext = (FacesContext) context
+                .getContext(FacesContext.class);
         ELResolver resolver = fcontext.getApplication().getELResolver();
         Object base = null;
-        for (int i = 0; i < elements.length - 1; i++) {
+        for (int i = 0; i < elements.length - 1; i++)
+        {
             base = resolver.getValue(context, base, elements[i]);
         }
         resolver.setValue(context, base, elements[elements.length - 1], value);
 
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Parse the expression string into its constituent elemetns.</p>
      */
-    private void parse() {
+    private void parse()
+    {
 
-        if (isLiteralText()) {
+        if (isLiteralText())
+        {
             elements = new String[0];
             return;
         }
 
-        if (expression.startsWith("${") || expression.startsWith("#{")) {
-            if (expression.endsWith("}")) {               
+        if (expression.startsWith("${") || expression.startsWith("#{"))
+        {
+            if (expression.endsWith("}"))
+            {
                 List names = new ArrayList();
-                StringBuffer expr = new StringBuffer(expression.substring(2, expression.length() - 1).replaceAll(" ", ""));
+                StringBuffer expr = new StringBuffer(expression.substring(2,
+                        expression.length() - 1).replaceAll(" ", ""));
                 boolean isBlockOn = false;
-                for (int i = expr.length() - 1; i > -1; i--) {
-                    if (expr.charAt(i) == ' ') {
+                for (int i = expr.length() - 1; i > -1; i--)
+                {
+                    if (expr.charAt(i) == ' ')
+                    {
                         expr.deleteCharAt(i);
-                    } else if (expr.charAt(i) == ']') {
+                    }
+                    else if (expr.charAt(i) == ']')
+                    {
                         expr.deleteCharAt(i);
-                    } else if (expr.charAt(i) == '[') {
+                    }
+                    else if (expr.charAt(i) == '[')
+                    {
                         expr.deleteCharAt(i);
-                    } else if (expr.charAt(i) == '\'') {
-                        if (!isBlockOn) {
+                    }
+                    else if (expr.charAt(i) == '\'')
+                    {
+                        if (!isBlockOn)
+                        {
                             expr.deleteCharAt(i);
-                        } else {
+                        }
+                        else
+                        {
                             names.add(0, expr.substring(i + 1));
                             expr.delete(i, expr.length());
                         }
                         isBlockOn = !isBlockOn;
-                    } else if (expr.charAt(i) == '.' && !isBlockOn) {
+                    }
+                    else if (expr.charAt(i) == '.' && !isBlockOn)
+                    {
                         names.add(0, expr.substring(i + 1));
                         expr.delete(i, expr.length());
                     }
                 }
-                if (expr.length() > 0) {
+                if (expr.length() > 0)
+                {
                     names.add(0, expr.toString());
                 }
 
                 elements = (String[]) names.toArray(new String[names.size()]);
-            } else {
+            }
+            else
+            {
                 throw new IllegalArgumentException(expression);
             }
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException(expression);
         }
 
     }
-
 
 }

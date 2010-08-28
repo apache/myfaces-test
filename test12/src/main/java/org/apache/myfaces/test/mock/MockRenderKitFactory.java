@@ -32,69 +32,70 @@ import javax.faces.render.RenderKitFactory;
  * @since 1.0.0
  */
 
-public class MockRenderKitFactory extends RenderKitFactory {
-
+public class MockRenderKitFactory extends RenderKitFactory
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Return a default instance.</p>
      */
-    public MockRenderKitFactory() {
+    public MockRenderKitFactory()
+    {
 
         renderKits = new HashMap();
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The set of render kits that have been registered here.</p>
      */
     private Map renderKits = new HashMap();
 
-
     // ------------------------------------------------ RenderKitFactory Methods
 
-
     /** {@inheritDoc} */
-    public void addRenderKit(String renderKitId, RenderKit renderKit) {
+    public void addRenderKit(String renderKitId, RenderKit renderKit)
+    {
 
-        if ((renderKitId == null) || (renderKit == null)) {
+        if ((renderKitId == null) || (renderKit == null))
+        {
             throw new NullPointerException();
         }
-        if (renderKits.containsKey(renderKitId)) {
+        if (renderKits.containsKey(renderKitId))
+        {
             throw new IllegalArgumentException(renderKitId);
         }
         renderKits.put(renderKitId, renderKit);
 
     }
 
-
     /** {@inheritDoc} */
-    public RenderKit getRenderKit(FacesContext context, String renderKitId) {
+    public RenderKit getRenderKit(FacesContext context, String renderKitId)
+    {
 
-        if (renderKitId == null) {
+        if (renderKitId == null)
+        {
             throw new NullPointerException();
         }
         RenderKit renderKit = (RenderKit) renderKits.get(renderKitId);
-        if (renderKit == null) {
+        if (renderKit == null)
+        {
             // Issue 38294 -- We removed the automatic creation of the
             // default renderkit in the constructor, allowing it to be
             // added by AbstractJsfTestCase in the usual case.  To preserve
             // backwards compatibility, however, create one on the fly
             // if the user asks for the default HTML renderkit and it has
             // not been manually added yet
-            if (RenderKitFactory.HTML_BASIC_RENDER_KIT.equals(renderKitId)) {
+            if (RenderKitFactory.HTML_BASIC_RENDER_KIT.equals(renderKitId))
+            {
                 renderKit = new MockRenderKit();
                 renderKits.put(RenderKitFactory.HTML_BASIC_RENDER_KIT,
-                               renderKit);
+                        renderKit);
                 return renderKit;
             }
             throw new IllegalArgumentException(renderKitId);
@@ -103,13 +104,12 @@ public class MockRenderKitFactory extends RenderKitFactory {
 
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getRenderKitIds() {
+    public Iterator getRenderKitIds()
+    {
 
         return renderKits.keySet().iterator();
 
     }
-
 
 }

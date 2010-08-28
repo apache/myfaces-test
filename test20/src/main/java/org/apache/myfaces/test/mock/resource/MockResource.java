@@ -39,9 +39,10 @@ public class MockResource extends Resource
     private MockResourceMeta _resourceMeta;
     private MockResourceLoader _resourceLoader;
     private MockResourceHandlerSupport _resourceHandlerSupport;
-    
-    public MockResource(MockResourceMeta resourceMeta, 
-            MockResourceLoader resourceLoader, MockResourceHandlerSupport support, String contentType)
+
+    public MockResource(MockResourceMeta resourceMeta,
+            MockResourceLoader resourceLoader,
+            MockResourceHandlerSupport support, String contentType)
     {
         _resourceMeta = resourceMeta;
         _resourceLoader = resourceLoader;
@@ -50,16 +51,16 @@ public class MockResource extends Resource
         setResourceName(resourceMeta.getResourceName());
         setContentType(contentType);
     }
-    
+
     public MockResourceLoader getResourceLoader()
     {
         return _resourceLoader;
-    }    
-    
+    }
+
     @Override
     public InputStream getInputStream() throws IOException
     {
-        return getResourceLoader().getResourceInputStream(_resourceMeta);            
+        return getResourceLoader().getResourceInputStream(_resourceMeta);
     }
 
     @Override
@@ -68,16 +69,17 @@ public class MockResource extends Resource
         String path;
         if (_resourceHandlerSupport.isExtensionMapping())
         {
-            path = ResourceHandler.RESOURCE_IDENTIFIER + '/' + 
-                getResourceName() + _resourceHandlerSupport.getMapping();
+            path = ResourceHandler.RESOURCE_IDENTIFIER + '/'
+                    + getResourceName() + _resourceHandlerSupport.getMapping();
         }
         else
         {
-            String mapping = _resourceHandlerSupport.getMapping(); 
-            path = ResourceHandler.RESOURCE_IDENTIFIER + '/' + getResourceName();
+            String mapping = _resourceHandlerSupport.getMapping();
+            path = ResourceHandler.RESOURCE_IDENTIFIER + '/'
+                    + getResourceName();
             path = (mapping == null) ? path : mapping + path;
         }
-        
+
         return path;
     }
 

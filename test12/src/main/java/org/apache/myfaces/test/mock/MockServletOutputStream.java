@@ -27,71 +27,65 @@ import javax.servlet.ServletOutputStream;
  * @since 1.0.0
  */
 
-public class MockServletOutputStream extends ServletOutputStream {
-
+public class MockServletOutputStream extends ServletOutputStream
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Return a default instance.</p>
      *
      * @param stream The stream we will use to buffer output
      */
-    public MockServletOutputStream(ByteArrayOutputStream stream) {
+    public MockServletOutputStream(ByteArrayOutputStream stream)
+    {
         this.baos = stream;
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Return the content that has been written to this output stream.</p>
      */
-    public byte[] content() {
+    public byte[] content()
+    {
         return baos.toByteArray();
     }
-
 
     /**
      * <p>Reset this output stream so that it appears no content has been
      * written.</p>
      */
-    public void reset() {
+    public void reset()
+    {
         baos.reset();
     }
-
 
     /**
      * <p>Return the number of bytes that have been written to this output stream.</p>
      */
-    public int size() {
+    public int size()
+    {
         return baos.size();
     }
 
-
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The internal buffer we use to capture output.</p>
      */
     private ByteArrayOutputStream baos = null;
 
-
     // --------------------------------------------- ServletOutputStream Methods
-
 
     /**
      * <p>Write the specified content to our internal cache.</p>
      *
      * @param content Content to be written
      */
-    public void write(int content) {
+    public void write(int content)
+    {
         baos.write(content);
     }
-
 
 }

@@ -54,7 +54,8 @@ public interface RestoreViewSupport
      * @param component
      *            the root component
      */
-    void processComponentBinding(FacesContext facesContext, UIComponent component);
+    void processComponentBinding(FacesContext facesContext,
+            UIComponent component);
 
     /**
      * <p>

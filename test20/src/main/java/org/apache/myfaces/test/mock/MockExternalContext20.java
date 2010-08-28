@@ -57,21 +57,23 @@ public class MockExternalContext20 extends MockExternalContext12
 
     // ------------------------------------------------------ Instance Variables
 
-    private static final String URL_PARAM_SEPERATOR="&";
-    private static final String URL_QUERY_SEPERATOR="?";
-    private static final String URL_FRAGMENT_SEPERATOR="#";
-    private static final String URL_NAME_VALUE_PAIR_SEPERATOR="=";
+    private static final String URL_PARAM_SEPERATOR = "&";
+    private static final String URL_QUERY_SEPERATOR = "?";
+    private static final String URL_FRAGMENT_SEPERATOR = "#";
+    private static final String URL_NAME_VALUE_PAIR_SEPERATOR = "=";
 
     // ----------------------------------------------------- Mock Object Methods
 
     // ------------------------------------------------- ExternalContext Methods
 
-    public String encodeBookmarkableURL(String baseUrl, Map<String,List<String>> parameters)
+    public String encodeBookmarkableURL(String baseUrl,
+            Map<String, List<String>> parameters)
     {
         return response.encodeURL(encodeURL(baseUrl, parameters));
     }
-    
-    private String encodeURL(String baseUrl, Map<String, List<String>> parameters)
+
+    private String encodeURL(String baseUrl,
+            Map<String, List<String>> parameters)
     {
         String fragment = null;
         String queryString = null;
@@ -81,8 +83,8 @@ public class MockExternalContext20 extends MockExternalContext12
         int index = baseUrl.indexOf(URL_FRAGMENT_SEPERATOR);
         if (index != -1)
         {
-            fragment = baseUrl.substring(index+1);
-            baseUrl = baseUrl.substring(0,index);
+            fragment = baseUrl.substring(index + 1);
+            baseUrl = baseUrl.substring(0, index);
         }
 
         //extract the current query string and add the params to the paramMap
@@ -94,7 +96,8 @@ public class MockExternalContext20 extends MockExternalContext12
             String[] nameValuePairs = queryString.split(URL_PARAM_SEPERATOR);
             for (int i = 0; i < nameValuePairs.length; i++)
             {
-                String[] currentPair = nameValuePairs[i].split(URL_NAME_VALUE_PAIR_SEPERATOR);
+                String[] currentPair = nameValuePairs[i]
+                        .split(URL_NAME_VALUE_PAIR_SEPERATOR);
                 if (currentPair[1] != null)
                 {
                     ArrayList<String> value = new ArrayList<String>(1);
@@ -120,7 +123,7 @@ public class MockExternalContext20 extends MockExternalContext12
         StringBuilder newUrl = new StringBuilder(baseUrl);
 
         //now add the updated param list onto the url
-        if (paramMap.size()>0)
+        if (paramMap.size() > 0)
         {
             boolean isFirstPair = true;
             for (Map.Entry<String, List<String>> pair : paramMap.entrySet())
@@ -141,12 +144,16 @@ public class MockExternalContext20 extends MockExternalContext12
                     newUrl.append(URL_NAME_VALUE_PAIR_SEPERATOR);
                     try
                     {
-                        newUrl.append(URLEncoder.encode(value,getResponseCharacterEncoding()));
+                        newUrl.append(URLEncoder.encode(value,
+                                getResponseCharacterEncoding()));
                     }
                     catch (UnsupportedEncodingException e)
                     {
                         //shouldn't ever get here
-                        throw new UnsupportedOperationException("Encoding type=" + getResponseCharacterEncoding() + " not supported", e);
+                        throw new UnsupportedOperationException(
+                                "Encoding type="
+                                        + getResponseCharacterEncoding()
+                                        + " not supported", e);
                     }
                 }
             }
@@ -161,18 +168,20 @@ public class MockExternalContext20 extends MockExternalContext12
         return newUrl.toString();
     }
 
-    public String encodeRedirectURL(String baseUrl, Map<String,List<String>> parameters)
+    public String encodeRedirectURL(String baseUrl,
+            Map<String, List<String>> parameters)
     {
         return response.encodeRedirectURL(encodeURL(baseUrl, parameters));
     }
-    
+
     @Override
     public String encodePartialActionURL(String url)
     {
         return ((HttpServletResponse) response).encodeURL(url);
     }
 
-    public String getContextName() {
+    public String getContextName()
+    {
         return context.getServletContextName();
     }
 
@@ -181,7 +190,8 @@ public class MockExternalContext20 extends MockExternalContext12
         return context.getRealPath(path);
     }
 
-    public void responseSendError(int statusCode, String message) throws IOException
+    public void responseSendError(int statusCode, String message)
+            throws IOException
     {
         if (message == null)
         {

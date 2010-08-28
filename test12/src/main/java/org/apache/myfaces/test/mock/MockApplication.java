@@ -47,15 +47,16 @@ import javax.faces.validator.Validator;
  * @since 1.0.0
  */
 
-public class MockApplication extends Application {
-
+public class MockApplication extends Application
+{
 
     // ------------------------------------------------------------ Constructors
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockApplication() {
+    public MockApplication()
+    {
 
         setActionListener(new MockActionListener());
         components = new HashMap();
@@ -72,45 +73,50 @@ public class MockApplication extends Application {
         setViewHandler(new MockViewHandler());
 
         // Register the standard by-id converters
-        addConverter("javax.faces.BigDecimal", "javax.faces.convert.BigDecimalConverter");
-        addConverter("javax.faces.BigInteger", "javax.faces.convert.BigIntegerConverter");
-        addConverter("javax.faces.Boolean",    "javax.faces.convert.BooleanConverter");
-        addConverter("javax.faces.Byte",       "javax.faces.convert.ByteConverter");
-        addConverter("javax.faces.Character",  "javax.faces.convert.CharacterConverter");
-        addConverter("javax.faces.DateTime",   "javax.faces.convert.DateTimeConverter");
-        addConverter("javax.faces.Double",     "javax.faces.convert.DoubleConverter");
-        addConverter("javax.faces.Float",      "javax.faces.convert.FloatConverter");
-        addConverter("javax.faces.Integer",    "javax.faces.Convert.IntegerConverter");
-        addConverter("javax.faces.Long",       "javax.faces.convert.LongConverter");
-        addConverter("javax.faces.Number",     "javax.faces.convert.NumberConverter");
-        addConverter("javax.faces.Short",      "javax.faces.convert.ShortConverter");
+        addConverter("javax.faces.BigDecimal",
+                "javax.faces.convert.BigDecimalConverter");
+        addConverter("javax.faces.BigInteger",
+                "javax.faces.convert.BigIntegerConverter");
+        addConverter("javax.faces.Boolean",
+                "javax.faces.convert.BooleanConverter");
+        addConverter("javax.faces.Byte", "javax.faces.convert.ByteConverter");
+        addConverter("javax.faces.Character",
+                "javax.faces.convert.CharacterConverter");
+        addConverter("javax.faces.DateTime",
+                "javax.faces.convert.DateTimeConverter");
+        addConverter("javax.faces.Double",
+                "javax.faces.convert.DoubleConverter");
+        addConverter("javax.faces.Float", "javax.faces.convert.FloatConverter");
+        addConverter("javax.faces.Integer",
+                "javax.faces.Convert.IntegerConverter");
+        addConverter("javax.faces.Long", "javax.faces.convert.LongConverter");
+        addConverter("javax.faces.Number",
+                "javax.faces.convert.NumberConverter");
+        addConverter("javax.faces.Short", "javax.faces.convert.ShortConverter");
 
         // Register the standard by-type converters
-        addConverter(Boolean.class,            "javax.faces.convert.BooleanConverter");
-        addConverter(Boolean.TYPE,             "javax.faces.convert.BooleanConverter");
-        addConverter(Byte.class,               "javax.faces.convert.ByteConverter");
-        addConverter(Byte.TYPE,                "javax.faces.convert.ByteConverter");
-        addConverter(Character.class,          "javax.faces.convert.CharacterConverter");
-        addConverter(Character.TYPE,           "javax.faces.convert.CharacterConverter");
-        addConverter(Double.class,             "javax.faces.convert.DoubleConverter");
-        addConverter(Double.TYPE,              "javax.faces.convert.DoubleConverter");
-        addConverter(Float.class,              "javax.faces.convert.FloatConverter");
-        addConverter(Float.TYPE,               "javax.faces.convert.FloatConverter");
-        addConverter(Integer.class,            "javax.faces.convert.IntegerConverter");
-        addConverter(Integer.TYPE,             "javax.faces.convert.IntegerConverter");
-        addConverter(Long.class,               "javax.faces.convert.LongConverter");
-        addConverter(Long.TYPE,                "javax.faces.convert.LongConverter");
-        addConverter(Short.class,              "javax.faces.convert.ShortConverter");
-        addConverter(Short.TYPE,               "javax.faces.convert.ShortConverter");
+        addConverter(Boolean.class, "javax.faces.convert.BooleanConverter");
+        addConverter(Boolean.TYPE, "javax.faces.convert.BooleanConverter");
+        addConverter(Byte.class, "javax.faces.convert.ByteConverter");
+        addConverter(Byte.TYPE, "javax.faces.convert.ByteConverter");
+        addConverter(Character.class, "javax.faces.convert.CharacterConverter");
+        addConverter(Character.TYPE, "javax.faces.convert.CharacterConverter");
+        addConverter(Double.class, "javax.faces.convert.DoubleConverter");
+        addConverter(Double.TYPE, "javax.faces.convert.DoubleConverter");
+        addConverter(Float.class, "javax.faces.convert.FloatConverter");
+        addConverter(Float.TYPE, "javax.faces.convert.FloatConverter");
+        addConverter(Integer.class, "javax.faces.convert.IntegerConverter");
+        addConverter(Integer.TYPE, "javax.faces.convert.IntegerConverter");
+        addConverter(Long.class, "javax.faces.convert.LongConverter");
+        addConverter(Long.TYPE, "javax.faces.convert.LongConverter");
+        addConverter(Short.class, "javax.faces.convert.ShortConverter");
+        addConverter(Short.TYPE, "javax.faces.convert.ShortConverter");
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private ActionListener actionListener = null;
     private Map components = null;
@@ -127,338 +133,364 @@ public class MockApplication extends Application {
     private VariableResolver variableResolver = null;
     private ViewHandler viewHandler = null;
 
-
     // ----------------------------------------------------- Application Methods
 
-
     /** {@inheritDoc} */
-    public ActionListener getActionListener() {
+    public ActionListener getActionListener()
+    {
 
         return this.actionListener;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setActionListener(ActionListener actionListener) {
+    public void setActionListener(ActionListener actionListener)
+    {
         this.actionListener = actionListener;
     }
 
-
     /** {@inheritDoc} */
-    public Locale getDefaultLocale() {
+    public Locale getDefaultLocale()
+    {
 
         return this.defaultLocale;
 
     }
 
     /** {@inheritDoc} */
-    public void setDefaultLocale(Locale defaultLocale) {
+    public void setDefaultLocale(Locale defaultLocale)
+    {
 
         this.defaultLocale = defaultLocale;
 
     }
 
     /** {@inheritDoc} */
-    public String getDefaultRenderKitId() {
+    public String getDefaultRenderKitId()
+    {
 
         return this.defaultRenderKitId;
 
     }
 
     /** {@inheritDoc} */
-    public void setDefaultRenderKitId(String defaultRenderKitId) {
+    public void setDefaultRenderKitId(String defaultRenderKitId)
+    {
 
         this.defaultRenderKitId = defaultRenderKitId;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getMessageBundle() {
+    public String getMessageBundle()
+    {
 
         return this.messageBundle;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setMessageBundle(String messageBundle) {
+    public void setMessageBundle(String messageBundle)
+    {
 
         this.messageBundle = messageBundle;
 
     }
 
-
     /** {@inheritDoc} */
-    public NavigationHandler getNavigationHandler() {
+    public NavigationHandler getNavigationHandler()
+    {
 
         return this.navigationHandler;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setNavigationHandler(NavigationHandler navigationHandler) {
+    public void setNavigationHandler(NavigationHandler navigationHandler)
+    {
 
         this.navigationHandler = navigationHandler;
 
     }
 
-
     /** {@inheritDoc} */
-    public PropertyResolver getPropertyResolver() {
+    public PropertyResolver getPropertyResolver()
+    {
 
         return this.propertyResolver;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setPropertyResolver(PropertyResolver propertyResolver) {
+    public void setPropertyResolver(PropertyResolver propertyResolver)
+    {
 
         this.propertyResolver = propertyResolver;
 
     }
 
-
     /** {@inheritDoc} */
-    public StateManager getStateManager() {
+    public StateManager getStateManager()
+    {
 
         return this.stateManager;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setStateManager(StateManager stateManager) {
+    public void setStateManager(StateManager stateManager)
+    {
 
         this.stateManager = stateManager;
 
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getSupportedLocales() {
+    public Iterator getSupportedLocales()
+    {
 
         return this.supportedLocales.iterator();
 
     }
 
-
     /** {@inheritDoc} */
-    public void setSupportedLocales(Collection supportedLocales) {
+    public void setSupportedLocales(Collection supportedLocales)
+    {
 
         this.supportedLocales = supportedLocales;
 
     }
 
-
     /** {@inheritDoc} */
-    public VariableResolver getVariableResolver() {
+    public VariableResolver getVariableResolver()
+    {
 
         return this.variableResolver;
     }
 
-
     /** {@inheritDoc} */
-    public void setVariableResolver(VariableResolver variableResolver) {
+    public void setVariableResolver(VariableResolver variableResolver)
+    {
 
         this.variableResolver = variableResolver;
 
     }
 
-
     /** {@inheritDoc} */
-    public ViewHandler getViewHandler() {
+    public ViewHandler getViewHandler()
+    {
 
         return this.viewHandler;
 
     }
 
-
     /** {@inheritDoc} */
-    public void setViewHandler(ViewHandler viewHandler) {
+    public void setViewHandler(ViewHandler viewHandler)
+    {
 
         this.viewHandler = viewHandler;
 
     }
 
-
     /** {@inheritDoc} */
-    public void addComponent(String componentType, String componentClass) {
+    public void addComponent(String componentType, String componentClass)
+    {
 
         components.put(componentType, componentClass);
 
     }
 
-
     /** {@inheritDoc} */
-    public UIComponent createComponent(String componentType) {
+    public UIComponent createComponent(String componentType)
+    {
 
-        if (componentType == null) {
+        if (componentType == null)
+        {
             throw new NullPointerException("Requested component type is null");
         }
         String componentClass = (String) components.get(componentType);
-        if (componentClass == null) {
-            throw new FacesException("No component class registered for component type '"
-                    + componentType + "'");
+        if (componentClass == null)
+        {
+            throw new FacesException(
+                    "No component class registered for component type '"
+                            + componentType + "'");
         }
-        try {
+        try
+        {
             Class clazz = Class.forName(componentClass);
             return ((UIComponent) clazz.newInstance());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
     }
 
-
     /** {@inheritDoc} */
     public UIComponent createComponent(ValueBinding componentBinding,
-                                       FacesContext context,
-                                       String componentType)
-        throws FacesException {
+            FacesContext context, String componentType) throws FacesException
+    {
 
         UIComponent component = null;
-        try {
+        try
+        {
             component = (UIComponent) componentBinding.getValue(context);
-            if (component == null) {
+            if (component == null)
+            {
                 component = createComponent(componentType);
                 componentBinding.setValue(context, component);
             }
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
         return component;
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getComponentTypes() {
+    public Iterator getComponentTypes()
+    {
 
         return (components.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public void addConverter(String converterId, String converterClass) {
+    public void addConverter(String converterId, String converterClass)
+    {
 
         converters.put(converterId, converterClass);
 
     }
 
-
     /** {@inheritDoc} */
-    public void addConverter(Class targetClass, String converterClass) {
+    public void addConverter(Class targetClass, String converterClass)
+    {
 
         converters1.put(targetClass, converterClass);
 
     }
 
-
     /** {@inheritDoc} */
-    public Converter createConverter(String converterId) {
+    public Converter createConverter(String converterId)
+    {
 
         String converterClass = (String) converters.get(converterId);
-        if (converterClass == null) {
+        if (converterClass == null)
+        {
             return null;
         }
-        try {
+        try
+        {
             Class clazz = Class.forName(converterClass);
             return ((Converter) clazz.newInstance());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public Converter createConverter(Class targetClass) {
+    public Converter createConverter(Class targetClass)
+    {
 
         String converterClass = (String) converters1.get(targetClass);
-        if (converterClass == null) {
+        if (converterClass == null)
+        {
             return null;
         }
-        try {
+        try
+        {
             Class clazz = Class.forName(converterClass);
             return ((Converter) clazz.newInstance());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getConverterIds() {
+    public Iterator getConverterIds()
+    {
 
         return (converters.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getConverterTypes() {
+    public Iterator getConverterTypes()
+    {
 
         return (converters1.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public MethodBinding createMethodBinding(String ref, Class[] params) {
+    public MethodBinding createMethodBinding(String ref, Class[] params)
+    {
 
-        if (ref == null) {
+        if (ref == null)
+        {
             throw new NullPointerException();
-        } else {
+        }
+        else
+        {
             return (new MockMethodBinding(this, ref, params));
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public ValueBinding createValueBinding(String ref) {
+    public ValueBinding createValueBinding(String ref)
+    {
 
-        if (ref == null) {
+        if (ref == null)
+        {
             throw new NullPointerException();
-        } else {
+        }
+        else
+        {
             return (new MockValueBinding(this, ref));
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void addValidator(String validatorId, String validatorClass) {
+    public void addValidator(String validatorId, String validatorClass)
+    {
 
         validators.put(validatorId, validatorClass);
 
     }
 
-
     /** {@inheritDoc} */
-    public Validator createValidator(String validatorId) {
+    public Validator createValidator(String validatorId)
+    {
 
         String validatorClass = (String) validators.get(validatorId);
-        try {
+        try
+        {
             Class clazz = Class.forName(validatorClass);
             return ((Validator) clazz.newInstance());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new FacesException(e);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getValidatorIds() {
+    public Iterator getValidatorIds()
+    {
         return (validators.keySet().iterator());
     }
-
 
 }

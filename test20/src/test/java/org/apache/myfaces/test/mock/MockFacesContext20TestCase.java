@@ -81,7 +81,8 @@ public class MockFacesContext20TestCase extends AbstractJsfTestCase
         assertTrue(messageList.contains(message1));
         assertTrue(messageList.contains(message2));
 
-        List<FacesMessage> messageListClientId = _context.getMessageList("clientid1");
+        List<FacesMessage> messageListClientId = _context
+                .getMessageList("clientid1");
         assertEquals(1, messageListClientId.size());
         assertTrue(messageListClientId.contains(message1));
     }

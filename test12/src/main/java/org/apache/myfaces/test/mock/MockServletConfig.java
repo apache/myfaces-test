@@ -30,18 +30,17 @@ import javax.servlet.ServletContext;
  * @since 1.0.0
  */
 
-public class MockServletConfig implements ServletConfig {
-
+public class MockServletConfig implements ServletConfig
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockServletConfig() {
+    public MockServletConfig()
+    {
     }
-
 
     /**
      * <p>Construct an instance associated with the specified
@@ -49,13 +48,12 @@ public class MockServletConfig implements ServletConfig {
      *
      * @param context The associated ServletContext
      */
-    public MockServletConfig(ServletContext context) {
+    public MockServletConfig(ServletContext context)
+    {
         setServletContext(context);
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Add a servlet initialization parameter.</p>
@@ -63,65 +61,62 @@ public class MockServletConfig implements ServletConfig {
      * @param name Parameter name
      * @param value Parameter value
      */
-    public void addInitParameter(String name, String value) {
+    public void addInitParameter(String name, String value)
+    {
 
         parameters.put(name, value);
 
     }
-
 
     /**
      * <p>Set the servlet context for this application.</p>
      *
      * @param context The new servlet context
      */
-    public void setServletContext(ServletContext context) {
+    public void setServletContext(ServletContext context)
+    {
 
         this.context = context;
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private ServletContext context;
     private Hashtable parameters = new Hashtable();
 
-
     // --------------------------------------------------- ServletConfig Methods
 
-
     /** {@inheritDoc} */
-    public String getInitParameter(String name) {
+    public String getInitParameter(String name)
+    {
 
         return (String) parameters.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getInitParameterNames() {
+    public Enumeration getInitParameterNames()
+    {
 
         return parameters.keys();
 
     }
 
-
     /** {@inheritDoc} */
-    public ServletContext getServletContext() {
+    public ServletContext getServletContext()
+    {
 
         return this.context;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getServletName() {
+    public String getServletName()
+    {
 
         return "MockServlet";
 
     }
-
 
 }

@@ -24,59 +24,54 @@ import java.security.Principal;
  * 
  * @since 1.0.0
  */
-public class MockPrincipal implements Principal {
-
+public class MockPrincipal implements Principal
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default Principal instance.</p>
      */
-    public MockPrincipal() {
+    public MockPrincipal()
+    {
         this(null);
     }
-
 
     /**
      * <p>Construct a Principal with the specified name.</p>
      *
      * @param name Name for this Principal
      */
-    public MockPrincipal(String name) {
+    public MockPrincipal(String name)
+    {
         this.name = name;
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The name for this Principal intance.</p>
      */
     private String name = null;
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Set the name for this Principal.</p>
      *
      * @param name The new name
      */
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-
     // ------------------------------------------------------- Principal Methods
 
-
     /** {@inheritDoc} */
-    public String getName() {
+    public String getName()
+    {
         return this.name;
     }
-
 
 }

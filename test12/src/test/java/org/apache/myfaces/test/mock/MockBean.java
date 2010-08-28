@@ -24,37 +24,51 @@ import java.io.Serializable;
  *
  * $Id$
  */
-public class MockBean implements Serializable {
+public class MockBean implements Serializable
+{
 
     private static final long serialVersionUID = 8879968751506858610L;
     private String command;
-    public String getCommand() {
+
+    public String getCommand()
+    {
         return (this.command);
     }
-    public void setCommand(String command) {
+
+    public void setCommand(String command)
+    {
         this.command = command;
     }
 
     private String input;
-    public String getInput() {
+
+    public String getInput()
+    {
         return (this.input);
     }
-    public void setInput(String input) {
+
+    public void setInput(String input)
+    {
         this.input = input;
     }
 
     private String output;
-    public String getOutput() {
+
+    public String getOutput()
+    {
         return (this.output);
     }
-    public void setOutput(String output) {
+
+    public void setOutput(String output)
+    {
         this.output = output;
     }
 
-    public String combine() {
-        return ((command == null ? "" : command) + ":" +
-                (input == null ? "" : input) + ":" +
-                (output == null ? "" : output));
+    public String combine()
+    {
+        return ((command == null ? "" : command) + ":"
+                + (input == null ? "" : input) + ":" + (output == null ? ""
+                : output));
     }
 
 }

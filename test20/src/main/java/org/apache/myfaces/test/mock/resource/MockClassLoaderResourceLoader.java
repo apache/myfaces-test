@@ -31,7 +31,7 @@ import java.net.URL;
 public class MockClassLoaderResourceLoader extends MockResourceLoader
 {
     private ClassLoader _classLoader;
-    
+
     public MockClassLoaderResourceLoader(ClassLoader loader, String prefix)
     {
         super(prefix);
@@ -49,11 +49,13 @@ public class MockClassLoaderResourceLoader extends MockResourceLoader
     {
         if (getPrefix() != null && !"".equals(getPrefix()))
         {
-            return getClassLoader().getResourceAsStream(getPrefix() + '/' + resourceMeta.getResourceIdentifier());
+            return getClassLoader().getResourceAsStream(
+                    getPrefix() + '/' + resourceMeta.getResourceIdentifier());
         }
         else
         {
-            return getClassLoader().getResourceAsStream(resourceMeta.getResourceIdentifier());
+            return getClassLoader().getResourceAsStream(
+                    resourceMeta.getResourceIdentifier());
         }
     }
 
@@ -62,11 +64,13 @@ public class MockClassLoaderResourceLoader extends MockResourceLoader
     {
         if (getPrefix() != null && !"".equals(getPrefix()))
         {
-            return getClassLoader().getResource(getPrefix() + '/' + resourceMeta.getResourceIdentifier());
+            return getClassLoader().getResource(
+                    getPrefix() + '/' + resourceMeta.getResourceIdentifier());
         }
         else
         {
-            return getClassLoader().getResource(resourceMeta.getResourceIdentifier());
+            return getClassLoader().getResource(
+                    resourceMeta.getResourceIdentifier());
         }
     }
 
@@ -77,10 +81,12 @@ public class MockClassLoaderResourceLoader extends MockResourceLoader
     }
 
     @Override
-    public MockResourceMeta createResourceMeta(String prefix, String libraryName, String libraryVersion,
-                                           String resourceName, String resourceVersion)
+    public MockResourceMeta createResourceMeta(String prefix,
+            String libraryName, String libraryVersion, String resourceName,
+            String resourceVersion)
     {
-        return new MockResourceMeta(prefix, libraryName, libraryVersion, resourceName, resourceVersion);
+        return new MockResourceMeta(prefix, libraryName, libraryVersion,
+                resourceName, resourceVersion);
     }
 
     /**
@@ -93,7 +99,7 @@ public class MockClassLoaderResourceLoader extends MockResourceLoader
     {
         return _classLoader;
     }
-    
+
     public void setClassLoader(ClassLoader loader)
     {
         _classLoader = loader;
@@ -104,7 +110,8 @@ public class MockClassLoaderResourceLoader extends MockResourceLoader
     {
         if (getPrefix() != null && !"".equals(getPrefix()))
         {
-            URL url = getClassLoader().getResource(getPrefix() + '/' + libraryName);
+            URL url = getClassLoader().getResource(
+                    getPrefix() + '/' + libraryName);
             if (url != null)
             {
                 return true;

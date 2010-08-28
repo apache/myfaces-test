@@ -36,11 +36,15 @@ public class MockVisitContextFactory extends VisitContextFactory
 {
 
     @Override
-    public VisitContext getVisitContext(FacesContext context, Collection<String> ids, Set<VisitHint> hints)
+    public VisitContext getVisitContext(FacesContext context,
+            Collection<String> ids, Set<VisitHint> hints)
     {
-        if (ids == null || ids.isEmpty()) {
+        if (ids == null || ids.isEmpty())
+        {
             return new FullVisitContext(context, hints);
-        } else {
+        }
+        else
+        {
             return new PartialVisitContext(context, ids, hints);
         }
     }

@@ -41,11 +41,12 @@ public class MockViewHandler20 extends MockViewHandler
     {
         // the standard impl only calls getActionURL(context, viewId)
         // but we want to include the parameters too
-        
+
         String actionEncodedViewId = getActionURL(context, viewId);
         ExternalContext externalContext = context.getExternalContext();
-        String bookmarkEncodedURL = externalContext.encodeBookmarkableURL(actionEncodedViewId, parameters);
+        String bookmarkEncodedURL = externalContext.encodeBookmarkableURL(
+                actionEncodedViewId, parameters);
         return externalContext.encodeActionURL(bookmarkEncodedURL);
     }
-    
+
 }

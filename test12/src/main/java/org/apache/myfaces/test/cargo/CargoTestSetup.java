@@ -41,7 +41,8 @@ import org.codehaus.cargo.util.log.FileLogger;
  * 
  * @since 1.0.0
  */
-public class CargoTestSetup extends TestSetup {
+public class CargoTestSetup extends TestSetup
+{
 
     // ------------------------------------------------------------ Constructors
 
@@ -50,7 +51,8 @@ public class CargoTestSetup extends TestSetup {
      *
      * @param test Tests to be run within this test setup.
      */
-    public CargoTestSetup(Test test) {
+    public CargoTestSetup(Test test)
+    {
         super(test);
     }
 
@@ -80,13 +82,15 @@ public class CargoTestSetup extends TestSetup {
      *
      * @throws Exception if an error occurs.
      */
-    protected void setUp() throws Exception {
+    protected void setUp() throws Exception
+    {
 
         super.setUp();
 
         // If there is no container id, default to Tomcat 5x
         String containerId = System.getProperty("cargo.container.id");
-        if (containerId == null) {
+        if (containerId == null)
+        {
             containerId = Tomcat5xInstalledLocalContainer.ID;
         }
         System.out.println("[INFO] container id: " + containerId);
@@ -95,37 +99,33 @@ public class CargoTestSetup extends TestSetup {
         String deployablePath = System.getProperty("cargo.deployable");
         System.out.println("[INFO] deployable: " + deployablePath);
         Deployable war = new DefaultDeployableFactory().createDeployable(
-                containerId,
-                deployablePath,
-                DeployableType.WAR);
+                containerId, deployablePath, DeployableType.WAR);
 
         // Container configuration
-        ConfigurationFactory configurationFactory =
-                new DefaultConfigurationFactory();
+        ConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
 
-        LocalConfiguration configuration =
-                (LocalConfiguration) configurationFactory.createConfiguration(
-                        containerId,
-                        ConfigurationType.STANDALONE);
+        LocalConfiguration configuration = (LocalConfiguration) configurationFactory
+                .createConfiguration(containerId, ConfigurationType.STANDALONE);
 
         // Find and (if provided) set the port to use for the container.
         String servletPort = System.getProperty("cargo.servlet.port");
-        if (servletPort != null) {
+        if (servletPort != null)
+        {
             configuration.setProperty("cargo.servlet.port", servletPort);
             System.out.println("[INFO] servlet port: " + servletPort);
         }
 
         configuration.addDeployable(war);
 
-        container = (InstalledLocalContainer)
-                new DefaultContainerFactory().createContainer(
-                        containerId,
-                        ContainerType.INSTALLED, configuration);
+        container = (InstalledLocalContainer) new DefaultContainerFactory()
+                .createContainer(containerId, ContainerType.INSTALLED,
+                        configuration);
 
         // If 'cargo.container.home' is not set, or if an expression was
         // passed through, try to use the TOMCAT_HOME environment variable.
         String containerHome = System.getProperty("cargo.container.home");
-        if (containerHome == null || containerHome.startsWith("$")) {
+        if (containerHome == null || containerHome.startsWith("$"))
+        {
             containerHome = System.getenv("TOMCAT_HOME");
         }
         System.out.println("[INFO] container home: " + containerHome);
@@ -133,14 +133,16 @@ public class CargoTestSetup extends TestSetup {
 
         // Find and (if provided) set the path to a log file
         String containerLog = System.getProperty("cargo.container.log");
-        if (containerLog != null) {
+        if (containerLog != null)
+        {
             System.out.println("[INFO] container log: " + containerLog);
             container.setLogger(new FileLogger(containerLog, false));
         }
 
         // Find and (if provided) set the path to an output file
         String containerOutput = System.getProperty("cargo.container.output");
-        if (containerOutput != null) {
+        if (containerOutput != null)
+        {
             System.out.println("[INFO] container output: " + containerOutput);
             container.setOutput(new File(containerOutput));
         }
@@ -148,17 +150,16 @@ public class CargoTestSetup extends TestSetup {
         container.start();
     }
 
-
     /**
      * Stop the container after running the tests.
      *
      * @throws Exception if an error occurs.
      */
-    protected void tearDown() throws Exception {
+    protected void tearDown() throws Exception
+    {
         container.stop();
         super.tearDown();
     }
-
 
     /**
      * Return the name of the test setup.
@@ -168,9 +169,9 @@ public class CargoTestSetup extends TestSetup {
      * @deprecated No replacement.
      */
 
-    public String getName() {
+    public String getName()
+    {
         return "CargoTestSetup";
     }
 
 }
-

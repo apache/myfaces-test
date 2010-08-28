@@ -37,9 +37,7 @@ import org.apache.myfaces.test.mock.MockApplication20;
 public class ConfigParserTestCase extends AbstractJsfTestCase
 {
 
-
     // ------------------------------------------------------------ Constructors
-
 
     // Construct a new instance of this test case.
 
@@ -48,9 +46,7 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
         super(name);
     }
 
-
     // ---------------------------------------------------- Overall Test Methods
-
 
     // Set up instance variables required by this test case.
 
@@ -63,7 +59,6 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
     }
 
-
     // Return the tests included in this test case.
 
     public static Test suite()
@@ -72,7 +67,6 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
         return (new TestSuite(ConfigParserTestCase.class));
 
     }
-
 
     // Tear down instance variables required by this test case.
 
@@ -84,9 +78,7 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ConfigParser instance under test
     ConfigParser parser = null;
@@ -95,9 +87,9 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
     // ------------------------------------------------- Individual Test Methods
 
-
     // Test access to the platform configuration resources
-    public void testPlatform() throws Exception {
+    public void testPlatform() throws Exception
+    {
 
         // Make sure we can acquire a good set of URLs
         URL[] urls = parser.getPlatformURLs();
@@ -110,22 +102,21 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
     }
 
-
     // Test a pristine instance
-    public void testPristine() {
+    public void testPristine()
+    {
 
         assertNotNull(parser);
 
     }
-
 
     // Test loading a simple configuration resource
     @SuppressWarnings("unchecked")
     public void testSimple() throws Exception
     {
 
-
-        URL url = this.getClass().getResource("/org/apache/myfaces/test/config/faces-config-1.xml");
+        URL url = this.getClass().getResource(
+                "/org/apache/myfaces/test/config/faces-config-1.xml");
         assertNotNull(url);
         parser.parse(url);
         Iterator items;
@@ -133,7 +124,8 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
         items = application20.getComponentTypes();
         list.clear();
-        while (items.hasNext()) {
+        while (items.hasNext())
+        {
             list.add(items.next());
         }
         assertTrue(list.contains("component-type-1"));
@@ -141,7 +133,8 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
         items = application.getConverterIds();
         list.clear();
-        while (items.hasNext()) {
+        while (items.hasNext())
+        {
             list.add(items.next());
         }
         assertTrue(list.contains("converter-id-1"));
@@ -153,41 +146,48 @@ public class ConfigParserTestCase extends AbstractJsfTestCase
 
         items = application.getValidatorIds();
         list.clear();
-        while (items.hasNext()) {
+        while (items.hasNext())
+        {
             list.add(items.next());
         }
         assertTrue(list.contains("validator-id-1"));
         assertTrue(list.contains("validator-id-2"));
 
-        Renderer renderer = renderKit.getRenderer("component-family-1", "renderer-type-1");
+        Renderer renderer = renderKit.getRenderer("component-family-1",
+                "renderer-type-1");
         assertNotNull(renderer);
         assertTrue(renderer instanceof MyRenderer);
-        
-        renderer = renderKit.getRenderer("component-family-2", "renderer-type-2");
+
+        renderer = renderKit.getRenderer("component-family-2",
+                "renderer-type-2");
         assertNotNull(renderer);
         assertTrue(renderer instanceof MyRenderer);
-        
+
         items = application20.getBehaviorIds();
         list.clear();
-        while (items.hasNext()) {
+        while (items.hasNext())
+        {
             list.add(items.next());
         }
         assertTrue(list.contains("behavior-1"));
         assertTrue(list.contains("behavior-2"));
-        
+
         items = renderKit.getClientBehaviorRendererTypes();
         list.clear();
-        while (items.hasNext()) {
+        while (items.hasNext())
+        {
             list.add(items.next());
         }
         assertTrue(list.contains("client-behavior-renderer-1"));
         assertTrue(list.contains("client-behavior-renderer-2"));
-        
-        ClientBehaviorRenderer clientBehaviorRenderer1 = renderKit.getClientBehaviorRenderer("client-behavior-renderer-1");
+
+        ClientBehaviorRenderer clientBehaviorRenderer1 = renderKit
+                .getClientBehaviorRenderer("client-behavior-renderer-1");
         assertNotNull(clientBehaviorRenderer1);
         assertTrue(clientBehaviorRenderer1 instanceof MyClientBehaviorRenderer);
 
-        ClientBehaviorRenderer clientBehaviorRenderer2 = renderKit.getClientBehaviorRenderer("client-behavior-renderer-2");
+        ClientBehaviorRenderer clientBehaviorRenderer2 = renderKit
+                .getClientBehaviorRenderer("client-behavior-renderer-2");
         assertNotNull(clientBehaviorRenderer2);
         assertTrue(clientBehaviorRenderer2 instanceof MyClientBehaviorRenderer);
     }

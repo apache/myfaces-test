@@ -18,27 +18,26 @@ package org.apache.myfaces.test.mock.data;
 
 public class Bean
 {
-  private String name, password;
+    private String name, password;
 
-  public String getName()
-  {
-    return name;
-  }
+    public String getName()
+    {
+        return name;
+    }
 
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
-  public String getPassword()
-  {
-    return password;
-  }
+    public String getPassword()
+    {
+        return password;
+    }
 
-  public void setPassword(String password)
-  {
-    this.password = password;
-  }
-  
-  
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
 }

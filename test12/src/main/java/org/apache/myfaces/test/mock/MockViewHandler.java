@@ -31,59 +31,59 @@ import javax.faces.render.RenderKitFactory;
  * @since 1.0.0
  */
 
-public class MockViewHandler extends ViewHandler {
-
+public class MockViewHandler extends ViewHandler
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockViewHandler() {
+    public MockViewHandler()
+    {
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     // ----------------------------------------------------- ViewHandler Methods
 
-
     /** {@inheritDoc} */
-    public Locale calculateLocale(FacesContext context) {
+    public Locale calculateLocale(FacesContext context)
+    {
 
         Locale locale = context.getApplication().getDefaultLocale();
-        if (locale == null) {
+        if (locale == null)
+        {
             locale = Locale.getDefault();
         }
         return locale;
 
     }
 
-
     /** {@inheritDoc} */
-    public String calculateRenderKitId(FacesContext context) {
+    public String calculateRenderKitId(FacesContext context)
+    {
 
         String renderKitId = context.getApplication().getDefaultRenderKitId();
-        if (renderKitId == null) {
+        if (renderKitId == null)
+        {
             renderKitId = RenderKitFactory.HTML_BASIC_RENDER_KIT;
         }
         return renderKitId;
 
     }
 
-
     /** {@inheritDoc} */
-    public UIViewRoot createView(FacesContext context, String viewId) {
+    public UIViewRoot createView(FacesContext context, String viewId)
+    {
 
         // Save locale and renderKitId from previous view (if any), per spec
         Locale locale = null;
         String renderKitId = null;
-        if (context.getViewRoot() != null) {
+        if (context.getViewRoot() != null)
+        {
             locale = context.getViewRoot().getLocale();
             renderKitId = context.getViewRoot().getRenderKitId();
         }
@@ -91,17 +91,23 @@ public class MockViewHandler extends ViewHandler {
         // Configure a new UIViewRoot instance
         UIViewRoot view = new UIViewRoot();
         view.setViewId(viewId);
-        if (locale != null) {
+        if (locale != null)
+        {
             view.setLocale(locale);
-        } else {
-            view.setLocale
-              (context.getApplication().getViewHandler().calculateLocale(context));
         }
-        if (renderKitId != null) {
+        else
+        {
+            view.setLocale(context.getApplication().getViewHandler()
+                    .calculateLocale(context));
+        }
+        if (renderKitId != null)
+        {
             view.setRenderKitId(renderKitId);
-        } else {
-            view.setRenderKitId
-              (context.getApplication().getViewHandler().calculateRenderKitId(context));
+        }
+        else
+        {
+            view.setRenderKitId(context.getApplication().getViewHandler()
+                    .calculateRenderKitId(context));
         }
 
         // Return the configured instance
@@ -109,45 +115,46 @@ public class MockViewHandler extends ViewHandler {
 
     }
 
-
     /** {@inheritDoc} */
-    public String getActionURL(FacesContext context, String viewId) {
+    public String getActionURL(FacesContext context, String viewId)
+    {
 
-        return FacesContext.getCurrentInstance().getExternalContext().
-                getRequestContextPath() + viewId;
+        return FacesContext.getCurrentInstance().getExternalContext()
+                .getRequestContextPath()
+                + viewId;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getResourceURL(FacesContext context, String path) {
+    public String getResourceURL(FacesContext context, String path)
+    {
 
-        return FacesContext.getCurrentInstance().getExternalContext().
-                getRequestContextPath() + path;
+        return FacesContext.getCurrentInstance().getExternalContext()
+                .getRequestContextPath()
+                + path;
 
     }
 
-
     /** {@inheritDoc} */
-    public void renderView(FacesContext context, UIViewRoot view) {
+    public void renderView(FacesContext context, UIViewRoot view)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public UIViewRoot restoreView(FacesContext context, String viewId) {
+    public UIViewRoot restoreView(FacesContext context, String viewId)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void writeState(FacesContext context) {
+    public void writeState(FacesContext context)
+    {
 
     }
-
 
 }

@@ -58,13 +58,14 @@ class RestoreViewExecutor implements PhaseExecutor
         UIViewRoot viewRoot = facesContext.getViewRoot();
 
         RestoreViewSupport restoreViewSupport = getRestoreViewSupport();
-        
+
         if (viewRoot != null)
         {
             if (log.isTraceEnabled())
                 log.trace("View already exists in the FacesContext");
 
-            viewRoot.setLocale(facesContext.getExternalContext().getRequestLocale());
+            viewRoot.setLocale(facesContext.getExternalContext()
+                    .getRequestLocale());
             restoreViewSupport.processComponentBinding(facesContext, viewRoot);
             return false;
         }
@@ -80,15 +81,17 @@ class RestoreViewExecutor implements PhaseExecutor
             viewRoot = viewHandler.restoreView(facesContext, viewId);
             if (viewRoot == null)
             {
-                throw new ViewExpiredException("The expected view was not returned " + "for the view identifier: "
-                        + viewId, viewId);
+                throw new ViewExpiredException(
+                        "The expected view was not returned "
+                                + "for the view identifier: " + viewId, viewId);
             }
             restoreViewSupport.processComponentBinding(facesContext, viewRoot);
         }
         else
         {
             if (log.isTraceEnabled())
-                log.trace("Request is not a postback. New UIViewRoot will be created");
+                log
+                        .trace("Request is not a postback. New UIViewRoot will be created");
 
             viewRoot = viewHandler.createView(facesContext, viewId);
             facesContext.renderResponse();
@@ -129,32 +132,36 @@ class RestoreViewExecutor implements PhaseExecutor
     {
         ExternalContext externalContext = facesContext.getExternalContext();
 
-//        if (PortletUtil.isPortletRequest(facesContext))
-//        {
-//            PortletRequest request = (PortletRequest) externalContext.getRequest();
-//            return request.getParameter(MyFacesGenericPortlet.VIEW_ID);
-//        }
-//
+        //        if (PortletUtil.isPortletRequest(facesContext))
+        //        {
+        //            PortletRequest request = (PortletRequest) externalContext.getRequest();
+        //            return request.getParameter(MyFacesGenericPortlet.VIEW_ID);
+        //        }
+        //
         String viewId = externalContext.getRequestPathInfo(); // getPathInfo
         if (viewId == null)
         {
             // No extra path info found, so it is propably extension mapping
             viewId = externalContext.getRequestServletPath(); // getServletPath
-//            DebugUtils.assertError(viewId != null, log,
-//                    "RequestServletPath is null, cannot determine viewId of current page.");
+            //            DebugUtils.assertError(viewId != null, log,
+            //                    "RequestServletPath is null, cannot determine viewId of current page.");
             if (viewId == null)
                 return null;
 
             // TODO: JSF Spec 2.2.1 - what do they mean by "if the default
             // ViewHandler implementation is used..." ?
-            String defaultSuffix = externalContext.getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
-            String suffix = defaultSuffix != null ? defaultSuffix : ViewHandler.DEFAULT_SUFFIX;
-//            DebugUtils.assertError(suffix.charAt(0) == '.', log, "Default suffix must start with a dot!");
+            String defaultSuffix = externalContext
+                    .getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
+            String suffix = defaultSuffix != null ? defaultSuffix
+                    : ViewHandler.DEFAULT_SUFFIX;
+            //            DebugUtils.assertError(suffix.charAt(0) == '.', log, "Default suffix must start with a dot!");
 
             int dot = viewId.lastIndexOf('.');
             if (dot == -1)
             {
-                log.error("Assumed extension mapping, but there is no extension in " + viewId);
+                log
+                        .error("Assumed extension mapping, but there is no extension in "
+                                + viewId);
                 viewId = null;
             }
             else

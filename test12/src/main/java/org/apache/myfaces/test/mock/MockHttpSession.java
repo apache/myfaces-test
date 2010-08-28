@@ -35,21 +35,20 @@ import javax.servlet.http.HttpSessionContext;
  * $Id$
  * @since 1.0.0
  */
-public class MockHttpSession implements HttpSession {
-
+public class MockHttpSession implements HttpSession
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Configure a default instance.</p>
      */
-    public MockHttpSession() {
+    public MockHttpSession()
+    {
 
         super();
 
     }
-
 
     /**
      * <p>Configure a session instance associated with the specified
@@ -57,16 +56,15 @@ public class MockHttpSession implements HttpSession {
      *
      * @param servletContext The associated servlet context
      */
-    public MockHttpSession(ServletContext servletContext) {
+    public MockHttpSession(ServletContext servletContext)
+    {
 
         super();
         setServletContext(servletContext);
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Add a new listener instance that should be notified about
@@ -74,25 +72,24 @@ public class MockHttpSession implements HttpSession {
      *
      * @param listener The new listener to be added
      */
-    public void addAttributeListener(HttpSessionAttributeListener listener) {
+    public void addAttributeListener(HttpSessionAttributeListener listener)
+    {
         attributeListeners.add(listener);
     }
-
 
     /**
      * <p>Set the ServletContext associated with this session.</p>
      *
      * @param servletContext The associated servlet context
      */
-    public void setServletContext(ServletContext servletContext) {
+    public void setServletContext(ServletContext servletContext)
+    {
 
         this.servletContext = servletContext;
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private List attributeListeners = new ArrayList();
     private HashMap attributes = new HashMap();
@@ -100,25 +97,23 @@ public class MockHttpSession implements HttpSession {
     private ServletContext servletContext = null;
     private boolean invalid = false;
 
-
     // ---------------------------------------------------------- Public Methods
-
 
     /**
      * <p>Set the session identifier of this session.</p>
      *
      * @param id The new session identifier
      */
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-
     // ----------------------------------------------------- HttpSession Methods
 
-
     /** {@inheritDoc} */
-    public Object getAttribute(String name) {
+    public Object getAttribute(String name)
+    {
 
         assertValidity();
 
@@ -126,9 +121,9 @@ public class MockHttpSession implements HttpSession {
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getAttributeNames() {
+    public Enumeration getAttributeNames()
+    {
 
         assertValidity();
 
@@ -136,152 +131,156 @@ public class MockHttpSession implements HttpSession {
 
     }
 
-
     /** {@inheritDoc} */
-    public long getCreationTime() {
+    public long getCreationTime()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getId() {
+    public String getId()
+    {
 
         return this.id;
 
     }
 
-
     /** {@inheritDoc} */
-    public long getLastAccessedTime() {
+    public long getLastAccessedTime()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public int getMaxInactiveInterval() {
+    public int getMaxInactiveInterval()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public ServletContext getServletContext() {
+    public ServletContext getServletContext()
+    {
 
         return this.servletContext;
 
     }
 
-
     /** {@inheritDoc} */
-    public HttpSessionContext getSessionContext() {
+    public HttpSessionContext getSessionContext()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public Object getValue(String name) {
+    public Object getValue(String name)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String[] getValueNames() {
+    public String[] getValueNames()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void invalidate() {
-        
+    public void invalidate()
+    {
+
         assertValidity();
 
         attributes.clear();
         invalid = true;
     }
 
-
     /** {@inheritDoc} */
-    public boolean isNew() {
+    public boolean isNew()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void putValue(String name, Object value) {
+    public void putValue(String name, Object value)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeAttribute(String name) {
+    public void removeAttribute(String name)
+    {
 
         assertValidity();
 
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             Object value = attributes.remove(name);
             fireAttributeRemoved(name, value);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeValue(String name) {
+    public void removeValue(String name)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void setAttribute(String name, Object value) {
+    public void setAttribute(String name, Object value)
+    {
 
         assertValidity();
 
-        if (name == null) {
+        if (name == null)
+        {
             throw new IllegalArgumentException("Attribute name cannot be null");
         }
-        if (value == null) {
+        if (value == null)
+        {
             removeAttribute(name);
             return;
         }
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             Object oldValue = attributes.get(name);
             attributes.put(name, value);
             fireAttributeReplaced(name, oldValue);
-        } else {
+        }
+        else
+        {
             attributes.put(name, value);
             fireAttributeAdded(name, value);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void setMaxInactiveInterval(int interval) {
+    public void setMaxInactiveInterval(int interval)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     // --------------------------------------------------------- Support Methods
-
 
     /**
      * <p>Fire an attribute added event to interested listeners.</p>
@@ -289,20 +288,22 @@ public class MockHttpSession implements HttpSession {
      * @param key Attribute whose value was added
      * @param value The new value
      */
-    private void fireAttributeAdded(String key, Object value) {
-        if (attributeListeners.size() < 1) {
+    private void fireAttributeAdded(String key, Object value)
+    {
+        if (attributeListeners.size() < 1)
+        {
             return;
         }
-        HttpSessionBindingEvent event =
-                new HttpSessionBindingEvent(this, key, value);
+        HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                value);
         Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext()) {
-            HttpSessionAttributeListener listener =
-                    (HttpSessionAttributeListener) listeners.next();
+        while (listeners.hasNext())
+        {
+            HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
+                    .next();
             listener.attributeAdded(event);
         }
     }
-
 
     /**
      * <p>Fire an attribute removed event to interested listeners.</p>
@@ -310,20 +311,22 @@ public class MockHttpSession implements HttpSession {
      * @param key Attribute whose value was removed
      * @param value The removed value
      */
-    private void fireAttributeRemoved(String key, Object value) {
-        if (attributeListeners.size() < 1) {
+    private void fireAttributeRemoved(String key, Object value)
+    {
+        if (attributeListeners.size() < 1)
+        {
             return;
         }
-        HttpSessionBindingEvent event =
-                new HttpSessionBindingEvent(this, key, value);
+        HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                value);
         Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext()) {
-            HttpSessionAttributeListener listener =
-                    (HttpSessionAttributeListener) listeners.next();
+        while (listeners.hasNext())
+        {
+            HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
+                    .next();
             listener.attributeRemoved(event);
         }
     }
-
 
     /**
      * <p>Fire an attribute replaced event to interested listeners.</p>
@@ -331,27 +334,29 @@ public class MockHttpSession implements HttpSession {
      * @param key Attribute whose value was replaced
      * @param value The original value
      */
-    private void fireAttributeReplaced(String key, Object value) {
-        if (attributeListeners.size() < 1) {
+    private void fireAttributeReplaced(String key, Object value)
+    {
+        if (attributeListeners.size() < 1)
+        {
             return;
         }
-        HttpSessionBindingEvent event =
-                new HttpSessionBindingEvent(this, key, value);
+        HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                value);
         Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext()) {
-            HttpSessionAttributeListener listener =
-                    (HttpSessionAttributeListener) listeners.next();
+        while (listeners.hasNext())
+        {
+            HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
+                    .next();
             listener.attributeReplaced(event);
         }
     }
 
-
     /**
      * <p>Throws an {@link IllegalStateException} if this session is invalid.</p>
      */
-    private void assertValidity() 
+    private void assertValidity()
     {
-        if (invalid) 
+        if (invalid)
         {
             throw new IllegalStateException("Session is invalid.");
         }

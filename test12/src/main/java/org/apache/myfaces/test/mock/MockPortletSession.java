@@ -30,19 +30,20 @@ import javax.portlet.PortletSession;
  * $Id$
  * @since 1.0.0
  */
-public class MockPortletSession implements PortletSession {
+public class MockPortletSession implements PortletSession
+{
 
     // ------------------------------------------------------------ Constructors
 
     /**
      * <p> Configure a default instance. </p>
      */
-    public MockPortletSession() {
+    public MockPortletSession()
+    {
 
         super();
 
     }
-
 
     /**
      * <p> Configure a session instance associated with the specified servlet
@@ -50,13 +51,13 @@ public class MockPortletSession implements PortletSession {
      *
      * @param servletContext The associated servlet context
      */
-    public MockPortletSession(PortletContext portletContext) {
+    public MockPortletSession(PortletContext portletContext)
+    {
 
         super();
         this.portletContext = portletContext;
 
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
 
@@ -66,7 +67,8 @@ public class MockPortletSession implements PortletSession {
      *
      * @param servletContext The associated servlet context
      */
-    public void setPortletContext(PortletContext portletContext) {
+    public void setPortletContext(PortletContext portletContext)
+    {
 
         this.portletContext = portletContext;
 
@@ -79,7 +81,6 @@ public class MockPortletSession implements PortletSession {
     private String id = "123";
     private PortletContext portletContext = null;
 
-
     // ---------------------------------------------------------- Public Methods
 
     /**
@@ -87,30 +88,33 @@ public class MockPortletSession implements PortletSession {
      *
      * @param id The new session identifier
      */
-    public void setId(String id) {
+    public void setId(String id)
+    {
 
         this.id = id;
 
     }
 
-
     // -------------------------------------------------- PortletSession Methods
 
-
     /** {@inheritDoc} */
-    public Object getAttribute(String name) {
+    public Object getAttribute(String name)
+    {
 
         return getAttribute(name, PORTLET_SCOPE);
 
     }
 
-
     /** {@inheritDoc} */
-    public Object getAttribute(String name, int scope) {
+    public Object getAttribute(String name, int scope)
+    {
 
-        if (scope == PORTLET_SCOPE) {
+        if (scope == PORTLET_SCOPE)
+        {
             return portletAttributes.get(name);
-        } else if (scope == APPLICATION_SCOPE) {
+        }
+        else if (scope == APPLICATION_SCOPE)
+        {
             return applicationAttributes.get(name);
         }
 
@@ -119,21 +123,24 @@ public class MockPortletSession implements PortletSession {
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getAttributeNames() {
+    public Enumeration getAttributeNames()
+    {
 
         return getAttributeNames(PORTLET_SCOPE);
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getAttributeNames(int scope) {
+    public Enumeration getAttributeNames(int scope)
+    {
 
-        if (scope == PORTLET_SCOPE) {
+        if (scope == PORTLET_SCOPE)
+        {
             return new MockEnumeration(portletAttributes.keySet().iterator());
-        } else if (scope == APPLICATION_SCOPE) {
+        }
+        else if (scope == APPLICATION_SCOPE)
+        {
             return new MockEnumeration(applicationAttributes.keySet()
                     .iterator());
         }
@@ -143,114 +150,127 @@ public class MockPortletSession implements PortletSession {
 
     }
 
-
     /** {@inheritDoc} */
-    public long getCreationTime() {
+    public long getCreationTime()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getId() {
+    public String getId()
+    {
 
         return this.id;
 
     }
 
-
     /** {@inheritDoc} */
-    public long getLastAccessedTime() {
+    public long getLastAccessedTime()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public int getMaxInactiveInterval() {
+    public int getMaxInactiveInterval()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public PortletContext getPortletContext() {
+    public PortletContext getPortletContext()
+    {
 
         return portletContext;
     }
 
-
     /** {@inheritDoc} */
-    public void invalidate() {
+    public void invalidate()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isNew() {
+    public boolean isNew()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeAttribute(String name) {
+    public void removeAttribute(String name)
+    {
 
         removeAttribute(name, PORTLET_SCOPE);
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeAttribute(String name, int scope) {
+    public void removeAttribute(String name, int scope)
+    {
 
         Map attributes;
-        if (scope == PORTLET_SCOPE) {
+        if (scope == PORTLET_SCOPE)
+        {
             attributes = portletAttributes;
-        } else if (scope == APPLICATION_SCOPE) {
+        }
+        else if (scope == APPLICATION_SCOPE)
+        {
             attributes = applicationAttributes;
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("Scope constant " + scope
                     + " not recognized");
         }
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             attributes.remove(name);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void setAttribute(String name, Object value) {
+    public void setAttribute(String name, Object value)
+    {
 
         setAttribute(name, value, PORTLET_SCOPE);
 
     }
 
-
     /** {@inheritDoc} */
-    public void setAttribute(String name, Object value, int scope) {
+    public void setAttribute(String name, Object value, int scope)
+    {
 
-        if (name == null) {
+        if (name == null)
+        {
             throw new IllegalArgumentException("Attribute name cannot be null");
         }
-        if (value == null) {
+        if (value == null)
+        {
             removeAttribute(name, scope);
             return;
         }
 
         Map attributes;
-        if (scope == PORTLET_SCOPE) {
+        if (scope == PORTLET_SCOPE)
+        {
             attributes = portletAttributes;
-        } else if (scope == APPLICATION_SCOPE) {
+        }
+        else if (scope == APPLICATION_SCOPE)
+        {
             attributes = applicationAttributes;
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("Scope constant " + scope
                     + " not recognized");
         }
@@ -258,9 +278,9 @@ public class MockPortletSession implements PortletSession {
 
     }
 
-
     /** {@inheritDoc} */
-    public void setMaxInactiveInterval(int arg0) {
+    public void setMaxInactiveInterval(int arg0)
+    {
 
         throw new UnsupportedOperationException();
 

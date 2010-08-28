@@ -57,7 +57,8 @@ public class MockExceptionHandler extends ExceptionHandler
     @Override
     public Iterable<ExceptionQueuedEvent> getHandledExceptionQueuedEvents()
     {
-        return handled == null ? Collections.<ExceptionQueuedEvent>emptyList() : handled;
+        return handled == null ? Collections.<ExceptionQueuedEvent> emptyList()
+                : handled;
     }
 
     /**
@@ -66,13 +67,17 @@ public class MockExceptionHandler extends ExceptionHandler
     @Override
     public Throwable getRootCause(Throwable t)
     {
-        if (t == null) {
+        if (t == null)
+        {
             throw new NullPointerException("t");
         }
 
-        while (t != null) {
+        while (t != null)
+        {
             Class<?> clazz = t.getClass();
-            if (!clazz.equals(FacesException.class) && !clazz.equals(ELException.class)) {
+            if (!clazz.equals(FacesException.class)
+                    && !clazz.equals(ELException.class))
+            {
                 return t;
             }
 
@@ -88,7 +93,8 @@ public class MockExceptionHandler extends ExceptionHandler
     @Override
     public Iterable<ExceptionQueuedEvent> getUnhandledExceptionQueuedEvents()
     {
-        return unhandled == null ? Collections.<ExceptionQueuedEvent>emptyList() : unhandled;
+        return unhandled == null ? Collections
+                .<ExceptionQueuedEvent> emptyList() : unhandled;
     }
 
     /**
@@ -97,19 +103,23 @@ public class MockExceptionHandler extends ExceptionHandler
     @Override
     public void handle() throws FacesException
     {
-        if (unhandled != null && !unhandled.isEmpty()) {
-            if (handled == null) {
+        if (unhandled != null && !unhandled.isEmpty())
+        {
+            if (handled == null)
+            {
                 handled = new LinkedList<ExceptionQueuedEvent>();
             }
 
             FacesException toThrow = null;
 
-            do {
+            do
+            {
                 // For each ExceptionEvent in the list
 
                 // get the event to handle
                 ExceptionQueuedEvent event = unhandled.peek();
-                try {
+                try
+                {
                     // call its getContext() method
                     ExceptionQueuedEventContext context = event.getContext();
 
@@ -118,7 +128,8 @@ public class MockExceptionHandler extends ExceptionHandler
 
                     // Upon encountering the first such Exception that is not an instance of
                     // javax.faces.event.AbortProcessingException
-                    if (!shouldSkip(exception)) {
+                    if (!shouldSkip(exception))
+                    {
                         // set handledAndThrown so that getHandledExceptionQueuedEvent() returns this event
                         handledAndThrown = event;
 
@@ -130,22 +141,26 @@ public class MockExceptionHandler extends ExceptionHandler
                         break;
                     }
                 }
-                catch (Throwable t) {
+                catch (Throwable t)
+                {
                     // A FacesException must be thrown if a problem occurs while performing
                     // the algorithm to handle the exception
-                    throw new FacesException("Could not perform the algorithm to handle the Exception", t);
+                    throw new FacesException(
+                            "Could not perform the algorithm to handle the Exception",
+                            t);
                 }
-                finally {
+                finally
+                {
                     // if we will throw the Exception or if we just logged it,
                     // we handled it in either way --> add to handled
                     handled.add(event);
                     unhandled.remove(event);
                 }
-            }
-            while (!unhandled.isEmpty());
+            } while (!unhandled.isEmpty());
 
             // do we have to throw an Exception?
-            if (toThrow != null) {
+            if (toThrow != null)
+            {
                 throw toThrow;
             }
         }
@@ -164,9 +179,11 @@ public class MockExceptionHandler extends ExceptionHandler
      * {@inheritDoc}
      */
     @Override
-    public void processEvent(SystemEvent exceptionQueuedEvent) throws AbortProcessingException
+    public void processEvent(SystemEvent exceptionQueuedEvent)
+            throws AbortProcessingException
     {
-        if (unhandled == null) {
+        if (unhandled == null)
+        {
             unhandled = new LinkedList<ExceptionQueuedEvent>();
         }
 
@@ -178,7 +195,8 @@ public class MockExceptionHandler extends ExceptionHandler
         // Let toRethrow be either the result of calling getRootCause() on the Exception,
         // or the Exception itself, whichever is non-null
         Throwable toRethrow = getRootCause(exception);
-        if (toRethrow == null) {
+        if (toRethrow == null)
+        {
             toRethrow = exception;
         }
 
@@ -187,7 +205,8 @@ public class MockExceptionHandler extends ExceptionHandler
 
     protected FacesException wrap(Throwable exception)
     {
-        if (exception instanceof FacesException) {
+        if (exception instanceof FacesException)
+        {
             return (FacesException) exception;
         }
         return new FacesException(exception);

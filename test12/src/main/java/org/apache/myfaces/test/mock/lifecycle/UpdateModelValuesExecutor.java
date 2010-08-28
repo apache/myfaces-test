@@ -20,7 +20,6 @@ package org.apache.myfaces.test.mock.lifecycle;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-
 /**
  * Implements the lifecycle as described in Spec. 1.0 PFD Chapter 2
  *
@@ -29,13 +28,16 @@ import javax.faces.event.PhaseId;
  * @author Nikolay Petrov
  * @since 1.0.0
  */
-class UpdateModelValuesExecutor implements PhaseExecutor {
-  public boolean execute(FacesContext facesContext) {
-    facesContext.getViewRoot().processUpdates(facesContext);
-    return false;
-  }
+class UpdateModelValuesExecutor implements PhaseExecutor
+{
+    public boolean execute(FacesContext facesContext)
+    {
+        facesContext.getViewRoot().processUpdates(facesContext);
+        return false;
+    }
 
-  public PhaseId getPhase() {
-    return PhaseId.UPDATE_MODEL_VALUES;
-  }
+    public PhaseId getPhase()
+    {
+        return PhaseId.UPDATE_MODEL_VALUES;
+    }
 }

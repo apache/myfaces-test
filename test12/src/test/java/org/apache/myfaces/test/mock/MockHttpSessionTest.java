@@ -32,32 +32,32 @@ import org.apache.myfaces.test.base.AbstractJsfTestCase;
 public class MockHttpSessionTest extends AbstractJsfTestCase
 {
 
-    public static Test suite() 
+    public static Test suite()
     {
         return (new TestSuite(MockHttpSessionTest.class));
     }
-    
+
     private MockHttpSession session;
-    
+
     public MockHttpSessionTest(String name)
     {
         super(name);
     }
-    
-    protected void setUp() throws Exception 
+
+    protected void setUp() throws Exception
     {
         super.setUp();
-        
+
         session = new MockHttpSession();
     }
 
-    protected void tearDown() throws Exception 
+    protected void tearDown() throws Exception
     {
         super.tearDown();
-        
+
         session = null;
     }
-    
+
     /**
      * Tests if the session is correctly invalidated.
      */
@@ -66,59 +66,59 @@ public class MockHttpSessionTest extends AbstractJsfTestCase
         // first store a value in the session and retrieve it again
         session.setAttribute("someAttribute", "someValue");
         assertEquals("someValue", session.getAttribute("someAttribute"));
-        
+
         // invalidate the session
         session.invalidate();
-        
+
         try
         {
             session.getAttribute("someAttribute");
             fail("Session was already invalidated, getAttribute() has to throw an IllegalStateException.");
         }
-        catch(IllegalStateException e)
+        catch (IllegalStateException e)
         {
             // expected Exception
         }
-        
+
         try
         {
             session.setAttribute("someAttribute", "anotherValue");
             fail("Session was already invalidated, setAttribute() has to throw an IllegalStateException.");
         }
-        catch(IllegalStateException e)
+        catch (IllegalStateException e)
         {
             // expected Exception
         }
-        
+
         try
         {
             session.removeAttribute("someAttribute");
             fail("Session was already invalidated, removeAttribute() has to throw an IllegalStateException.");
         }
-        catch(IllegalStateException e)
+        catch (IllegalStateException e)
         {
             // expected Exception
         }
-        
+
         try
         {
             session.invalidate();
             fail("Session was already invalidated, invalidate() has to throw an IllegalStateException.");
         }
-        catch(IllegalStateException e)
+        catch (IllegalStateException e)
         {
             // expected Exception
         }
-        
+
         try
         {
             session.getAttributeNames();
             fail("Session was already invalidated, getAttributeNames() has to throw an IllegalStateException.");
         }
-        catch(IllegalStateException e)
+        catch (IllegalStateException e)
         {
             // expected Exception
         }
     }
-    
+
 }

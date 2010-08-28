@@ -28,52 +28,51 @@ import javax.el.VariableMapper;
  * @since 1.0.0
  */
 
-public class MockVariableMapper extends VariableMapper {
-    
+public class MockVariableMapper extends VariableMapper
+{
 
     // ------------------------------------------------------------ Constructors
 
-
     /** Creates a new instance of MockVariableMapper */
-    public MockVariableMapper() {
+    public MockVariableMapper()
+    {
     }
-    
 
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>Map of <code>ValueExpression</code>s, keyed by variable name.</p>
      */
     private Map expressions = new HashMap();
 
-
     // ----------------------------------------------------- Mock Object Methods
-
 
     // -------------------------------------------------- FunctionMapper Methods
 
-
     /** {@inheritDoc} */
-    public ValueExpression resolveVariable(String variable) {
+    public ValueExpression resolveVariable(String variable)
+    {
 
         return (ValueExpression) expressions.get(variable);
 
     }
 
-
     /** {@inheritDoc} */
-    public ValueExpression setVariable(String variable, ValueExpression expression) {
+    public ValueExpression setVariable(String variable,
+            ValueExpression expression)
+    {
 
         ValueExpression original = (ValueExpression) expressions.get(variable);
-        if (expression == null) {
+        if (expression == null)
+        {
             expressions.remove(variable);
-        } else {
+        }
+        else
+        {
             expressions.put(variable, expression);
         }
         return original;
 
     }
-
 
 }

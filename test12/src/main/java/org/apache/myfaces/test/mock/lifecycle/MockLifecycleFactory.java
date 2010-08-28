@@ -31,60 +31,55 @@ import javax.faces.lifecycle.LifecycleFactory;
  * @since 1.0.0
  */
 
-public class MockLifecycleFactory extends LifecycleFactory {
-
+public class MockLifecycleFactory extends LifecycleFactory
+{
 
     // ------------------------------------------------------------ Constructors
-
 
     /**
      * <p>Return a default instance.</p>
      */
-    public MockLifecycleFactory() {
+    public MockLifecycleFactory()
+    {
 
         lifecycles = new HashMap();
         lifecycles.put(LifecycleFactory.DEFAULT_LIFECYCLE, new MockLifecycle());
 
     }
 
-
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>The set of Lifecycle instances registered with us.</p>
      */
     private Map lifecycles = null;
 
-
     // ------------------------------------------------ LifecycleFactory Methods
 
-
     /** {@inheritDoc} */
-    public void addLifecycle(String lifecycleId, Lifecycle lifecycle) {
+    public void addLifecycle(String lifecycleId, Lifecycle lifecycle)
+    {
 
         lifecycles.put(lifecycleId, lifecycle);
 
     }
 
-
     /** {@inheritDoc} */
-    public Lifecycle getLifecycle(String lifecycleId) {
+    public Lifecycle getLifecycle(String lifecycleId)
+    {
 
         return (Lifecycle) lifecycles.get(lifecycleId);
 
     }
 
-
     /** {@inheritDoc} */
-    public Iterator getLifecycleIds() {
+    public Iterator getLifecycleIds()
+    {
 
         return lifecycles.keySet().iterator();
 
     }
-
 
 }

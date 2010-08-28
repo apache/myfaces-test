@@ -33,23 +33,26 @@ import javax.faces.el.VariableResolver;
  *
  * @since 1.0.0
  */
-public class FacesVariableResolverChainWrapper extends AbstractELResolver {
-    
+public class FacesVariableResolverChainWrapper extends AbstractELResolver
+{
 
     /**
      * <p>Return the most general type this resolver accepts for the
      * <code>property</code> argument.</p>
      */
-    public Class getCommonPropertyType(ELContext context, Object base) {
+    public Class getCommonPropertyType(ELContext context, Object base)
+    {
 
-        if (base != null) {
+        if (base != null)
+        {
             return null;
-        } else {
+        }
+        else
+        {
             return String.class;
         }
 
     }
-
 
     /**
      * <p>Return an <code>Iterator</code> over the attributes that this
@@ -58,13 +61,12 @@ public class FacesVariableResolverChainWrapper extends AbstractELResolver {
      * @param context <code>ELContext</code> for evaluating this value
      * @param base Base object against which this evaluation occurs
      */
-    public Iterator getFeatureDescriptors(ELContext context, Object base) {
+    public Iterator getFeatureDescriptors(ELContext context, Object base)
+    {
 
         return null;
 
     }
-
-
 
     /**
      * <p>Return the Java type of the specified property.</p>
@@ -74,15 +76,16 @@ public class FacesVariableResolverChainWrapper extends AbstractELResolver {
      *  (must be null because we are evaluating a top level variable)
      * @param property Property name to be accessed
      */
-    public Class getType(ELContext context, Object base, Object property) {
+    public Class getType(ELContext context, Object base, Object property)
+    {
 
-        if ((base == null) && (property == null)) {
+        if ((base == null) && (property == null))
+        {
             throw new PropertyNotFoundException("No property specified");
         }
         return null;
 
     }
-
 
     /**
      * <p>Evaluate with the legacy variable resolver chain and return
@@ -93,34 +96,41 @@ public class FacesVariableResolverChainWrapper extends AbstractELResolver {
      *  (must be null because we are evaluating a top level variable)
      * @param property Property name to be accessed
      */
-    public Object getValue(ELContext context, Object base, Object property) {
+    public Object getValue(ELContext context, Object base, Object property)
+    {
 
-        if (base != null) {
+        if (base != null)
+        {
             return null;
         }
-        if (property == null) {
+        if (property == null)
+        {
             throw new PropertyNotFoundException("No property specified");
         }
 
-        FacesContext fcontext = (FacesContext) context.getContext(FacesContext.class);
+        FacesContext fcontext = (FacesContext) context
+                .getContext(FacesContext.class);
         ExternalContext econtext = fcontext.getExternalContext();
         String name = property.toString();
 
         ELContext elContext = fcontext.getELContext();
         VariableResolver vr = fcontext.getApplication().getVariableResolver();
-        try {
+        try
+        {
             Object value = vr.resolveVariable(fcontext, name);
-            if (value != null) {
+            if (value != null)
+            {
                 context.setPropertyResolved(true);
             }
             return value;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             context.setPropertyResolved(false);
             throw new ELException(e);
         }
 
     }
-
 
     /**
      * <p>Return <code>true</code> if the specified property is read only.</p>
@@ -130,16 +140,16 @@ public class FacesVariableResolverChainWrapper extends AbstractELResolver {
      *  (must be null because we are evaluating a top level variable)
      * @param property Property name to be accessed
      */
-    public boolean isReadOnly(ELContext context, Object base, Object property) {
+    public boolean isReadOnly(ELContext context, Object base, Object property)
+    {
 
-        if ((base == null) && (property == null)) {
+        if ((base == null) && (property == null))
+        {
             throw new PropertyNotFoundException("No property specified");
         }
         return false;
 
     }
-
-
 
     /**
      * <p>Set the value of a scoped object for the specified name.</p>
@@ -150,13 +160,15 @@ public class FacesVariableResolverChainWrapper extends AbstractELResolver {
      * @param property Property name to be accessed
      * @param value New value to be set
      */
-    public void setValue(ELContext context, Object base, Object property, Object value) {
+    public void setValue(ELContext context, Object base, Object property,
+            Object value)
+    {
 
-        if ((base == null) && (property == null)) {
+        if ((base == null) && (property == null))
+        {
             throw new PropertyNotFoundException("No property specified");
         }
 
     }
-
 
 }

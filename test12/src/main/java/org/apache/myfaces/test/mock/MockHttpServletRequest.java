@@ -46,57 +46,52 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
  * <p>Mock implementation of <code>HttpServletContext</code>.</p>
  *
  * $Id$
  * @since 1.0.0
  */
-public class MockHttpServletRequest implements HttpServletRequest {
-
+public class MockHttpServletRequest implements HttpServletRequest
+{
 
     // ------------------------------------------------------------ Constructors
 
-
-    public MockHttpServletRequest() {
+    public MockHttpServletRequest()
+    {
 
         super();
 
     }
 
-
-    public MockHttpServletRequest(HttpSession session) {
+    public MockHttpServletRequest(HttpSession session)
+    {
 
         super();
         setHttpSession(session);
 
     }
 
-
     public MockHttpServletRequest(String contextPath, String servletPath,
-                                  String pathInfo, String queryString) {
+            String pathInfo, String queryString)
+    {
 
         super();
         setPathElements(contextPath, servletPath, pathInfo, queryString);
 
     }
 
-
-
     public MockHttpServletRequest(String contextPath, String servletPath,
-                                  String pathInfo, String queryString,
-                                  HttpSession session) {
+            String pathInfo, String queryString, HttpSession session)
+    {
 
         super();
         setPathElements(contextPath, servletPath, pathInfo, queryString);
         setHttpSession(session);
 
     }
-
 
     // ----------------------------------------------------- Mock Object Methods
-
 
     /**
      * <p>Add a new listener instance that should be notified about
@@ -104,10 +99,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
      *
      * @param listener The new listener to register
      */
-    public void addAttributeListener(ServletRequestAttributeListener listener) {
+    public void addAttributeListener(ServletRequestAttributeListener listener)
+    {
         attributeListeners.add(listener);
     }
-
 
     /**
      * <p>Add a date-valued header for this request.</p>
@@ -115,12 +110,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param name Header name
      * @param value Header value
      */
-    public void addDateHeader(String name, long value) {
+    public void addDateHeader(String name, long value)
+    {
 
         headers.add(name + ": " + formatDate(value));
 
     }
-
 
     /**
      * <p>Add a String-valued header for this request.</p>
@@ -128,12 +123,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param name Header name
      * @param value Header value
      */
-    public void addHeader(String name, String value) {
+    public void addHeader(String name, String value)
+    {
 
         headers.add(name + ": " + value);
 
     }
-
 
     /**
      * <p>Add an integer-valued header for this request.</p>
@@ -141,12 +136,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param name Header name
      * @param value Header value
      */
-    public void addIntHeader(String name, int value) {
+    public void addIntHeader(String name, int value)
+    {
 
         headers.add(name + ": " + value);
 
     }
-
 
     /**
      * <p>Add a request parameter for this request.</p>
@@ -154,10 +149,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param name Parameter name
      * @param value Parameter value
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(String name, String value)
+    {
 
         String[] values = (String[]) parameters.get(name);
-        if (values == null) {
+        if (values == null)
+        {
             String[] results = new String[] { value };
             parameters.put(name, results);
             return;
@@ -168,12 +165,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
         parameters.put(name, results);
 
     }
-    
+
     public void addCookie(Cookie c)
     {
         for (int i = 0; i < cookies.size(); i++)
         {
-            if ( ((Cookie)cookies.get(i)).getName().equals(c.getName()) )
+            if (((Cookie) cookies.get(i)).getName().equals(c.getName()))
             {
                 cookies.set(i, c);
                 return;
@@ -186,36 +183,36 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * <p>Return the <code>ServletContext</code> associated with
      * this request.</p>
      */
-    public ServletContext getServletContext() {
+    public ServletContext getServletContext()
+    {
 
         return this.servletContext;
 
     }
-
 
     /**
      * <p>Set the <code>HttpSession</code> associated with this request.</p>
      *
      * @param session The new session
      */
-    public void setHttpSession(HttpSession session) {
+    public void setHttpSession(HttpSession session)
+    {
 
         this.session = session;
 
     }
-
 
     /**
      * <p>Set the <code>Locale</code> associated with this request.</p>
      *
      * @param locale The new locale
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(Locale locale)
+    {
 
         this.locale = locale;
 
     }
-
 
     /**
      * <p>Set the parsed path elements associated with this request.</p>
@@ -226,7 +223,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param queryString The query string
      */
     public void setPathElements(String contextPath, String servletPath,
-                                String pathInfo, String queryString) {
+            String pathInfo, String queryString)
+    {
 
         this.contextPath = contextPath;
         this.servletPath = servletPath;
@@ -235,33 +233,31 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     }
 
-
     /**
      * <p>Set the <code>ServletContext</code> associated with this request.</p>
      *
      * @param servletContext The new servlet context
      */
-    public void setServletContext(ServletContext servletContext) {
+    public void setServletContext(ServletContext servletContext)
+    {
 
         this.servletContext = servletContext;
 
     }
-
 
     /**
      * <p>Set the <code>Principal</code> associated with this request.</p>
      *
      * @param principal The new Principal
      */
-    public void setUserPrincipal(Principal principal) {
+    public void setUserPrincipal(Principal principal)
+    {
 
         this.principal = principal;
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private List attributeListeners = new ArrayList();
     private HashMap attributes = new HashMap();
@@ -278,29 +274,29 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private String characterEncoding = null;
     private ServletInputStream inputStream = null;
     private List cookies = new ArrayList();
-    private Vector locales = null; 
+    private Vector locales = null;
 
     // ---------------------------------------------- HttpServletRequest Methods
 
-
     /** {@inheritDoc} */
-    public String getAuthType() {
+    public String getAuthType()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getContextPath() {
+    public String getContextPath()
+    {
 
         return contextPath;
 
     }
 
-
     /** {@inheritDoc} */
-    public Cookie[] getCookies() {
+    public Cookie[] getCookies()
+    {
 
         Cookie[] array = new Cookie[cookies.size()];
         for (int i = 0; i < cookies.size(); i++)
@@ -310,15 +306,17 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return array;
     }
 
-
     /** {@inheritDoc} */
-    public long getDateHeader(String name) {
+    public long getDateHeader(String name)
+    {
 
         String match = name + ":";
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
-            if (header.startsWith(match)) {
+            if (header.startsWith(match))
+            {
                 return parseDate(header.substring(match.length() + 1).trim());
             }
         }
@@ -326,15 +324,17 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     }
 
-
     /** {@inheritDoc} */
-    public String getHeader(String name) {
+    public String getHeader(String name)
+    {
 
         String match = name + ":";
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
-            if (header.startsWith(match)) {
+            if (header.startsWith(match))
+            {
                 return header.substring(match.length() + 1).trim();
             }
         }
@@ -342,18 +342,21 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getHeaderNames() {
+    public Enumeration getHeaderNames()
+    {
 
         Vector values = new Vector();
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
             int colon = header.indexOf(':');
-            if (colon >= 0) {
+            if (colon >= 0)
+            {
                 String name = header.substring(0, colon).trim();
-                if (!values.contains(name)) {
+                if (!values.contains(name))
+                {
                     values.add(name);
                 }
             }
@@ -362,16 +365,18 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getHeaders(String name) {
+    public Enumeration getHeaders(String name)
+    {
 
         String match = name + ":";
         Vector values = new Vector();
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
-            if (header.startsWith(match)) {
+            if (header.startsWith(match))
+            {
                 values.add(header.substring(match.length() + 1).trim());
             }
         }
@@ -379,376 +384,389 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     }
 
-
     /** {@inheritDoc} */
-    public int getIntHeader(String name) {
+    public int getIntHeader(String name)
+    {
 
         String match = name + ":";
         Iterator headers = this.headers.iterator();
-        while (headers.hasNext()) {
+        while (headers.hasNext())
+        {
             String header = (String) headers.next();
-            if (header.startsWith(match)) {
-                return Integer.parseInt(header.substring(match.length() + 1).trim());
+            if (header.startsWith(match))
+            {
+                return Integer.parseInt(header.substring(match.length() + 1)
+                        .trim());
             }
         }
         return -1;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getMethod() {
+    public String getMethod()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getPathInfo() {
+    public String getPathInfo()
+    {
 
         return pathInfo;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getPathTranslated() {
+    public String getPathTranslated()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getQueryString() {
+    public String getQueryString()
+    {
 
         return queryString;
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRemoteUser() {
+    public String getRemoteUser()
+    {
 
-        if (principal != null) {
+        if (principal != null)
+        {
             return principal.getName();
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRequestedSessionId() {
+    public String getRequestedSessionId()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRequestURI() {
+    public String getRequestURI()
+    {
 
         StringBuffer sb = new StringBuffer();
-        if (contextPath != null) {
+        if (contextPath != null)
+        {
             sb.append(contextPath);
         }
-        if (servletPath != null) {
+        if (servletPath != null)
+        {
             sb.append(servletPath);
         }
-        if (pathInfo != null) {
+        if (pathInfo != null)
+        {
             sb.append(pathInfo);
         }
-        if (sb.length() > 0) {
+        if (sb.length() > 0)
+        {
             return sb.toString();
         }
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public StringBuffer getRequestURL() {
+    public StringBuffer getRequestURL()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getServletPath() {
+    public String getServletPath()
+    {
 
         return (servletPath);
 
     }
 
-
     /** {@inheritDoc} */
-    public HttpSession getSession() {
+    public HttpSession getSession()
+    {
 
         return getSession(true);
 
     }
 
-
     /** {@inheritDoc} */
-    public HttpSession getSession(boolean create) {
+    public HttpSession getSession(boolean create)
+    {
 
-        if (create && (session == null)) {
+        if (create && (session == null))
+        {
             this.session = new MockHttpSession(this.servletContext);
         }
         return session;
 
     }
 
-
     /** {@inheritDoc} */
-    public Principal getUserPrincipal() {
+    public Principal getUserPrincipal()
+    {
 
         return principal;
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isRequestedSessionIdFromCookie() {
+    public boolean isRequestedSessionIdFromCookie()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isRequestedSessionIdFromUrl() {
+    public boolean isRequestedSessionIdFromUrl()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isRequestedSessionIdFromURL() {
+    public boolean isRequestedSessionIdFromURL()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isRequestedSessionIdValid() {
+    public boolean isRequestedSessionIdValid()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isUserInRole(String role) {
+    public boolean isUserInRole(String role)
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
     // ------------------------------------------------- ServletRequest Methods
 
-
     /** {@inheritDoc} */
-    public Object getAttribute(String name) {
+    public Object getAttribute(String name)
+    {
 
         return attributes.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getAttributeNames() {
+    public Enumeration getAttributeNames()
+    {
 
         return new MockEnumeration(attributes.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public String getCharacterEncoding() {
+    public String getCharacterEncoding()
+    {
 
         return characterEncoding;
 
     }
 
-
     /** {@inheritDoc} */
-    public int getContentLength() {
+    public int getContentLength()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getContentType() {
+    public String getContentType()
+    {
 
         throw new UnsupportedOperationException();
 
     }
-
 
     /** {@inheritDoc} */
     public ServletInputStream getInputStream()
     {
         return this.inputStream;
     }
-    
+
     public void setInputStream(MockServletInputStream stream)
     {
         this.inputStream = stream;
     }
 
     /** {@inheritDoc} */
-    public Locale getLocale() {
+    public Locale getLocale()
+    {
 
         return locale;
 
     }
-
 
     /** {@inheritDoc} */
     public Enumeration getLocales()
     {
         if (this.locales == null)
         {
-            locales = new Vector(Arrays.asList(Locale
-                    .getAvailableLocales()));
+            locales = new Vector(Arrays.asList(Locale.getAvailableLocales()));
         }
         return this.locales.elements();
     }
 
-
     /** {@inheritDoc} */
-    public String getLocalAddr() {
+    public String getLocalAddr()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getLocalName() {
+    public String getLocalName()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public int getLocalPort() {
+    public int getLocalPort()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getParameter(String name) {
+    public String getParameter(String name)
+    {
 
         String[] values = (String[]) parameters.get(name);
-        if (values != null) {
+        if (values != null)
+        {
             return values[0];
-        } else {
+        }
+        else
+        {
             return null;
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public Map getParameterMap() {
+    public Map getParameterMap()
+    {
 
         return parameters;
 
     }
 
-
     /** {@inheritDoc} */
-    public Enumeration getParameterNames() {
+    public Enumeration getParameterNames()
+    {
 
         return new MockEnumeration(parameters.keySet().iterator());
 
     }
 
-
     /** {@inheritDoc} */
-    public String[] getParameterValues(String name) {
+    public String[] getParameterValues(String name)
+    {
 
         return (String[]) parameters.get(name);
 
     }
 
-
     /** {@inheritDoc} */
-    public String getProtocol() {
+    public String getProtocol()
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
     public BufferedReader getReader()
     {
-        if (this.inputStream != null) {
-            try{
+        if (this.inputStream != null)
+        {
+            try
+            {
                 Reader sourceReader = (this.characterEncoding != null) ? new InputStreamReader(
                         this.inputStream, this.characterEncoding)
                         : new InputStreamReader(this.inputStream);
                 return new BufferedReader(sourceReader);
             }
-            catch(UnsupportedEncodingException e)
+            catch (UnsupportedEncodingException e)
             {
                 throw new RuntimeException(e);
             }
-        } else {
+        }
+        else
+        {
             return null;
         }
     }
 
-
     /** {@inheritDoc} */
-    public String getRealPath(String path) {
+    public String getRealPath(String path)
+    {
 
         throw new UnsupportedOperationException();
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRemoteAddr() {
+    public String getRemoteAddr()
+    {
 
         // i figure testing never assumes a specific remote - so anything works
         return "1.2.3.4";
 
     }
 
-
     /** {@inheritDoc} */
-    public String getRemoteHost() {
+    public String getRemoteHost()
+    {
 
         // i figure testing never assumes a specific remote - so anything works
         return "MyfacesServer";
 
     }
 
-
     /** {@inheritDoc} */
-    public int getRemotePort() {
+    public int getRemotePort()
+    {
 
         // i figure testing never assumes a specific remote - so anything works
         return 46123;
 
     }
-
 
     /** {@inheritDoc} */
     public RequestDispatcher getRequestDispatcher(String path)
@@ -756,82 +774,86 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return servletContext.getRequestDispatcher(path);
     }
 
-
     /** {@inheritDoc} */
-    public String getScheme() {
+    public String getScheme()
+    {
 
         return ("http");
 
     }
 
-
     /** {@inheritDoc} */
-    public String getServerName() {
+    public String getServerName()
+    {
 
         return ("localhost");
 
     }
 
-
     /** {@inheritDoc} */
-    public int getServerPort() {
+    public int getServerPort()
+    {
 
         return (8080);
 
     }
 
-
     /** {@inheritDoc} */
-    public boolean isSecure() {
+    public boolean isSecure()
+    {
 
         return false;
 
     }
 
-
     /** {@inheritDoc} */
-    public void removeAttribute(String name) {
+    public void removeAttribute(String name)
+    {
 
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             Object value = attributes.remove(name);
             fireAttributeRemoved(name, value);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void setAttribute(String name, Object value) {
+    public void setAttribute(String name, Object value)
+    {
 
-        if (name == null) {
+        if (name == null)
+        {
             throw new IllegalArgumentException("Attribute name cannot be null");
         }
-        if (value == null) {
+        if (value == null)
+        {
             removeAttribute(name);
             return;
         }
-        if (attributes.containsKey(name)) {
+        if (attributes.containsKey(name))
+        {
             Object oldValue = attributes.get(name);
             attributes.put(name, value);
             fireAttributeReplaced(name, oldValue);
-        } else {
+        }
+        else
+        {
             attributes.put(name, value);
             fireAttributeAdded(name, value);
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public void setCharacterEncoding(String characterEncoding) {
+    public void setCharacterEncoding(String characterEncoding)
+    {
 
         this.characterEncoding = characterEncoding;
 
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Fire an attribute added event to interested listeners.</p>
@@ -839,20 +861,22 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param key Attribute key whose value was added
      * @param value The new attribute value
      */
-    private void fireAttributeAdded(String key, Object value) {
-        if (attributeListeners.size() < 1) {
+    private void fireAttributeAdded(String key, Object value)
+    {
+        if (attributeListeners.size() < 1)
+        {
             return;
         }
-        ServletRequestAttributeEvent event =
-                new ServletRequestAttributeEvent(getServletContext(), this, key, value);
+        ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(
+                getServletContext(), this, key, value);
         Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext()) {
-            ServletRequestAttributeListener listener =
-                    (ServletRequestAttributeListener) listeners.next();
+        while (listeners.hasNext())
+        {
+            ServletRequestAttributeListener listener = (ServletRequestAttributeListener) listeners
+                    .next();
             listener.attributeAdded(event);
         }
     }
-
 
     /**
      * <p>Fire an attribute removed event to interested listeners.</p>
@@ -860,20 +884,22 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param key Attribute key whose value was removed
      * @param value Attribute value that was removed
      */
-    private void fireAttributeRemoved(String key, Object value) {
-        if (attributeListeners.size() < 1) {
+    private void fireAttributeRemoved(String key, Object value)
+    {
+        if (attributeListeners.size() < 1)
+        {
             return;
         }
-        ServletRequestAttributeEvent event =
-                new ServletRequestAttributeEvent(getServletContext(), this, key, value);
+        ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(
+                getServletContext(), this, key, value);
         Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext()) {
-            ServletRequestAttributeListener listener =
-                    (ServletRequestAttributeListener) listeners.next();
+        while (listeners.hasNext())
+        {
+            ServletRequestAttributeListener listener = (ServletRequestAttributeListener) listeners
+                    .next();
             listener.attributeRemoved(event);
         }
     }
-
 
     /**
      * <p>Fire an attribute replaced event to interested listeners.</p>
@@ -881,31 +907,33 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @param key Attribute key whose value was replaced
      * @param value The original value
      */
-    private void fireAttributeReplaced(String key, Object value) {
-        if (attributeListeners.size() < 1) {
+    private void fireAttributeReplaced(String key, Object value)
+    {
+        if (attributeListeners.size() < 1)
+        {
             return;
         }
-        ServletRequestAttributeEvent event =
-                new ServletRequestAttributeEvent(getServletContext(), this, key, value);
+        ServletRequestAttributeEvent event = new ServletRequestAttributeEvent(
+                getServletContext(), this, key, value);
         Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext()) {
-            ServletRequestAttributeListener listener =
-                    (ServletRequestAttributeListener) listeners.next();
+        while (listeners.hasNext())
+        {
+            ServletRequestAttributeListener listener = (ServletRequestAttributeListener) listeners
+                    .next();
             listener.attributeReplaced(event);
         }
     }
-
 
     /**
      * <p>The date formatting helper we will use in <code>httpTimestamp()</code>.
      * Note that usage of this helper must be synchronized.</p>
      */
-    private static SimpleDateFormat format =
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
-    static {
+    private static SimpleDateFormat format = new SimpleDateFormat(
+            "EEE, dd MMM yyyy HH:mm:ss zzz");
+    static
+    {
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
-
 
     /**
      * <p>Return a properly formatted String version of the specified
@@ -913,23 +941,26 @@ public class MockHttpServletRequest implements HttpServletRequest {
      *
      * @param date Date/time, expressed as milliseconds since the epoch
      */
-    private String formatDate(long date) {
+    private String formatDate(long date)
+    {
         return format.format(new Date(date));
     }
-
 
     /**
      * <p>Return a date/time value, parsed from the specified String.</p>
      *
      * @param date Date/time, expressed as a String
      */
-    private long parseDate(String date) {
-        try {
+    private long parseDate(String date)
+    {
+        try
+        {
             return format.parse(date).getTime();
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             throw new IllegalArgumentException(date);
         }
     }
-
 
 }

@@ -43,17 +43,17 @@ import javax.faces.el.ValueBinding;
  * @since 1.0.0
  */
 
-public class MockMethodBinding extends MethodBinding implements StateHolder {
-
+public class MockMethodBinding extends MethodBinding implements StateHolder
+{
 
     // ------------------------------------------------------------ Constructors
 
     /**
      * <p>Construct a default instance.</p>
      */
-    public MockMethodBinding() {
+    public MockMethodBinding()
+    {
     }
-
 
     /**
      * <p>Construct a configured instance.</p>
@@ -62,30 +62,31 @@ public class MockMethodBinding extends MethodBinding implements StateHolder {
      * @param ref Method binding expression to be parsed
      * @param args Signature of this method
      */
-    public MockMethodBinding(Application application, String ref,
-                             Class[] args) {
+    public MockMethodBinding(Application application, String ref, Class[] args)
+    {
 
         this.application = application;
         this.args = args;
-        if (ref.startsWith("#{") && ref.endsWith("}")) {
+        if (ref.startsWith("#{") && ref.endsWith("}"))
+        {
             ref = ref.substring(2, ref.length() - 1);
         }
         this.ref = ref;
         int period = ref.lastIndexOf(".");
-        if (period < 0) {
+        if (period < 0)
+        {
             throw new ReferenceSyntaxException(ref);
         }
         vb = application.createValueBinding(ref.substring(0, period));
         name = ref.substring(period + 1);
-        if (name.length() < 1) {
+        if (name.length() < 1)
+        {
             throw new ReferenceSyntaxException(ref);
         }
 
     }
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     private Application application;
     private Class args[];
@@ -93,58 +94,69 @@ public class MockMethodBinding extends MethodBinding implements StateHolder {
     private String ref;
     private ValueBinding vb;
 
-
     // --------------------------------------------------- MethodBinding Methods
-
 
     /** {@inheritDoc} */
     public Object invoke(FacesContext context, Object[] params)
-        throws EvaluationException, MethodNotFoundException {
+            throws EvaluationException, MethodNotFoundException
+    {
 
-        if (context == null) {
+        if (context == null)
+        {
             throw new NullPointerException();
         }
         Object base = vb.getValue(context);
-        if (base == null) {
-            throw new EvaluationException("Cannot find object via expression \""
-                                          + vb.getExpressionString() + "\"");
+        if (base == null)
+        {
+            throw new EvaluationException(
+                    "Cannot find object via expression \""
+                            + vb.getExpressionString() + "\"");
         }
         Method method = method(base);
-        try {
+        try
+        {
             return (method.invoke(base, params));
-        } catch (IllegalAccessException e) {
+        }
+        catch (IllegalAccessException e)
+        {
             throw new EvaluationException(e);
-        } catch (InvocationTargetException e) {
+        }
+        catch (InvocationTargetException e)
+        {
             throw new EvaluationException(e.getTargetException());
         }
 
     }
 
-
     /** {@inheritDoc} */
-    public Class getType(FacesContext context) {
+    public Class getType(FacesContext context)
+    {
 
         Object base = vb.getValue(context);
         Method method = method(base);
         Class returnType = method.getReturnType();
-        if ("void".equals(returnType.getName())) {
+        if ("void".equals(returnType.getName()))
+        {
             return (null);
-        } else {
+        }
+        else
+        {
             return (returnType);
         }
 
     }
 
     /** {@inheritDoc} */
-    public String getExpressionString() {
+    public String getExpressionString()
+    {
         return "#{" + ref + "}";
     }
 
     // ----------------------------------------------------- StateHolder Methods
 
-
     /** {@inheritDoc} */
-    public Object saveState(FacesContext context) {
+    public Object saveState(FacesContext context)
+    {
         Object values[] = new Object[4];
         values[0] = name;
         values[1] = ref;
@@ -153,57 +165,65 @@ public class MockMethodBinding extends MethodBinding implements StateHolder {
         return (values);
     }
 
-
     /** {@inheritDoc} */
-    public void restoreState(FacesContext context, Object state) {
+    public void restoreState(FacesContext context, Object state)
+    {
         Object values[] = (Object[]) state;
         name = (String) values[0];
         ref = (String) values[1];
-        vb = (ValueBinding) UIComponentBase.restoreAttachedState(context, 
-                                                                 values[2]);
-        args = (Class []) values[3];
+        vb = (ValueBinding) UIComponentBase.restoreAttachedState(context,
+                values[2]);
+        args = (Class[]) values[3];
     }
-
 
     /**
      * <p>Flag indicating this is a transient instance.</p>
      */
     private boolean transientFlag = false;
 
-
     /** {@inheritDoc} */
-    public boolean isTransient() {
+    public boolean isTransient()
+    {
         return (this.transientFlag);
     }
 
-
     /** {@inheritDoc} */
-    public void setTransient(boolean transientFlag) {
+    public void setTransient(boolean transientFlag)
+    {
         this.transientFlag = transientFlag;
     }
 
     /** {@inheritDoc} */
-    public int hashCode() {
-        if (ref == null) {
+    public int hashCode()
+    {
+        if (ref == null)
+        {
             return 0;
-        } else {
+        }
+        else
+        {
             return ref.hashCode();
         }
     }
 
     /** {@inheritDoc} */
-    public boolean equals(Object otherObj) {
+    public boolean equals(Object otherObj)
+    {
         MockMethodBinding other = null;
 
-        if (!(otherObj instanceof MockMethodBinding)) {
+        if (!(otherObj instanceof MockMethodBinding))
+        {
             return false;
         }
         other = (MockMethodBinding) otherObj;
         // test object reference equality
-        if (this.ref != other.ref) {
+        if (this.ref != other.ref)
+        {
             // test object equality
-            if (null != this.ref && null != other.ref) {
-                if (!this.ref.equals(other.ref)) {
+            if (null != this.ref && null != other.ref)
+            {
+                if (!this.ref.equals(other.ref))
+                {
                     return false;
                 }
             }
@@ -211,13 +231,18 @@ public class MockMethodBinding extends MethodBinding implements StateHolder {
         }
         // no need to test name, since it flows from ref.
         // test our args array
-        if (this.args != other.args) {
-            if (this.args.length != other.args.length) {
+        if (this.args != other.args)
+        {
+            if (this.args.length != other.args.length)
+            {
                 return false;
             }
-            for (int i = 0, len = this.args.length; i < len; i++) {
-                if (this.args[i] != other.args[i]) {
-                    if (!this.ref.equals(other.ref)) {
+            for (int i = 0, len = this.args.length; i < len; i++)
+            {
+                if (this.args[i] != other.args[i])
+                {
+                    if (!this.ref.equals(other.ref))
+                    {
                         return false;
                     }
                 }
@@ -226,26 +251,26 @@ public class MockMethodBinding extends MethodBinding implements StateHolder {
         return true;
     }
 
-
     // --------------------------------------------------------- Private Methods
-
 
     /**
      * <p>Return the <code>Method</code> to be called.</p>
      *
      * @param base Base object from which to extract the method reference
      */
-    Method method(Object base) {
+    Method method(Object base)
+    {
 
         Class clazz = base.getClass();
-        try {
+        try
+        {
             return (clazz.getMethod(name, args));
-        } catch (NoSuchMethodException e) {
+        }
+        catch (NoSuchMethodException e)
+        {
             throw new MethodNotFoundException(ref + ": " + e.getMessage());
         }
 
     }
-
-
 
 }

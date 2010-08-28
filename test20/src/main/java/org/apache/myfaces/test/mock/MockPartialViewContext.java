@@ -62,22 +62,28 @@ public class MockPartialViewContext extends PartialViewContext
     @Override
     public boolean isAjaxRequest()
     {
-        if (_ajaxRequest == null) {
-            String requestType = _facesContext.getExternalContext().
-                    getRequestHeaderMap().get(FACES_REQUEST);
-            _ajaxRequest = (requestType != null && PARTIAL_AJAX.equals(requestType));
+        if (_ajaxRequest == null)
+        {
+            String requestType = _facesContext.getExternalContext()
+                    .getRequestHeaderMap().get(FACES_REQUEST);
+            _ajaxRequest = (requestType != null && PARTIAL_AJAX
+                    .equals(requestType));
         }
         return _ajaxRequest;
     }
 
     @Override
-    public boolean isExecuteAll() {
+    public boolean isExecuteAll()
+    {
 
-        if (isAjaxRequest()) {
-            String executeMode = _facesContext.getExternalContext().
-                    getRequestParameterMap().get(
-                    PartialViewContext.PARTIAL_EXECUTE_PARAM_NAME);
-            if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS.equals(executeMode)) {
+        if (isAjaxRequest())
+        {
+            String executeMode = _facesContext.getExternalContext()
+                    .getRequestParameterMap().get(
+                            PartialViewContext.PARTIAL_EXECUTE_PARAM_NAME);
+            if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS
+                    .equals(executeMode))
+            {
                 return true;
             }
         }
@@ -85,62 +91,80 @@ public class MockPartialViewContext extends PartialViewContext
     }
 
     @Override
-    public boolean isPartialRequest() {
+    public boolean isPartialRequest()
+    {
 
-        if (_partialRequest == null) {
-            String requestType = _facesContext.getExternalContext().
-                    getRequestHeaderMap().get(FACES_REQUEST);
-            _partialRequest = (requestType != null && PARTIAL_PROCESS.equals(requestType));
+        if (_partialRequest == null)
+        {
+            String requestType = _facesContext.getExternalContext()
+                    .getRequestHeaderMap().get(FACES_REQUEST);
+            _partialRequest = (requestType != null && PARTIAL_PROCESS
+                    .equals(requestType));
         }
-        return isAjaxRequest()  || _partialRequest;
+        return isAjaxRequest() || _partialRequest;
     }
 
     @Override
-    public boolean isRenderAll() {
+    public boolean isRenderAll()
+    {
 
-        if (_renderAll == null) {
-            if (isAjaxRequest()) {
-                String executeMode = _facesContext.getExternalContext().
-                        getRequestParameterMap().get(
-                        PartialViewContext.PARTIAL_RENDER_PARAM_NAME);
-                if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS.equals(executeMode)) {
+        if (_renderAll == null)
+        {
+            if (isAjaxRequest())
+            {
+                String executeMode = _facesContext.getExternalContext()
+                        .getRequestParameterMap().get(
+                                PartialViewContext.PARTIAL_RENDER_PARAM_NAME);
+                if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS
+                        .equals(executeMode))
+                {
                     _renderAll = true;
                 }
             }
-            if (_renderAll == null) {
+            if (_renderAll == null)
+            {
                 _renderAll = false;
             }
         }
         return _renderAll;
     }
 
-
     @Override
-    public void setPartialRequest(boolean isPartialRequest) {
+    public void setPartialRequest(boolean isPartialRequest)
+    {
 
         _partialRequest = isPartialRequest;
 
     }
 
     @Override
-    public void setRenderAll(boolean renderAll) {
+    public void setRenderAll(boolean renderAll)
+    {
 
         _renderAll = renderAll;
     }
 
     @Override
-    public Collection<String> getExecuteIds() {
+    public Collection<String> getExecuteIds()
+    {
 
-        if (_executeClientIds == null) {
-            String executeMode = _facesContext.getExternalContext().
-                    getRequestParameterMap().get(
-                    PartialViewContext.PARTIAL_EXECUTE_PARAM_NAME);
+        if (_executeClientIds == null)
+        {
+            String executeMode = _facesContext.getExternalContext()
+                    .getRequestParameterMap().get(
+                            PartialViewContext.PARTIAL_EXECUTE_PARAM_NAME);
 
-            if (executeMode != null && !"".equals(executeMode) &&
+            if (executeMode != null
+                    && !"".equals(executeMode)
+                    &&
                     //!PartialViewContext.NO_PARTIAL_PHASE_CLIENT_IDS.equals(executeMode) &&
-                    !PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS.equals(executeMode)) {
-                
-                String[] clientIds = splitShortString(_replaceTabOrEnterCharactersWithSpaces(executeMode), ' ');
+                    !PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS
+                            .equals(executeMode))
+            {
+
+                String[] clientIds = splitShortString(
+                        _replaceTabOrEnterCharactersWithSpaces(executeMode),
+                        ' ');
 
                 //The collection must be mutable
                 List<String> tempList = new ArrayList<String>();
@@ -154,22 +178,24 @@ public class MockPartialViewContext extends PartialViewContext
                 // The "javax.faces.source" parameter needs to be added to the list of
                 // execute ids if missing (otherwise, we'd never execute an action associated
                 // with, e.g., a button).
-                
-                String source = _facesContext.getExternalContext().getRequestParameterMap().get
-                    (SOURCE_PARAM_NAME);
-                
+
+                String source = _facesContext.getExternalContext()
+                        .getRequestParameterMap().get(SOURCE_PARAM_NAME);
+
                 if (source != null)
                 {
                     source = source.trim();
-                    
-                    if (!tempList.contains (source))
+
+                    if (!tempList.contains(source))
                     {
-                        tempList.add (source);
+                        tempList.add(source);
                     }
                 }
-                
+
                 _executeClientIds = tempList;
-            } else {
+            }
+            else
+            {
                 _executeClientIds = new ArrayList<String>();
             }
         }
@@ -177,18 +203,24 @@ public class MockPartialViewContext extends PartialViewContext
     }
 
     @Override
-    public Collection<String> getRenderIds() {
+    public Collection<String> getRenderIds()
+    {
 
-        if (_renderClientIds == null) {
-            String renderMode = _facesContext.getExternalContext().
-                    getRequestParameterMap().get(
-                    PartialViewContext.PARTIAL_RENDER_PARAM_NAME);
+        if (_renderClientIds == null)
+        {
+            String renderMode = _facesContext.getExternalContext()
+                    .getRequestParameterMap().get(
+                            PartialViewContext.PARTIAL_RENDER_PARAM_NAME);
 
-            if (renderMode != null && !"".equals(renderMode) &&
+            if (renderMode != null
+                    && !"".equals(renderMode)
+                    &&
                     //!PartialViewContext.NO_PARTIAL_PHASE_CLIENT_IDS.equals(renderMode) &&
-                    !PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS.equals(renderMode))
+                    !PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS
+                            .equals(renderMode))
             {
-                String[] clientIds = splitShortString(_replaceTabOrEnterCharactersWithSpaces(renderMode), ' ');
+                String[] clientIds = splitShortString(
+                        _replaceTabOrEnterCharactersWithSpaces(renderMode), ' ');
 
                 //The collection must be mutable
                 List<String> tempList = new ArrayList<String>();
@@ -200,12 +232,16 @@ public class MockPartialViewContext extends PartialViewContext
                     }
                 }
                 _renderClientIds = tempList;
-            } else {
+            }
+            else
+            {
                 _renderClientIds = new ArrayList<String>();
-                
-                if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS.equals (renderMode))
+
+                if (PartialViewContext.ALL_PARTIAL_PHASE_CLIENT_IDS
+                        .equals(renderMode))
                 {
-                    _renderClientIds.add (PartialResponseWriter.RENDER_ALL_MARKER);
+                    _renderClientIds
+                            .add(PartialResponseWriter.RENDER_ALL_MARKER);
                 }
             }
         }
@@ -213,8 +249,10 @@ public class MockPartialViewContext extends PartialViewContext
     }
 
     @Override
-    public PartialResponseWriter getPartialResponseWriter() {
-        if (_partialResponseWriter == null) {
+    public PartialResponseWriter getPartialResponseWriter()
+    {
+        if (_partialResponseWriter == null)
+        {
             ResponseWriter responseWriter = _facesContext.getResponseWriter();
             if (responseWriter == null)
             {
@@ -223,13 +261,18 @@ public class MockPartialViewContext extends PartialViewContext
                 // ResponseWriter from the RenderKit and then wrap if necessary. 
                 try
                 {
-                    responseWriter = _facesContext.getRenderKit().createResponseWriter(
-                            _facesContext.getExternalContext().getResponseOutputWriter(), "text/xml",
-                            _facesContext.getExternalContext().getRequestCharacterEncoding());
+                    responseWriter = _facesContext.getRenderKit()
+                            .createResponseWriter(
+                                    _facesContext.getExternalContext()
+                                            .getResponseOutputWriter(),
+                                    "text/xml",
+                                    _facesContext.getExternalContext()
+                                            .getRequestCharacterEncoding());
                 }
                 catch (IOException e)
                 {
-                    throw new IllegalStateException("Cannot create Partial Response Writer",e);
+                    throw new IllegalStateException(
+                            "Cannot create Partial Response Writer", e);
                 }
             }
             // It is possible that the RenderKit return a PartialResponseWriter instance when 
@@ -240,18 +283,21 @@ public class MockPartialViewContext extends PartialViewContext
             }
             else
             {
-                _partialResponseWriter = new PartialResponseWriter(responseWriter);
+                _partialResponseWriter = new PartialResponseWriter(
+                        responseWriter);
             }
         }
         return _partialResponseWriter;
     }
 
     @Override
-    public void processPartial(PhaseId phaseId) {
+    public void processPartial(PhaseId phaseId)
+    {
 
         UIViewRoot viewRoot = _facesContext.getViewRoot();
 
-        VisitContext visitCtx = VisitContext.createVisitContext(_facesContext, null, null);
+        VisitContext visitCtx = VisitContext.createVisitContext(_facesContext,
+                null, null);
         viewRoot.visitTree(visitCtx, new MockVisitCallback());
     }
 
@@ -274,8 +320,9 @@ public class MockPartialViewContext extends PartialViewContext
 
         // Step 1: how many substrings?
         //      We exchange double scan time for less memory allocation
-        for (int pos = str.indexOf(separator);
-             pos >= 0; pos = str.indexOf(separator, pos + 1)) {
+        for (int pos = str.indexOf(separator); pos >= 0; pos = str.indexOf(
+                separator, pos + 1))
+        {
             lastTokenIndex++;
         }
 
@@ -285,9 +332,9 @@ public class MockPartialViewContext extends PartialViewContext
         int oldPos = 0;
 
         // Step 3: retrieve substrings
-        for (
-            int pos = str.indexOf(separator), i = 0; pos >= 0;
-            pos = str.indexOf(separator, (oldPos = (pos + 1)))) {
+        for (int pos = str.indexOf(separator), i = 0; pos >= 0; pos = str
+                .indexOf(separator, (oldPos = (pos + 1))))
+        {
             list[i++] = str.substring(oldPos, pos);
         }
 
@@ -299,12 +346,14 @@ public class MockPartialViewContext extends PartialViewContext
     private String _replaceTabOrEnterCharactersWithSpaces(String mode)
     {
         StringBuilder builder = new StringBuilder(mode.length());
-        for (int i = 0; i < mode.length(); i++) {
-            if (mode.charAt(i) == '\t' ||
-                mode.charAt(i) == '\n') {
+        for (int i = 0; i < mode.length(); i++)
+        {
+            if (mode.charAt(i) == '\t' || mode.charAt(i) == '\n')
+            {
                 builder.append(' ');
             }
-            else {
+            else
+            {
                 builder.append(mode.charAt(i));
             }
         }

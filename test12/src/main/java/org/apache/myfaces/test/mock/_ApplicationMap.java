@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-
 /**
  * ServletContext attributes as a Map.
  *
@@ -65,13 +64,11 @@ final class _ApplicationMap extends _AbstractAttributeMap<Object>
         return _servletContext.getAttributeNames();
     }
 
-
     @Override
     public void putAll(final Map<? extends String, ? extends Object> t)
     {
         throw new UnsupportedOperationException();
     }
-
 
     @Override
     public void clear()

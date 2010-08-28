@@ -32,19 +32,17 @@ import javax.faces.context.FacesContext;
  * @since 1.0.0
  */
 
-public class MockELContext extends ELContext {
-    
+public class MockELContext extends ELContext
+{
 
     // ------------------------------------------------------------ Constructors
 
-
     /** Creates a new instance of MockELContext */
-    public MockELContext() {
+    public MockELContext()
+    {
     }
-    
 
     // ------------------------------------------------------ Instance Variables
-
 
     private Map contexts = new HashMap();
     private FunctionMapper functionMapper = new MockFunctionMapper();
@@ -52,73 +50,71 @@ public class MockELContext extends ELContext {
     private boolean propertyResolved;
     private VariableMapper variableMapper = new MockVariableMapper();
 
-
     // ----------------------------------------------------- Mock Object Methods
-
-
 
     // ------------------------------------------------------- ELContext Methods
 
-
     /** {@inheritDoc} */
-    public Object getContext(Class key) {
-        if (key == null) {
+    public Object getContext(Class key)
+    {
+        if (key == null)
+        {
             throw new NullPointerException();
         }
         return contexts.get(key);
     }
 
-
     /** {@inheritDoc} */
-    public ELResolver getELResolver() {
+    public ELResolver getELResolver()
+    {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getApplication().getELResolver();
     }
 
-
     /** {@inheritDoc} */
-    public FunctionMapper getFunctionMapper() {
+    public FunctionMapper getFunctionMapper()
+    {
         return this.functionMapper;
     }
 
-
     /** {@inheritDoc} */
-    public Locale getLocale() {
+    public Locale getLocale()
+    {
         return this.locale;
     }
 
-
     /** {@inheritDoc} */
-    public boolean isPropertyResolved() {
+    public boolean isPropertyResolved()
+    {
         return this.propertyResolved;
     }
 
-
     /** {@inheritDoc} */
-    public void putContext(Class key, Object value) {
-        if ((key == null) || (value == null)) {
+    public void putContext(Class key, Object value)
+    {
+        if ((key == null) || (value == null))
+        {
             throw new NullPointerException();
         }
         contexts.put(key, value);
     }
 
-
     /** {@inheritDoc} */
-    public void setPropertyResolved(boolean propertyResolved) {
+    public void setPropertyResolved(boolean propertyResolved)
+    {
         this.propertyResolved = propertyResolved;
     }
 
-
     /** {@inheritDoc} */
-    public VariableMapper getVariableMapper() {
+    public VariableMapper getVariableMapper()
+    {
         return this.variableMapper;
     }
 
-
     /** {@inheritDoc} */
-    public void setLocale(Locale locale) {
+    public void setLocale(Locale locale)
+    {
         this.locale = locale;
     }
-
 
 }

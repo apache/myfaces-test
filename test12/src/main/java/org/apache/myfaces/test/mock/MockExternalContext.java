@@ -56,8 +56,7 @@ public class MockExternalContext extends ExternalContext
      * @param response <code>HttpServletResponse</code> for this request
      */
     public MockExternalContext(ServletContext context,
-                               HttpServletRequest request,
-                               HttpServletResponse response)
+            HttpServletRequest request, HttpServletResponse response)
     {
 
         this.context = context;
@@ -101,10 +100,10 @@ public class MockExternalContext extends ExternalContext
     public void addRequestCookieMap(Cookie cookie)
     {
         Map map = getRequestCookieMap();
-        if (request instanceof MockHttpServletRequest &&
-            map instanceof _CookieMap)
+        if (request instanceof MockHttpServletRequest
+                && map instanceof _CookieMap)
         {
-            ((MockHttpServletRequest)request).addCookie(cookie);
+            ((MockHttpServletRequest) request).addCookie(cookie);
         }
         else
         {
@@ -131,10 +130,10 @@ public class MockExternalContext extends ExternalContext
     public void addRequestParameterMap(String key, String value)
     {
         Map map = getRequestParameterMap();
-        if (request instanceof MockHttpServletRequest &&
-            map instanceof _RequestParameterMap)
+        if (request instanceof MockHttpServletRequest
+                && map instanceof _RequestParameterMap)
         {
-            ((MockHttpServletRequest)request).addParameter(key, value);
+            ((MockHttpServletRequest) request).addParameter(key, value);
         }
         else
         {
@@ -161,10 +160,10 @@ public class MockExternalContext extends ExternalContext
     public void addRequestHeader(String key, String value)
     {
         Map map = getRequestHeaderMap();
-        if (request instanceof MockHttpServletRequest &&
-            map instanceof _RequestHeaderMap)
+        if (request instanceof MockHttpServletRequest
+                && map instanceof _RequestHeaderMap)
         {
-            ((MockHttpServletRequest)request).addHeader(key, value);
+            ((MockHttpServletRequest) request).addHeader(key, value);
         }
         else
         {

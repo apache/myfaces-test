@@ -32,14 +32,12 @@ import javax.faces.lifecycle.Lifecycle;
  * @since 1.0.0
  */
 
-public class MockLifecycle extends Lifecycle {
-
+public class MockLifecycle extends Lifecycle
+{
 
     // ----------------------------------------------------- Mock Object Methods
 
-
     // ------------------------------------------------------ Instance Variables
-
 
     /**
      * <p>List of event listeners for this instance.</p>
@@ -50,126 +48,152 @@ public class MockLifecycle extends Lifecycle {
 
     public MockLifecycle()
     {
-        lifecycleExecutors = new PhaseExecutor[] {
-            new RestoreViewExecutor(),
-            new ApplyRequestValuesExecutor(),
-            new ProcessValidationsExecutor(),
-            new UpdateModelValuesExecutor(),
-            new InvokeApplicationExecutor()
-        };
+        lifecycleExecutors = new PhaseExecutor[] { new RestoreViewExecutor(),
+                new ApplyRequestValuesExecutor(),
+                new ProcessValidationsExecutor(),
+                new UpdateModelValuesExecutor(),
+                new InvokeApplicationExecutor() };
 
         renderExecutor = new RenderResponseExecutor();
     }
 
     // ------------------------------------------------------- Lifecycle Methods
 
-
     /** {@inheritDoc} */
-    public void addPhaseListener(PhaseListener listener) {
+    public void addPhaseListener(PhaseListener listener)
+    {
 
-      phaseListenerList.add(listener);
+        phaseListenerList.add(listener);
 
     }
 
-
     /** {@inheritDoc} */
-    public void execute(FacesContext context) throws FacesException {
+    public void execute(FacesContext context) throws FacesException
+    {
 
-        PhaseListenerManager phaseListenerMgr = new PhaseListenerManager(this, context, getPhaseListeners());
-        for(int executorIndex = 0;executorIndex < lifecycleExecutors.length;executorIndex++) {
-            if(executePhase(context, lifecycleExecutors[executorIndex], phaseListenerMgr)) {
+        PhaseListenerManager phaseListenerMgr = new PhaseListenerManager(this,
+                context, getPhaseListeners());
+        for (int executorIndex = 0; executorIndex < lifecycleExecutors.length; executorIndex++)
+        {
+            if (executePhase(context, lifecycleExecutors[executorIndex],
+                    phaseListenerMgr))
+            {
                 return;
             }
         }
     }
 
-    private boolean executePhase(FacesContext facesContext, PhaseExecutor executor,
-        PhaseListenerManager phaseListenerMgr) throws FacesException {
+    private boolean executePhase(FacesContext facesContext,
+            PhaseExecutor executor, PhaseListenerManager phaseListenerMgr)
+            throws FacesException
+    {
         boolean skipFurtherProcessing = false;
 
-        try {
+        try
+        {
             phaseListenerMgr.informPhaseListenersBefore(executor.getPhase());
 
-            if(isResponseComplete(facesContext, executor.getPhase(), true)) {
+            if (isResponseComplete(facesContext, executor.getPhase(), true))
+            {
                 // have to return right away
-              return true;
+                return true;
             }
-            if(shouldRenderResponse(facesContext, executor.getPhase(), true)) {
-              skipFurtherProcessing = true;
+            if (shouldRenderResponse(facesContext, executor.getPhase(), true))
+            {
+                skipFurtherProcessing = true;
             }
 
-            if(executor.execute(facesContext)) {
-              return true;
+            if (executor.execute(facesContext))
+            {
+                return true;
             }
-        } finally {
+        }
+        finally
+        {
             phaseListenerMgr.informPhaseListenersAfter(executor.getPhase());
         }
 
-
         if (isResponseComplete(facesContext, executor.getPhase(), false)
-            || shouldRenderResponse(facesContext, executor.getPhase(), false)) {
-          // since this phase is completed we don't need to return right away even if the response is completed
-          skipFurtherProcessing = true;
+                || shouldRenderResponse(facesContext, executor.getPhase(),
+                        false))
+        {
+            // since this phase is completed we don't need to return right away even if the response is completed
+            skipFurtherProcessing = true;
         }
 
         return skipFurtherProcessing;
     }
 
-
     /** {@inheritDoc} */
-    public PhaseListener[] getPhaseListeners() {
+    public PhaseListener[] getPhaseListeners()
+    {
 
-        return (PhaseListener[]) phaseListenerList.toArray(new PhaseListener[phaseListenerList.size()]);
+        return (PhaseListener[]) phaseListenerList
+                .toArray(new PhaseListener[phaseListenerList.size()]);
 
     }
 
-
     /** {@inheritDoc} */
-    public void removePhaseListener(PhaseListener listener) {
+    public void removePhaseListener(PhaseListener listener)
+    {
 
-      phaseListenerList.remove(listener);
+        phaseListenerList.remove(listener);
 
     }
 
-
     /** {@inheritDoc} */
-    public void render(FacesContext context) throws FacesException {
+    public void render(FacesContext context) throws FacesException
+    {
 
-      // if the response is complete we should not be invoking the phase listeners
-      if(isResponseComplete(context, renderExecutor.getPhase(), true)) {
-        return;
-      }
-
-      PhaseListenerManager phaseListenerMgr = new PhaseListenerManager(this, context, getPhaseListeners());
-
-      try {
-          phaseListenerMgr.informPhaseListenersBefore(renderExecutor.getPhase());
-          // also possible that one of the listeners completed the response
-          if(isResponseComplete(context, renderExecutor.getPhase(), true)) {
+        // if the response is complete we should not be invoking the phase listeners
+        if (isResponseComplete(context, renderExecutor.getPhase(), true))
+        {
             return;
-          }
+        }
 
-          renderExecutor.execute(context);
-      } finally {
-          phaseListenerMgr.informPhaseListenersAfter(renderExecutor.getPhase());
-      }
+        PhaseListenerManager phaseListenerMgr = new PhaseListenerManager(this,
+                context, getPhaseListeners());
+
+        try
+        {
+            phaseListenerMgr.informPhaseListenersBefore(renderExecutor
+                    .getPhase());
+            // also possible that one of the listeners completed the response
+            if (isResponseComplete(context, renderExecutor.getPhase(), true))
+            {
+                return;
+            }
+
+            renderExecutor.execute(context);
+        }
+        finally
+        {
+            phaseListenerMgr.informPhaseListenersAfter(renderExecutor
+                    .getPhase());
+        }
 
     }
-    
-    private boolean isResponseComplete(FacesContext facesContext, PhaseId phase, boolean before) {
-      boolean flag = false;
-        if (facesContext.getResponseComplete()) {
+
+    private boolean isResponseComplete(FacesContext facesContext,
+            PhaseId phase, boolean before)
+    {
+        boolean flag = false;
+        if (facesContext.getResponseComplete())
+        {
             flag = true;
         }
         return flag;
     }
 
-    private boolean shouldRenderResponse(FacesContext facesContext, PhaseId phase, boolean before) {
-      boolean flag = false;
-      if (facesContext.getRenderResponse()) {
-          flag = true;
-      }
-      return flag;
-  }
+    private boolean shouldRenderResponse(FacesContext facesContext,
+            PhaseId phase, boolean before)
+    {
+        boolean flag = false;
+        if (facesContext.getRenderResponse())
+        {
+            flag = true;
+        }
+        return flag;
+    }
 
 }
