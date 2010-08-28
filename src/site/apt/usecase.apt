@@ -1,0 +1,195 @@
+ ------
+ Myfaces Test Framework
+ ------
+
+ ~~ Licensed to the Apache Software Foundation (ASF) under one
+ ~~ or more contributor license agreements.  See the NOTICE file
+ ~~ distributed with this work for additional information
+ ~~ regarding copyright ownership.  The ASF licenses this file
+ ~~ to you under the Apache License, Version 2.0 (the
+ ~~ "License"); you may not use this file except in compliance
+ ~~ with the License.  You may obtain a copy of the License at
+ ~~
+ ~~   http://www.apache.org/licenses/LICENSE-2.0
+ ~~
+ ~~ Unless required by applicable law or agreed to in writing,
+ ~~ software distributed under the License is distributed on an
+ ~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~~ KIND, either express or implied.  See the License for the
+ ~~ specific language governing permissions and limitations
+ ~~ under the License.
+
+
+Using The Test Framework
+
+  The most common scenario for using the Test Framework is to construct
+  test cases for <<<ViewController>>> implementation classes.
+  Because the runtime environment of a <<<ViewController>>> is
+  quite constrained, it is easy to construct isolated unit tests that
+  exercise the methods exposed by a <<<ViewController>>> class.
+
+   [[1]] Create a new Java class <<<SelectTestCase>>>, in a package
+   directory (typically under <<<src/test>>> in your project)
+   that is the same as the package directory for the class you will be
+   testing.  This allows your test case to access package private and
+   protected variables and methods in the class being tested.
+  
+   [[2]] Make sure that the package declaration matches that of the class to
+   be tested (in this case, <<<org.apache.myfaces.usecases.locale>>>.
+   Declare your class to extend <<<AbstractViewControllerTestCase>>>
+   (or, if you are not testing a <<<ViewController>>> implementation,
+   extend <<<AbstractJsfTestCase>>>):
+
++-------------------------------+
+public class SelectTestCase extends AbstractViewControllerTestCase {
+  ...
+}
++-------------------------------+
+
+   [[3]] Create a constructor that takes a <<<String>>> parameter, and
+   passes it to the superclass constructor:
+
++-------------------------------+
+public SelectTestCase(String name) {
+    super(name);
+}
++-------------------------------+
+
+   [[4]] Create a <<<setUp()>>> method and <be sure>
+   to call <<<super.setUp()>>> at the beginning.  This method
+   will be called by JUnit immediately before it executes each
+   test method.
+
++-------------------------------+
+public void setUp() {
+    super.setUp();
+    // Customization will go here
+}
++-------------------------------+
+
+   [[5]] After the call to the superclass <<<setUp()>>> method,
+   perform any other initialization required to execute the tests
+   in this test case.  In our example case, a configuration method
+   on the <<<MockApplication>>> instance will be used to
+   define the default and supported <<<Locale>>>s for this
+   set of tests.  This corresponds to what would happen at runtime,
+   when the JavaServer Faces initialization process used the contents
+   of the <<</WEB-INF/faces-config.xml>>> resource to initialize
+   these values.  In addition, we will create a new instance of the
+   <<<Select>>> class to be tested.  It is important to create
+   a new instance for each test, to ensure that execution of one test
+   does not get influenced by the leftover property settings from a
+   previous test.
+
++-------------------------------+
+public void setUp() {
+    super.setUp();
+
+    // Configure the supported locales for this application
+    List list = new ArrayList();
+    list.add(new Locale("en"));
+    list.add(new Locale("fr"));
+    list.add(new Locale("de"));
+    list.add(new Locale("es"));
+    application.setSupportedLocales(list);
+
+    // Construct a new ViewController instance
+    vc = new Select();
+
+}
++-------------------------------+
+
+   [[6]] Create a <<<tearDown()>>> method that cleans up any custom
+   variables you allocated in your <<<setUp()>>> method, and
+   then calls the <<<super.tearDown()>>> method.  This will be
+   called by JUnit after each test is executed.
+
++-------------------------------+
+
+public void tearDown() {
+    vc = null;
+    super.tearDown();
+}
+
++-------------------------------+
+
+   [[7]] Declare the custom instance variable(s) that you are setting up
+   in your <<<setUp()>>> method.  In this case, we create an
+   instance of the <<<ViewController>>> class to be tested.
+   A new instance will be created (via a call from JUnit to the
+   <<<setUp()>>> method) before each test method is executed.
+
++-------------------------------+
+// The instance to be tested
+Select vc = null;
++-------------------------------+
+
+   [[8]] Create one or more individual test methods (which must be
+   <<<public>>>, return <<<void>>>, take no arguments,
+   and have a method name of the form <<<testXXXX>>>.  For
+   advice on how to construct such methods, consult the
+   {{{http://junit.org/}JUnit Web Site}}, or any of the
+   large number of resources on the web describing how to use JUnit
+   to build unit tests.  The following example tests what happens
+   when the <<<select()>>> method (which is executed when
+   the <<Go>> button is pressed), but the value entered is not
+   one of the valid options.  <NOTE> that the test
+   method must emulate the runtime calls to the <<<ViewController>>>
+   event methods, because there is no actual runtime container
+   available to perform these tasks automatically:
+
++-------------------------------+
+// Test behavior of select() with an invalid value
+public void testSelectInvalid() {
+
+    Locale locale = new Locale("en");
+    facesContext.getViewRoot().setLocale(locale);
+    vc.init();
+    vc.preprocess();
+    vc.setLocale("it");
+    String result = vc.select();
+    assertEquals(Select.FAILURE, result);
+    checkMessageCount(1);
+    assertEquals(locale, facesContext.getViewRoot().getLocale());
+
+}
++-------------------------------+
+
+   The test case sets the <<<locale>>> property (which is
+   bound to a dropdown component at runtime, but we are simulating
+   the behavior of Update Model Values here) to an invalid value,
+   then calls the <<<select()>>> method.  The test then
+   verifies that the logical outcome returned matches that which
+   is expected (<<<Select.FAILURE>>>), that there was an error
+   message queued to be displayed, and that the <<<locale>>>
+   for the current view was <NOT> actually changed.
+
+   [[9]] Finally, integrate the execution of this test case into your
+   build script.  Many IDEs will take care of this for you; however,
+   if you are creating an Ant build script by hand, you might find
+   the <<<test>>> target from the Myfaces Use Cases example
+   a useful starting point.  It locates <<all>> the test cases
+   related to the entire application, and executes them:
+   
++-------------------------------+
+  <target name="test" depends="test.compile"
+   description="Execute unit tests">
+
+    <mkdir          dir="${build.home}/test-results"/>
+
+    <echo       message="Running unit tests ..."/>
+    <junit printSummary="no" fork="yes"
+          haltonfailure="yes" haltonerror="yes">
+      <classpath  refid="test.classpath"/>
+      <formatter   type="plain"
+                usefile="false"/>
+      <formatter   type="xml"
+                usefile="true"/>
+      <batchtest todir="${build.home}/test-results">
+        <fileset    dir="${build.home}/test-classes"
+               includes="org/apache/myfaces/usecases/*/*TestCase.class"/>
+      </batchtest>
+    </junit>
+
+  </target>
++-------------------------------+

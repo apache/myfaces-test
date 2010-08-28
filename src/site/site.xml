@@ -52,6 +52,8 @@
 
     <menu name="Documentation" inherit="top">
       <item name="About"         href="index.html"/>
+      <item name="Using It"      href="usecase.html"/>
+      <item name="Examples"      href="examples.html"/>
       <item name="1.2 Javadocs" href="myfaces-test12/apidocs/index.html"/>
       <item name="2.0 Javadocs" href="myfaces-test20/apidocs/index.html"/>
     </menu>
