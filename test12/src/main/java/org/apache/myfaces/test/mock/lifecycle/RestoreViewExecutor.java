@@ -17,17 +17,19 @@
 
 package org.apache.myfaces.test.mock.lifecycle;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.myfaces.test.util.Jsf11Utils;
+import org.apache.myfaces.test.util.Jsf12Utils;
+import org.apache.myfaces.test.util.JsfVersion;
+
 import javax.faces.FacesException;
 import javax.faces.application.Application;
-import javax.faces.application.ViewExpiredException;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements the Restore View Phase (JSF Spec 2.2.1)
@@ -53,7 +55,11 @@ class RestoreViewExecutor implements PhaseExecutor
         // init the View
         Application application = facesContext.getApplication();
         ViewHandler viewHandler = application.getViewHandler();
-        viewHandler.initView(facesContext);
+        if (JsfVersion.supports12()) {
+          Jsf12Utils.initView(facesContext, viewHandler);
+        } else {
+          // nothing to do
+        }
 
         UIViewRoot viewRoot = facesContext.getViewRoot();
 
@@ -81,9 +87,11 @@ class RestoreViewExecutor implements PhaseExecutor
             viewRoot = viewHandler.restoreView(facesContext, viewId);
             if (viewRoot == null)
             {
-                throw new ViewExpiredException(
-                        "The expected view was not returned "
-                                + "for the view identifier: " + viewId, viewId);
+              if (JsfVersion.supports12()) {
+                Jsf12Utils.throwViewExpiredException(viewId);
+              } else {
+                Jsf11Utils.throwViewExpiredException(viewId);
+              }
             }
             restoreViewSupport.processComponentBinding(facesContext, viewRoot);
         }
