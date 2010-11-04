@@ -152,6 +152,27 @@ public class MockExpressionFactory extends ExpressionFactory
             throw new IllegalArgumentException("Cannot convert " + object
                     + " to Character");
         }
+        
+        if (targetType.isEnum()) {
+            if (object == null || "".equals(object)) {
+                return null;
+            }
+            if (targetType.isAssignableFrom(object.getClass())) {
+                return (Enum) object;
+            }
+            
+            if (!(object instanceof String)) {
+            	throw new IllegalArgumentException("Cannot convert " + object + " to Enum");
+            }
+
+            Enum<?> result;
+            try {
+                 result = Enum.valueOf(targetType, (String) object);
+                 return result;
+            } catch (IllegalArgumentException iae) {
+            	throw new IllegalArgumentException("Cannot convert " + object + " to Enum");
+            }
+        }
 
         // Is the specified value type-compatible already?
         if ((object != null) && targetType.isAssignableFrom(object.getClass()))
