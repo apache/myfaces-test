@@ -24,6 +24,7 @@ import org.apache.myfaces.test.mock.resource.MockResourceHandler;
 import javax.faces.FacesException;
 import javax.faces.application.ProjectStage;
 import javax.faces.application.ResourceHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.component.behavior.Behavior;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
@@ -289,6 +290,12 @@ public class MockApplication20 extends MockApplication12
     {
         checkNull(systemEventClass, "systemEventClass");
         checkNull(source, "source");
+        
+        //Call events only if event processing is enabled.
+        if (!facesContext.isProcessingEvents())
+        {
+            return;
+        }
 
         try
         {
@@ -302,6 +309,14 @@ public class MockApplication20 extends MockApplication12
                 // argument. If the list is not empty, perform algorithm traverseListenerList on the list.
                 event = _traverseListenerList(holder
                         .getListenersForEventClass(systemEventClass),
+                        systemEventClass, source, event);
+            }
+            
+            UIViewRoot uiViewRoot = facesContext.getViewRoot();
+            if (uiViewRoot != null)
+            {
+                //Call listeners on view level
+                event = _traverseListenerList(uiViewRoot.getViewListenersForEventClass(systemEventClass), 
                         systemEventClass, source, event);
             }
 
