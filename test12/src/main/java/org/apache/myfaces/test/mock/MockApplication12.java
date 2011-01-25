@@ -125,6 +125,16 @@ public class MockApplication12 extends MockApplication
         return bundles;
     }
 
+    /**
+     * Set the current ExpressionFactory to be returned by this mock object
+     * 
+     * @param expressionFactory
+     */
+    public void setExpressionFactory(ExpressionFactory expressionFactory)
+    {
+        this.expressionFactory = expressionFactory;
+    }
+    
     // ----------------------------------------------------- Application Methods
 
     /** {@inheritDoc} */
