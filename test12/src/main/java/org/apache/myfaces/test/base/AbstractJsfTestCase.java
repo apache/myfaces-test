@@ -28,6 +28,7 @@ import javax.faces.render.RenderKitFactory;
 
 import junit.framework.TestCase;
 
+import org.apache.myfaces.test.config.ResourceBundleVarNames;
 import org.apache.myfaces.test.mock.MockApplication;
 import org.apache.myfaces.test.mock.MockExternalContext;
 import org.apache.myfaces.test.mock.MockFacesContext;
@@ -296,6 +297,7 @@ public abstract class AbstractJsfTestCase extends TestCase
         servletContext = null;
         session = null;
         FactoryFinder.releaseFactories();
+        ResourceBundleVarNames.resetNames();
 
         Thread.currentThread().setContextClassLoader(threadContextClassLoader);
         threadContextClassLoader = null;

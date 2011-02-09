@@ -26,6 +26,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.RenderKitFactory;
 
+import org.apache.myfaces.test.config.ResourceBundleVarNames;
 import org.apache.myfaces.test.mock.MockApplication;
 import org.apache.myfaces.test.mock.MockExternalContext;
 import org.apache.myfaces.test.mock.MockFacesContext;
@@ -303,6 +304,7 @@ public abstract class AbstractJsfTestCase
         servletContext = null;
         session = null;
         FactoryFinder.releaseFactories();
+        ResourceBundleVarNames.resetNames();
 
         Thread.currentThread().setContextClassLoader(threadContextClassLoader);
         threadContextClassLoader = null;

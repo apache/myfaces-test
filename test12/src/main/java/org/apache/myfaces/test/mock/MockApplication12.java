@@ -41,6 +41,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.apache.myfaces.test.config.ResourceBundleVarNames;
 import org.apache.myfaces.test.el.FacesImplicitObjectELResolver;
 import org.apache.myfaces.test.el.FacesPropertyResolverChainWrapper;
 import org.apache.myfaces.test.el.FacesResourceBundleELResolver;
@@ -277,7 +278,21 @@ public class MockApplication12 extends MockApplication
         }
         catch (MissingResourceException e)
         {
-            return null;
+
+            String newName = ResourceBundleVarNames.getVarName(name);
+            if (newName == null) {
+                return null;
+            }
+
+            try
+            {
+                return ResourceBundle.getBundle(newName, locale);
+            }
+            catch (MissingResourceException exc)
+            {
+                return null;
+            }
+
         }
     }
 
