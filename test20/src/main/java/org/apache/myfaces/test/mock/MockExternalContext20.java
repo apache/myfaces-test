@@ -233,6 +233,12 @@ public class MockExternalContext20 extends MockExternalContext12
         return response.getWriter();
     }
 
+    @Override
+    public void setResponseContentType(String contentType)
+    {
+        response.setContentType(contentType);
+    }
+
     public Flash getFlash()
     {
         return MockFlash.getCurrentInstance(this);
