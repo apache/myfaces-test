@@ -17,10 +17,6 @@
 
 package org.apache.myfaces.test.mock;
 
-import javax.faces.context.Flash;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -30,6 +26,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.faces.context.Flash;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Mock implementation of <code>ExternalContext</code> that includes the semantics
@@ -243,4 +246,111 @@ public class MockExternalContext20 extends MockExternalContext12
     {
         return MockFlash.getCurrentInstance(this);
     }
+
+    @Override
+    public void setResponseContentLength(int length)
+    {
+        response.setContentLength(length);
+    }
+
+    @Override
+    public int getRequestContentLength()
+    {
+        return request.getContentLength();
+    }
+
+    @Override
+    public int getResponseBufferSize()
+    {
+        return response.getBufferSize();
+    }
+
+    @Override
+    public void setResponseBufferSize(int size)
+    {
+        response.setBufferSize(size);
+    }
+
+    @Override
+    public void setResponseStatus(int statusCode)
+    {
+        response.setStatus(statusCode);
+    }
+
+    @Override
+    public void invalidateSession()
+    {
+        HttpSession session = request.getSession(false);
+        if (session != null)
+        {
+            session.invalidate();
+        }
+    }
+
+    @Override
+    public boolean isResponseCommitted()
+    {
+        return response.isCommitted();
+    }
+
+    @Override
+    public void responseFlushBuffer() throws IOException
+    {
+        response.flushBuffer();
+    }
+
+    @Override
+    public void responseReset()
+    {
+        response.reset();
+    }
+
+    @Override
+    public void addResponseCookie(String name, String value,
+            Map<String, Object> properties)
+    {
+        Cookie cookie = new Cookie(name, value);
+        if (properties != null)
+        {
+            for (Map.Entry<String, Object> entry : properties.entrySet())
+            {
+                String propertyKey = entry.getKey();
+                Object propertyValue = entry.getValue();
+                if ("comment".equals(propertyKey))
+                {
+                    cookie.setComment((String) propertyValue);
+                    continue;
+                }
+                else if ("domain".equals(propertyKey))
+                {
+                    cookie.setDomain((String)propertyValue);
+                    continue;
+                }
+                else if ("maxAge".equals(propertyKey))
+                {
+                    cookie.setMaxAge((Integer) propertyValue);
+                    continue;
+                }
+                else if ("secure".equals(propertyKey))
+                {
+                    cookie.setSecure((Boolean) propertyValue);
+                    continue;
+                }
+                else if ("path".equals(propertyKey))
+                {
+                    cookie.setPath((String) propertyValue);
+                    continue;
+                }
+                throw new IllegalArgumentException("Unused key when creating Cookie");
+            }
+        }
+        response.addCookie(cookie);
+    }
+
+    @Override
+    public void addResponseHeader(String name, String value)
+    {
+        response.addHeader(name, value);
+    }
+    
 }
