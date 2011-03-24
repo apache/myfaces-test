@@ -31,8 +31,11 @@
   <build>
     <plugins>
        <plugin>
+       <!--
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dependency-maven-plugin</artifactId>
+        -->
+        <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
             <id>copy-javadoc</id>
@@ -96,37 +99,37 @@
         <!-- EXECUTE mvn package to generate assembly files -->
         <artifactId>maven-assembly-plugin</artifactId>
         <executions>
-        	<execution>
-        	    <id>make_assembly_src</id>
-        	    <configuration>
-        	      <descriptors>
-			    	 <descriptor>src/main/assembly/coresrc.xml</descriptor>
-	    		  </descriptors>
-        	      <finalName>myfaces-test-${project.version}-src</finalName>	    		  
-        	      <appendAssemblyId>false</appendAssemblyId>
-		          <outputDirectory>target/assembly/out</outputDirectory>
-        		  <workDirectory>target/assembly/work</workDirectory>
-        	    </configuration>
-        	    <phase>package</phase>
-        	    <goals>
-        	       <goal>attached</goal>
-        	    </goals>        	    
-        	</execution>
-        	<execution>
-        	    <id>make_assembly_bin</id>
-        	    <configuration>
-		          <descriptors>
-	    			<descriptor>${basedir}/src/main/assembly/corebin.xml</descriptor>
-        	      </descriptors>
-        	      <finalName>myfaces-test-${project.version}-bin</finalName>
-        	      <appendAssemblyId>false</appendAssemblyId>
-		          <outputDirectory>target/assembly/out</outputDirectory>
-        		  <workDirectory>target/assembly/work</workDirectory>        	      
+            <execution>
+                <id>make_assembly_src</id>
+                <configuration>
+                  <descriptors>
+                     <descriptor>src/main/assembly/coresrc.xml</descriptor>
+                  </descriptors>
+                  <finalName>myfaces-test-${project.version}-src</finalName>
+                  <appendAssemblyId>false</appendAssemblyId>
+                  <outputDirectory>target/assembly/out</outputDirectory>
+                  <workDirectory>target/assembly/work</workDirectory>
                 </configuration>
                 <phase>package</phase>
-        	    <goals>
-        	       <goal>attached</goal>
-        	    </goals>
+                <goals>
+                   <goal>attached</goal>
+                </goals>                
+            </execution>
+            <execution>
+                <id>make_assembly_bin</id>
+                <configuration>
+                  <descriptors>
+                    <descriptor>${basedir}/src/main/assembly/corebin.xml</descriptor>
+                  </descriptors>
+                  <finalName>myfaces-test-${project.version}-bin</finalName>
+                  <appendAssemblyId>false</appendAssemblyId>
+                  <outputDirectory>target/assembly/out</outputDirectory>
+                  <workDirectory>target/assembly/work</workDirectory>
+                </configuration>
+                <phase>package</phase>
+                <goals>
+                   <goal>attached</goal>
+                </goals>
             </execution>
         </executions>
       </plugin>
