@@ -1,0 +1,17 @@
+This product includes software developed by:
+The Apache Software Foundation (http://www.apache.org/).
+
+------------------------------------------------------------------------
+See the file LICENSE.txt
+See licenses for accompanying products in the "/licenses" subdirectory.
+------------------------------------------------------------------------
+
+This software also includes code from Facelets (https://facelets.dev.java.net/)
+
+This software also includes code from Apache Shale Test Framework
+
+This software also includes code from Apache Commons Codec
+
+This product contains code written by David Geary and Cay Horstmann
+for the first edition of Core JavaServer Faces. 
+
