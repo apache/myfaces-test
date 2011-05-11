@@ -208,6 +208,14 @@ public class MockResponseStateManager extends ResponseStateManager
     {
         byte[] bytes = encodedState.getBytes(ZIP_CHARSET);
 
+        try
+        {
+            bytes = new _Hex().decode(bytes); 
+        }catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
+
         ByteArrayInputStream input = null;
         ObjectInputStream s = null;
         Object object = null;
