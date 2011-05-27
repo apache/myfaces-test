@@ -103,6 +103,7 @@ public class TestPerClassLoaderRunner extends NamedRunner
 
         }
 
+        Thread.currentThread().setContextClassLoader(classLoader);
         testClassFromClassLoader = new TestClass(classLoader
                 .loadClass(getTestClass().getJavaClass().getName()));
         // See withAfters and withBefores for the reason.
