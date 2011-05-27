@@ -48,6 +48,7 @@ import org.apache.myfaces.test.el.FacesResourceBundleELResolver;
 import org.apache.myfaces.test.el.FacesScopedAttributeELResolver;
 import org.apache.myfaces.test.el.FacesVariableResolverChainWrapper;
 import org.apache.myfaces.test.el.MockExpressionFactory;
+import org.apache.myfaces.test.el.ReservedWordsELResolver;
 
 /**
  * <p>Mock implementation of <code>Application</code> that includes the semantics
@@ -237,6 +238,7 @@ public class MockApplication12 extends MockApplication
             composite.add(new ArrayELResolver());
             composite.add(new BeanELResolver());
             composite.add(new FacesScopedAttributeELResolver());
+            composite.add(new ReservedWordsELResolver());
 
             // Make the resolver we have configured the application wide one
             resolver = composite;
