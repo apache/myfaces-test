@@ -166,13 +166,23 @@ public class MockValueExpression extends ValueExpression
         Object value = getValue(context);
         if (value == null)
         {
-            return null;
+            if (isLiteralText())
+            {
+                return String.class;
+            }
+
+            ELResolver resolver = context.getELResolver();
+            Object base = null;
+            for (int i = 0; i < elements.length - 1; i++)
+            {
+                base = resolver.getValue(context, base, elements[i]);
+            }
+            return resolver.getType(context, base, elements[elements.length - 1]);
         }
         else
         {
             return value.getClass();
         }
-
     }
 
     /**

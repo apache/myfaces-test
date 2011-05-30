@@ -27,7 +27,7 @@ import org.apache.myfaces.test.base.AbstractJsfTestCase;
  * Test class for ValueExpressions
  * 
  * @author Jakob Korherr (latest modification by $Author$)
- * @author Christoph Gšldner
+ * @author Christoph Gï¿½ldner
  * @version $Revision$ $Date$
  */
 public class MockValueExpressionTest extends AbstractJsfTestCase
@@ -70,6 +70,31 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
                 .createValueExpression(elContext, "test #{foo}", String.class);
         Object value = ve.getValue(elContext);
         assertEquals("test BAR", value);
+    }
+
+
+    public void testGetType()
+    {
+        // set value of #{foo} to BAR in request scope
+        externalContext.getRequestMap().put("foo", "BAR");
+        // resolve value of #{foo} via ValueExpression
+        ELContext elContext = facesContext.getELContext();
+        ValueExpression ve = application.getExpressionFactory()
+                .createValueExpression(elContext, "#{foo}", String.class);
+        Class value = ve.getType(elContext);
+        assertEquals(String.class, value);
+    }
+
+    public void testGetTypeWithNull()
+    {
+        // set value of #{foo} to BAR in request scope
+        externalContext.getRequestMap().put("foo", null);
+        // resolve value of #{foo} via ValueExpression
+        ELContext elContext = facesContext.getELContext();
+        ValueExpression ve = application.getExpressionFactory()
+                .createValueExpression(elContext, "#{foo}", String.class);
+        Class value = ve.getType(elContext);
+        assertEquals(String.class, value);
     }
 
 }

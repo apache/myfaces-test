@@ -81,6 +81,20 @@ public class MockCompositeValueExpression extends MockValueExpression
     }
 
     @Override
+    public Class getType(ELContext context)
+    {
+        switch (valueExpressionChain.size())
+        {
+        case 0:
+            return null;
+        case 1:
+            return valueExpressionChain.get(0).getType(context);
+        default:
+            return String.class;
+        }
+    }
+
+    @Override
     public Object getValue(ELContext context)
     {
         if (valueExpressionChain.size() > 1)
