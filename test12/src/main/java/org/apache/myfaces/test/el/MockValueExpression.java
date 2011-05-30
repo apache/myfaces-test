@@ -195,7 +195,8 @@ public class MockValueExpression extends ValueExpression
 
         FacesContext fcontext = (FacesContext) context
                 .getContext(FacesContext.class);
-        ELResolver resolver = fcontext.getApplication().getELResolver();
+
+        ELResolver resolver = context.getELResolver();
         Object base = null;
         for (int i = 0; i < elements.length; i++)
         {
@@ -225,9 +226,7 @@ public class MockValueExpression extends ValueExpression
             return true;
         }
 
-        FacesContext fcontext = (FacesContext) context
-                .getContext(FacesContext.class);
-        ELResolver resolver = fcontext.getApplication().getELResolver();
+        ELResolver resolver = context.getELResolver();
         Object base = null;
         for (int i = 0; i < elements.length - 1; i++)
         {
@@ -253,9 +252,7 @@ public class MockValueExpression extends ValueExpression
             throw new NullPointerException();
         }
 
-        FacesContext fcontext = (FacesContext) context
-                .getContext(FacesContext.class);
-        ELResolver resolver = fcontext.getApplication().getELResolver();
+        ELResolver resolver = context.getELResolver();
         Object base = null;
         for (int i = 0; i < elements.length - 1; i++)
         {
