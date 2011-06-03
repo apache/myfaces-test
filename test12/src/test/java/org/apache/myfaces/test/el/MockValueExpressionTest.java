@@ -18,6 +18,8 @@
  */
 package org.apache.myfaces.test.el;
 
+import java.util.ArrayList;
+
 import javax.el.ELContext;
 import javax.el.ValueExpression;
 
@@ -72,7 +74,6 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
         assertEquals("test BAR", value);
     }
 
-
     public void testGetType()
     {
         // set value of #{foo} to BAR in request scope
@@ -95,6 +96,22 @@ public class MockValueExpressionTest extends AbstractJsfTestCase
                 .createValueExpression(elContext, "#{foo}", String.class);
         Class value = ve.getType(elContext);
         assertEquals(String.class, value);
+    }
+
+    public void testGetIndexedValue() {
+        ArrayList<String> strings = new ArrayList<String>();
+        strings.add("foo");
+        strings.add("bar");
+        strings.add("baz");
+        externalContext.getRequestMap().put("strings", strings);
+        ELContext elContext = facesContext.getELContext();
+        for (int i = 0, sz = strings.size(); i < sz; i++) {
+            ValueExpression ve =
+                application.getExpressionFactory()
+                    .createValueExpression(elContext,
+                        String.format("#{strings[%s]}", i), String.class);
+            assertEquals(strings.get(i), ve.getValue(elContext));
+        }
     }
 
 }

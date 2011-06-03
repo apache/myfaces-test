@@ -21,7 +21,9 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.PropertyNotFoundException;
@@ -87,6 +89,13 @@ public class MockPropertyResolver extends PropertyResolver
             throws PropertyNotFoundException
     {
 
+        if (base instanceof List) {
+            List l = (List) base;
+            return index < l.size() ? l.get(index) : null;
+        }
+        if (base != null && base.getClass().isArray()) {
+            return index < Array.getLength(base) ? Array.get(base, index) : null;
+        }
         return getValue(base, "" + index);
 
     }
@@ -127,6 +136,21 @@ public class MockPropertyResolver extends PropertyResolver
             throws PropertyNotFoundException
     {
 
+        if (base instanceof List) {
+            List l = (List) base;
+            if (index > l.size()) {
+                throw new PropertyNotFoundException();
+            }
+            l.set(index, value);
+            return;
+        }
+        if (base != null && base.getClass().isArray()) {
+            if (index < Array.getLength(base)) {
+                Array.set(base, index, value);
+                return;
+            }
+            throw new PropertyNotFoundException();
+        }
         setValue(base, "" + index, value);
 
     }
@@ -191,6 +215,25 @@ public class MockPropertyResolver extends PropertyResolver
             throws PropertyNotFoundException
     {
 
+        if (base instanceof List)
+        {
+            if (index < ((List) base).size())
+            {
+                Object element = getValue(base, index);
+                return element == null ? null : element.getClass();
+            }
+            throw new PropertyNotFoundException();
+        }
+        if (base != null && base.getClass().isArray())
+        {
+            if (index < Array.getLength(base))
+            {
+                Object element = Array.get(base, index);
+                return element != null ? element.getClass()
+                    : base.getClass().getComponentType();
+            }
+            throw new PropertyNotFoundException();
+        }
         return getType(base, "" + index);
 
     }

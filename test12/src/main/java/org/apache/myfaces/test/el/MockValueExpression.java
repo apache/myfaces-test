@@ -17,8 +17,6 @@
 
 package org.apache.myfaces.test.el;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.el.ELContext;
 import javax.el.ELResolver;
 import javax.el.ValueExpression;
@@ -290,49 +288,7 @@ public class MockValueExpression extends ValueExpression
         {
             if (expression.endsWith("}"))
             {
-                List names = new ArrayList();
-                StringBuffer expr = new StringBuffer(expression.substring(2,
-                        expression.length() - 1).replaceAll(" ", ""));
-                boolean isBlockOn = false;
-                for (int i = expr.length() - 1; i > -1; i--)
-                {
-                    if (expr.charAt(i) == ' ')
-                    {
-                        expr.deleteCharAt(i);
-                    }
-                    else if (expr.charAt(i) == ']')
-                    {
-                        expr.deleteCharAt(i);
-                    }
-                    else if (expr.charAt(i) == '[')
-                    {
-                        expr.deleteCharAt(i);
-                    }
-                    else if (expr.charAt(i) == '\'')
-                    {
-                        if (!isBlockOn)
-                        {
-                            expr.deleteCharAt(i);
-                        }
-                        else
-                        {
-                            names.add(0, expr.substring(i + 1));
-                            expr.delete(i, expr.length());
-                        }
-                        isBlockOn = !isBlockOn;
-                    }
-                    else if (expr.charAt(i) == '.' && !isBlockOn)
-                    {
-                        names.add(0, expr.substring(i + 1));
-                        expr.delete(i, expr.length());
-                    }
-                }
-                if (expr.length() > 0)
-                {
-                    names.add(0, expr.toString());
-                }
-
-                elements = (String[]) names.toArray(new String[names.size()]);
+                elements = ExpressionTokenizer.tokenize(expression.substring(2, expression.length() - 1));
             }
             else
             {
