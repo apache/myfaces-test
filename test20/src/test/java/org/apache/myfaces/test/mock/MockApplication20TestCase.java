@@ -17,12 +17,17 @@
 
 package org.apache.myfaces.test.mock;
 
+import javax.faces.application.ProjectStage;
+import javax.faces.component.UIViewRoot;
+import javax.faces.component.behavior.Behavior;
+import javax.faces.event.PostAddToViewEvent;
+import javax.faces.event.SystemEvent;
+import javax.faces.event.SystemEventListener;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.apache.myfaces.test.base.AbstractJsfTestCase;
 
-import javax.faces.application.ProjectStage;
-import javax.faces.component.behavior.Behavior;
+import org.apache.myfaces.test.base.AbstractJsfTestCase;
 
 /**
  * Test case for <code>MockApplication20</code>
@@ -90,5 +95,24 @@ public class MockApplication20TestCase extends AbstractJsfTestCase
         _application.addDefaultValidatorId(validatorId);
         assertTrue(_application.getDefaultValidatorInfo().containsKey(
                 validatorId));
+    }
+    
+    public void testPublishEvent()
+    {
+        application.subscribeToEvent(PostAddToViewEvent.class, new SystemEventListener()
+        {
+            
+            public void processEvent(SystemEvent event)
+            {
+
+            }
+            
+            public boolean isListenerForSource(Object source)
+            {
+                return source instanceof UIViewRoot;
+            }
+        });
+
+        application.publishEvent(facesContext, PostAddToViewEvent.class, facesContext.getViewRoot());
     }
 }

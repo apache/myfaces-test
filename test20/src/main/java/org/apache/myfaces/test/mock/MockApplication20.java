@@ -510,15 +510,27 @@ public class MockApplication20 extends MockApplication12
         {
             try
             {
-                Constructor<? extends SystemEvent> constructor = systemEventClass
-                        .getConstructor(Object.class);
-                event = constructor.newInstance(source);
+                Constructor<?>[] constructors = systemEventClass.getConstructors();
+                Constructor<? extends SystemEvent> constructor = null;
+                for (Constructor<?> c : constructors)
+                {
+                    if (c.getParameterTypes().length == 1)
+                    {
+                        // Safe cast, since the constructor belongs
+                        // to a class of type SystemEvent
+                        constructor = (Constructor<? extends SystemEvent>) c;
+                        break;
+                    }
+                }
+                if (constructor != null)
+                {
+                    event = constructor.newInstance(source);
+                }
+
             }
             catch (Exception e)
             {
-                throw new FacesException(
-                        "Couldn't instanciate system event of type "
-                                + systemEventClass.getName(), e);
+                throw new FacesException("Couldn't instanciate system event of type " + systemEventClass.getName(), e);
             }
         }
 
