@@ -256,6 +256,11 @@ public class MockHttpServletRequest implements HttpServletRequest
         this.principal = principal;
 
     }
+    
+    public void setMethod(String method)
+    {
+        this.method = method;
+    }
 
     // ------------------------------------------------------ Instance Variables
 
@@ -275,6 +280,7 @@ public class MockHttpServletRequest implements HttpServletRequest
     private ServletInputStream inputStream = null;
     private List cookies = new ArrayList();
     private Vector locales = null;
+    private String method = null;
 
     // ---------------------------------------------- HttpServletRequest Methods
 
@@ -407,7 +413,7 @@ public class MockHttpServletRequest implements HttpServletRequest
     public String getMethod()
     {
 
-        throw new UnsupportedOperationException();
+        return method;
 
     }
 
