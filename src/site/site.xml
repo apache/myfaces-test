@@ -82,8 +82,8 @@
         <item name="ExtVal"         href="../extensions/validator/index.html"/>
         <item name="Portlet Bridge" href="../portlet-bridge/index.html"/>
         <item name="Test"           href="../test/index.html" collapse="false">
-          <item name="Myfaces Test Framework for JSF 1.2 (and 1.1)" href="./myfaces-test12/index.html"/>
-          <item name="Myfaces Test Framework for JSF 2.0"           href="./myfaces-test20/index.html"/>
+          <item name="Myfaces Test Framework for JSF 1.2 (and 1.1)" href="http://myfaces.apache.org/test/myfaces-test12/index.html"/>
+          <item name="Myfaces Test Framework for JSF 2.0"           href="http://myfaces.apache.org/test/myfaces-test20/index.html"/>
         </item>
         <item name="Commons"        href="../commons/index.html"/>
         <item name="HTML5"          href="../html5/index.html"/>

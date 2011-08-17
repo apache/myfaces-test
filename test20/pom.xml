@@ -42,7 +42,7 @@
         </dependency>
 
         <dependency>
-            <groupId>htmlunit</groupId>
+            <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
             <version>1.14</version>
             <optional>true</optional>
@@ -104,17 +104,26 @@
             <version>${jsf-myfaces.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Servlet 2.5 -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
+             <groupId>org.apache.geronimo.specs</groupId>
+             <artifactId>geronimo-servlet_2.5_spec</artifactId>
+             <version>1.2</version>
+             <scope>provided</scope>
         </dependency>
+        <!-- JSP 2.1 -->
         <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
+             <groupId>org.apache.geronimo.specs</groupId>
+             <artifactId>geronimo-jsp_2.1_spec</artifactId>
+             <version>1.0.1</version>
+             <scope>provided</scope>
+        </dependency>
+        <!-- EL 1.0 -->
+        <dependency>
+             <groupId>org.apache.geronimo.specs</groupId>
+             <artifactId>geronimo-el_1.0_spec</artifactId>
+             <version>1.0.2</version>
+             <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -148,6 +157,7 @@
                   -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
                 <executions>
                     <execution>
                         <id>add-source</id>
@@ -168,7 +178,7 @@
             <plugin>
                 <groupId>org.apache.myfaces.buildtools</groupId>
                 <artifactId>myfaces-builder-plugin</artifactId>
-                <version>1.0.3</version>
+                <version>1.0.9</version>
                 <executions>
                   <execution>
                     <id>unpack-test12</id>
@@ -182,10 +192,10 @@
                         <artifactItem>
                           <groupId>org.apache.myfaces.test</groupId>
                           <artifactId>myfaces-test12</artifactId>
-                          <version>${pom.version}</version>
+                          <version>1.0.4-SNAPSHOT</version>
                           <classifier>sources</classifier>                   
                           <outputDirectory>${project.build.directory}/test12_sources</outputDirectory>
-                          <includes>**/*.java</includes>
+                          <includes>org/apache/myfaces/**/*.java</includes>
                           <excludes>**/*.class,**/META-INF/**</excludes>
                         </artifactItem>
                       </artifactItems>
@@ -195,8 +205,27 @@
             </plugin>            
         </plugins>    
     </build>
+    <reporting>
+      <plugins>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.8</version>
+          <reportSets>
+            <reportSet>
+              <id>non-aggregate</id>
+              <configuration>
+                <!-- Specific configuration for the non aggregate report -->
+              </configuration>
+              <reports>
+                <report>javadoc</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
     <properties>
         <jsf-ri.version>2.0.2-b10</jsf-ri.version>
-        <jsf-myfaces.version>2.0.0-beta</jsf-myfaces.version>
+        <jsf-myfaces.version>2.0.0</jsf-myfaces.version>
     </properties>
 </project>
