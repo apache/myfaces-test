@@ -34,14 +34,18 @@
   <skin>
     <groupId>org.apache.myfaces.maven</groupId>
     <artifactId>myfaces-site-skin</artifactId>
-    <version>1</version>
+    <version>3</version>
   </skin>
 
   <body>
     <links>
+      <item name="Using It"      href="./usecase.html"/>
+      <item name="Examples"      href="./examples.html"/>
+      <item name="1.2 Javadocs"  href="./myfaces-test12/apidocs/index.html"/>
+      <item name="2.0 Javadocs"  href="./myfaces-test20/apidocs/index.html"/>
+      <item name="Download Myfaces Test" href="./download.html"/>
       <item name="Apache" href="http://www.apache.org"/>
       <item name="MyFaces" href="http://myfaces.apache.org/index.html"/>
-      <item name="Download Myfaces Test" href="./download.html"/>
     </links>
   
     <menu name="Apache MyFaces" inherit="top">
@@ -49,14 +53,52 @@
       <item name="Download"       href="http://myfaces.apache.org/download.html"/>
     </menu>
 
-    <menu ref="modules" inherit="top"/>
+    <menu name="MyFaces Projects" inherit="top">
+        <item name="Core JSF-2.1"   href="../core21/index.html" collapse="true">
+          <item name="dummy"        href="dummy"/>
+        </item>
+        <item name="Core JSF-2.0"   href="../core20/index.html" collapse="true">
+          <item name="dummy"        href="dummy"/>
+        </item>
+        <item name="Core JSF-1.2"   href="../core12/index.html" collapse="true">
+          <item name="dummy"        href="dummy"/>
+        </item>
+        <item name="Core JSF-1.1"   href="../core11/index.html" collapse="true">
+          <item name="dummy"        href="dummy"/>
+        </item>
+    </menu>
+    
+    <menu name="UI-Component Sets" inherit="top">
+        <item name="Trinidad"       href="../trinidad/index.html"/>
+        <item name="Tobago"         href="../tobago/index.html"/>
+        <item name="Tomahawk"       href="../tomahawk/index.html" collapse="true">
+          <item name="dummy"        href="dummy"/>
+        </item>
+    </menu>
+    
+    <menu name="Add-ons and Extensions" inherit="top">
+        <item name="CODI"           href="../extensions/cdi/index.html"/>
+        <item name="Orchestra"      href="../orchestra/index.html"/>
+        <item name="ExtVal"         href="../extensions/validator/index.html"/>
+        <item name="Portlet Bridge" href="../portlet-bridge/index.html"/>
+        <item name="Test"           href="../test/index.html" collapse="false">
+          <item name="Myfaces Test Framework for JSF 1.2 (and 1.1)" href="./myfaces-test12/index.html"/>
+          <item name="Myfaces Test Framework for JSF 2.0"           href="./myfaces-test20/index.html"/>
+        </item>
+        <item name="Commons"        href="../commons/index.html"/>
+        <item name="HTML5"          href="../html5/index.html"/>
+        <item name="Sandbox"        href="../sandbox/index.html" collapse="true">
+          <item name="dummy"        href="dummy"/>
+        </item>
+        <item name="Others"         href="../otherProjects.html"/>
+    </menu>
 
     <menu name="Documentation" inherit="top">
-      <item name="About"         href="index.html"/>
-      <item name="Using It"      href="http://myfaces.apache.org/test/usecase.html"/>
-      <item name="Examples"      href="http://myfaces.apache.org/test/examples.html"/>
-      <item name="1.2 Javadocs"  href="http://myfaces.apache.org/test/myfaces-test12/apidocs/index.html"/>
-      <item name="2.0 Javadocs"  href="http://myfaces.apache.org/test/myfaces-test20/apidocs/index.html"/>
+      <item name="About"         href="./index.html"/>
+      <item name="Using It"      href="./usecase.html"/>
+      <item name="Examples"      href="./examples.html"/>
+      <item name="1.2 Javadocs"  href="./myfaces-test12/apidocs/index.html"/>
+      <item name="2.0 Javadocs"  href="./myfaces-test20/apidocs/index.html"/>
     </menu>
 
     <menu ref="reports" inherit="top"/>
