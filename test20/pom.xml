@@ -192,7 +192,7 @@
                         <artifactItem>
                           <groupId>org.apache.myfaces.test</groupId>
                           <artifactId>myfaces-test12</artifactId>
-                          <version>1.0.4-SNAPSHOT</version>
+                          <version>1.0.4</version>
                           <classifier>sources</classifier>                   
                           <outputDirectory>${project.build.directory}/test12_sources</outputDirectory>
                           <includes>org/apache/myfaces/**/*.java</includes>
