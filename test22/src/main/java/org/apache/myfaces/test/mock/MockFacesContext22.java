@@ -20,6 +20,7 @@ package org.apache.myfaces.test.mock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.faces.component.UINamingContainer;
 import javax.faces.context.ExternalContext;
 import javax.faces.lifecycle.Lifecycle;
 
@@ -56,6 +57,7 @@ public class MockFacesContext22 extends MockFacesContext20
     // ------------------------------------------------------ Instance Variables
 
     private List<String> _resourceLibraryContracts;
+    private Character _separatorChar;
     
     // ----------------------------------------------------- Mock Object Methods   
 
@@ -87,6 +89,16 @@ public class MockFacesContext22 extends MockFacesContext20
         {
             _resourceLibraryContracts = new ArrayList<String>(contracts);
         }
+    }
+    
+    @Override
+    public char getNamingContainerSeparatorChar()
+    {
+        if (_separatorChar == null)
+        {
+            _separatorChar = UINamingContainer.getSeparatorChar(this);
+        }
+        return _separatorChar;
     }
 
     // ------------------------------------------------- ExternalContext Methods
