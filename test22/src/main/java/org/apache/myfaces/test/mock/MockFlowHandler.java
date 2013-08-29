@@ -60,27 +60,28 @@ public class MockFlowHandler extends FlowHandler
     }
 
     @Override
-    public void transition(FacesContext context, Flow sourceFlow, Flow targetFlow, FlowCallNode outboundCallNode, String toViewId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void transition(FacesContext context, Flow sourceFlow, Flow targetFlow, FlowCallNode outboundCallNode, String toViewId)
+    {
     }
 
     @Override
-    public void clientWindowTransition(FacesContext context) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void clientWindowTransition(FacesContext context)
+    {
     }
 
     @Override
-    public String getLastDisplayedViewId(FacesContext context) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getLastDisplayedViewId(FacesContext context)
+    {
+        return null;
     }
 
     @Override
-    public void pushReturnMode(FacesContext context) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void pushReturnMode(FacesContext context)
+    {
     }
 
     @Override
-    public void popReturnMode(FacesContext context) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void popReturnMode(FacesContext context)
+    {
     }
 }
