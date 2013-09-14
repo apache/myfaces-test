@@ -17,9 +17,11 @@
 
 package org.apache.myfaces.test.mock;
 
+import javax.faces.lifecycle.ClientWindow;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Mock implementation of <code>ExternalContext</code> that includes the semantics
@@ -38,11 +40,67 @@ public class MockExternalContext22 extends MockExternalContext20
             HttpServletRequest request, HttpServletResponse response)
     {
         super(context, request, response);
+        _clientWindow = null;
     }
 
     // ------------------------------------------------------ Instance Variables
 
+    private ClientWindow _clientWindow;
+    
     // ----------------------------------------------------- Mock Object Methods
+
+
+    @Override
+    public boolean isSecure()
+    {
+        return request.isSecure();
+    }
+
+    @Override
+    public int getSessionMaxInactiveInterval()
+    {
+        HttpSession session = request.getSession();
+        return session.getMaxInactiveInterval();
+    }
+
+    @Override
+    public void setSessionMaxInactiveInterval(int interval)
+    {
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(interval);
+    }
+
+    @Override
+    public ClientWindow getClientWindow()
+    {
+        return _clientWindow;
+    }
+    
+    @Override
+    public void setClientWindow(ClientWindow window)
+    {
+        _clientWindow = window;
+    }
+
+    @Override
+    public String getSessionId(boolean create)
+    {
+        HttpSession session = ((HttpServletRequest) request).getSession(create);
+        if (session != null)
+        {
+            return session.getId();
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    @Override
+    public String getApplicationContextPath()
+    {
+        return context.getContextPath();
+    }
 
     // ------------------------------------------------- ExternalContext Methods
     

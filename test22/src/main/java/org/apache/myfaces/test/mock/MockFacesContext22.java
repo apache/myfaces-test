@@ -58,6 +58,7 @@ public class MockFacesContext22 extends MockFacesContext20
 
     private List<String> _resourceLibraryContracts;
     private Character _separatorChar;
+    protected boolean _released = false;
     
     // ----------------------------------------------------- Mock Object Methods   
 
@@ -103,4 +104,16 @@ public class MockFacesContext22 extends MockFacesContext20
 
     // ------------------------------------------------- ExternalContext Methods
 
+    @Override
+    public boolean isReleased()
+    {
+        return _released;
+    }
+
+    @Override
+    public void release()
+    {
+        super.release();
+        _released = true;
+    }
 }
