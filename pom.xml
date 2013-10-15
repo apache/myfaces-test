@@ -31,16 +31,16 @@
     <artifactId>myfaces-test-project</artifactId>
     <packaging>pom</packaging>
     <name>Myfaces Test Framework</name>
-    <version>1.0.5</version>
+    <version>1.0.6-SNAPSHOT</version>
     <url>http://myfaces.apache.org/test</url>
     <issueManagement>
       <system>jira</system>
       <url>http://issues.apache.org/jira/browse/MYFACESTEST</url>
     </issueManagement>
     <scm>
-      <connection>scm:svn:http://svn.apache.org/repos/asf/myfaces/test/tags/myfaces-test-project-1.0.5</connection>
-      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/myfaces/test/tags/myfaces-test-project-1.0.5</developerConnection>
-      <url>http://svn.apache.org/repos/asf/myfaces/test/tags/myfaces-test-project-1.0.5</url>
+      <connection>scm:svn:http://svn.apache.org/repos/asf/myfaces/test/trunk</connection>
+      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/myfaces/test/trunk</developerConnection>
+      <url>http://svn.apache.org/repos/asf/myfaces/test/trunk</url>
     </scm>
     <modules>
       <module>test12</module>
