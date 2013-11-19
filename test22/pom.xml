@@ -92,7 +92,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Comment while we have an official release
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
@@ -105,13 +104,13 @@
             <version>${jsf-myfaces.version}</version>
             <scope>test</scope>
         </dependency>
-        -->
+        <!--
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>javax.faces-api</artifactId>
             <version>2.2</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         
         <!-- Servlet 2.5 -->
         <dependency>
@@ -264,6 +263,6 @@
     </reporting>
     <properties>
         <jsf-ri.version>2.0.2-b10</jsf-ri.version>
-        <jsf-myfaces.version>2.2.0-SNAPSHOT</jsf-myfaces.version>
+        <jsf-myfaces.version>2.2.0-beta</jsf-myfaces.version>
     </properties>
 </project>
