@@ -27,7 +27,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
 import javax.servlet.http.HttpSessionContext;
+import javax.servlet.http.HttpSessionEvent;
 
 /**
  * <p>Mock implementation of <code>HttpSession</code>.</p>
@@ -74,7 +76,15 @@ public class MockHttpSession implements HttpSession
      */
     public void addAttributeListener(HttpSessionAttributeListener listener)
     {
-        attributeListeners.add(listener);
+        MockWebContainer container = getWebContainer();
+        if (container == null)
+        {
+            attributeListeners.add(listener);
+        }
+        else
+        {
+            container.subscribeListener(listener);
+        }
     }
 
     /**
@@ -89,6 +99,15 @@ public class MockHttpSession implements HttpSession
 
     }
 
+    protected MockWebContainer getWebContainer()
+    {
+        if (this.servletContext instanceof MockServletContext)
+        {
+            return ((MockServletContext)this.servletContext).getWebContainer();
+        }
+        return null;
+    }
+
     // ------------------------------------------------------ Instance Variables
 
     private List attributeListeners = new ArrayList();
@@ -96,6 +115,7 @@ public class MockHttpSession implements HttpSession
     private String id = "123";
     private ServletContext servletContext = null;
     private boolean invalid = false;
+    private MockWebContainer webContainer;
 
     // ---------------------------------------------------------- Public Methods
 
@@ -203,6 +223,13 @@ public class MockHttpSession implements HttpSession
 
         attributes.clear();
         invalid = true;
+        
+        MockWebContainer container = getWebContainer();
+        if (container != null)
+        {
+            HttpSessionEvent se = new HttpSessionEvent(this);
+            container.sessionDestroyed(se);
+        }
     }
 
     /** {@inheritDoc} */
@@ -262,7 +289,7 @@ public class MockHttpSession implements HttpSession
         {
             Object oldValue = attributes.get(name);
             attributes.put(name, value);
-            fireAttributeReplaced(name, oldValue);
+            fireAttributeReplaced(name, oldValue, value);
         }
         else
         {
@@ -290,18 +317,36 @@ public class MockHttpSession implements HttpSession
      */
     private void fireAttributeAdded(String key, Object value)
     {
-        if (attributeListeners.size() < 1)
+        MockWebContainer container = getWebContainer();
+        if (container == null)
         {
-            return;
+            if (attributeListeners.size() < 1)
+            {
+                return;
+            }
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    value);
+            if (value instanceof HttpSessionBindingListener)
+            {
+                ((HttpSessionBindingListener)value).valueBound(event);
+            }
+            Iterator listeners = attributeListeners.iterator();
+            while (listeners.hasNext())
+            {
+                HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
+                        .next();
+                listener.attributeAdded(event);
+            }
         }
-        HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
-                value);
-        Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext())
+        else
         {
-            HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
-                    .next();
-            listener.attributeAdded(event);
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    value);
+            if (value instanceof HttpSessionBindingListener)
+            {
+                ((HttpSessionBindingListener)value).valueBound(event);
+            }            
+            container.attributeAdded(event);
         }
     }
 
@@ -313,18 +358,36 @@ public class MockHttpSession implements HttpSession
      */
     private void fireAttributeRemoved(String key, Object value)
     {
-        if (attributeListeners.size() < 1)
+        MockWebContainer container = getWebContainer();
+        if (container == null)
         {
-            return;
+            if (attributeListeners.size() < 1)
+            {
+                return;
+            }
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    value);
+            if (value instanceof HttpSessionBindingListener)
+            {
+                ((HttpSessionBindingListener)value).valueUnbound(event);
+            }            
+            Iterator listeners = attributeListeners.iterator();
+            while (listeners.hasNext())
+            {
+                HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
+                        .next();
+                listener.attributeRemoved(event);
+            }
         }
-        HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
-                value);
-        Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext())
+        else
         {
-            HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
-                    .next();
-            listener.attributeRemoved(event);
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    value);
+            if (value instanceof HttpSessionBindingListener)
+            {
+                ((HttpSessionBindingListener)value).valueUnbound(event);
+            }
+            container.attributeRemoved(event);
         }
     }
 
@@ -334,20 +397,44 @@ public class MockHttpSession implements HttpSession
      * @param key Attribute whose value was replaced
      * @param value The original value
      */
-    private void fireAttributeReplaced(String key, Object value)
+    private void fireAttributeReplaced(String key, Object oldValue, Object value)
     {
-        if (attributeListeners.size() < 1)
+        if (oldValue instanceof HttpSessionBindingListener)
         {
-            return;
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    oldValue);
+            ((HttpSessionBindingListener)value).valueUnbound(event);
         }
-        HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
-                value);
-        Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext())
+        MockWebContainer container = getWebContainer();
+        if (container == null)
+        {        
+            if (attributeListeners.size() < 1)
+            {
+                return;
+            }
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    value);
+            if (value instanceof HttpSessionBindingListener)
+            {
+                ((HttpSessionBindingListener)value).valueBound(event);
+            }            
+            Iterator listeners = attributeListeners.iterator();
+            while (listeners.hasNext())
+            {
+                HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
+                        .next();
+                listener.attributeReplaced(event);
+            }
+        }
+        else
         {
-            HttpSessionAttributeListener listener = (HttpSessionAttributeListener) listeners
-                    .next();
-            listener.attributeReplaced(event);
+            HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, key,
+                    value);
+            if (value instanceof HttpSessionBindingListener)
+            {
+                ((HttpSessionBindingListener)value).valueBound(event);
+            }
+            container.attributeReplaced(event);
         }
     }
 

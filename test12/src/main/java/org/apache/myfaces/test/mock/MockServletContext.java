@@ -112,7 +112,25 @@ public class MockServletContext implements ServletContext
      */
     public void addAttributeListener(ServletContextAttributeListener listener)
     {
-        attributeListeners.add(listener);
+        MockWebContainer container = getWebContainer();
+        if (container == null)
+        {
+            attributeListeners.add(listener);
+        }
+        else
+        {
+            container.subscribeListener(listener);
+        }
+    }
+    
+    public MockWebContainer getWebContainer()
+    {
+        return webContainer;
+    }
+    
+    public void setWebContainer(MockWebContainer container)
+    {
+        webContainer = container;
     }
 
     // ------------------------------------------------------ Instance Variables
@@ -122,6 +140,7 @@ public class MockServletContext implements ServletContext
     private Hashtable mimeTypes = new Hashtable();
     private Hashtable parameters = new Hashtable();
     private List attributeListeners = new ArrayList();
+    private MockWebContainer webContainer;
 
     // -------------------------------------------------- ServletContext Methods
 
@@ -464,18 +483,28 @@ public class MockServletContext implements ServletContext
      */
     void fireAttributeAdded(String key, Object value)
     {
-        if (attributeListeners.size() < 1)
-        {
-            return;
+        MockWebContainer container = getWebContainer();
+        if (container == null)
+        {        
+            if (attributeListeners.size() < 1)
+            {
+                return;
+            }
+            ServletContextAttributeEvent event = new ServletContextAttributeEvent(
+                    this, key, value);
+            Iterator listeners = attributeListeners.iterator();
+            while (listeners.hasNext())
+            {
+                ServletContextAttributeListener listener = (ServletContextAttributeListener) listeners
+                        .next();
+                listener.attributeAdded(event);
+            }
         }
-        ServletContextAttributeEvent event = new ServletContextAttributeEvent(
-                this, key, value);
-        Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext())
+        else
         {
-            ServletContextAttributeListener listener = (ServletContextAttributeListener) listeners
-                    .next();
-            listener.attributeAdded(event);
+            ServletContextAttributeEvent event = new ServletContextAttributeEvent(
+                    this, key, value);
+            container.attributeAdded(event);
         }
     }
 
@@ -487,18 +516,28 @@ public class MockServletContext implements ServletContext
      */
     void fireAttributeRemoved(String key, Object value)
     {
-        if (attributeListeners.size() < 1)
+        MockWebContainer container = getWebContainer();
+        if (container == null)
         {
-            return;
+            if (attributeListeners.size() < 1)
+            {
+                return;
+            }
+            ServletContextAttributeEvent event = new ServletContextAttributeEvent(
+                    this, key, value);
+            Iterator listeners = attributeListeners.iterator();
+            while (listeners.hasNext())
+            {
+                ServletContextAttributeListener listener = (ServletContextAttributeListener) listeners
+                        .next();
+                listener.attributeRemoved(event);
+            }
         }
-        ServletContextAttributeEvent event = new ServletContextAttributeEvent(
-                this, key, value);
-        Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext())
+        else
         {
-            ServletContextAttributeListener listener = (ServletContextAttributeListener) listeners
-                    .next();
-            listener.attributeRemoved(event);
+            ServletContextAttributeEvent event = new ServletContextAttributeEvent(
+                    this, key, value);
+            container.attributeRemoved(event);
         }
     }
 
@@ -510,18 +549,28 @@ public class MockServletContext implements ServletContext
      */
     void fireAttributeReplaced(String key, Object value)
     {
-        if (attributeListeners.size() < 1)
+        MockWebContainer container = getWebContainer();
+        if (container == null)
         {
-            return;
+            if (attributeListeners.size() < 1)
+            {
+                return;
+            }
+            ServletContextAttributeEvent event = new ServletContextAttributeEvent(
+                    this, key, value);
+            Iterator listeners = attributeListeners.iterator();
+            while (listeners.hasNext())
+            {
+                ServletContextAttributeListener listener = (ServletContextAttributeListener) listeners
+                        .next();
+                listener.attributeReplaced(event);
+            }
         }
-        ServletContextAttributeEvent event = new ServletContextAttributeEvent(
-                this, key, value);
-        Iterator listeners = attributeListeners.iterator();
-        while (listeners.hasNext())
+        else
         {
-            ServletContextAttributeListener listener = (ServletContextAttributeListener) listeners
-                    .next();
-            listener.attributeReplaced(event);
+            ServletContextAttributeEvent event = new ServletContextAttributeEvent(
+                    this, key, value);            
+            container.attributeReplaced(event);
         }
     }
 }

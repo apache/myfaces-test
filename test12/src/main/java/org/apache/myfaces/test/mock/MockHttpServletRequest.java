@@ -26,7 +26,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -45,6 +44,7 @@ import javax.servlet.ServletRequestAttributeListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
 
 /**
  * <p>Mock implementation of <code>HttpServletContext</code>.</p>
@@ -260,6 +260,15 @@ public class MockHttpServletRequest implements HttpServletRequest
     public void setMethod(String method)
     {
         this.method = method;
+    }
+    
+    protected MockWebContainer getWebContainer()
+    {
+        if (this.servletContext instanceof MockServletContext)
+        {
+            return ((MockServletContext)this.servletContext).getWebContainer();
+        }
+        return null;
     }
 
     // ------------------------------------------------------ Instance Variables
@@ -520,6 +529,12 @@ public class MockHttpServletRequest implements HttpServletRequest
         if (create && (session == null))
         {
             this.session = new MockHttpSession(this.servletContext);
+            MockWebContainer container = getWebContainer();
+            if (container != null)
+            {
+                HttpSessionEvent se = new HttpSessionEvent(this.session);
+                container.sessionCreated(se);
+            }
         }
         return session;
 
