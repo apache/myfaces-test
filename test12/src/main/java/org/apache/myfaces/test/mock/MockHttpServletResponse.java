@@ -80,6 +80,11 @@ public class MockHttpServletResponse implements HttpServletResponse
     {
         return (Cookie) cookies.get(name);
     }
+    
+    public Map<String, Cookie> getCookies()
+    {
+        return cookies;
+    }
 
     /**
      * <p>Return the text message for the HTTP status that was set.</p>
@@ -139,7 +144,7 @@ public class MockHttpServletResponse implements HttpServletResponse
     private long contentLength = 0;
     private int bufferSize = 0;
     private Locale locale = Locale.getDefault();
-    private Map cookies = new HashMap(4);
+    private Map<String, Cookie> cookies = new HashMap<String, Cookie>(4);
 
     // -------------------------------------------- HttpServletResponse Methods
 
