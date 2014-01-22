@@ -270,6 +270,30 @@ public class MockHttpServletRequest implements HttpServletRequest
         }
         return null;
     }
+    
+    /**
+     * @param contextPath the contextPath to set
+     */
+    public void setContextPath(String contextPath)
+    {
+        this.contextPath = contextPath;
+    }
+
+    /**
+     * @param pathInfo the pathInfo to set
+     */
+    public void setPathInfo(String pathInfo)
+    {
+        this.pathInfo = pathInfo;
+    }
+
+    /**
+     * @param servletPath the servletPath to set
+     */
+    public void setServletPath(String servletPath)
+    {
+        this.servletPath = servletPath;
+    }
 
     // ------------------------------------------------------ Instance Variables
 

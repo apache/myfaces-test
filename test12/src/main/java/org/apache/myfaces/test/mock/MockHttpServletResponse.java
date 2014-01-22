@@ -243,7 +243,8 @@ public class MockHttpServletResponse implements HttpServletResponse
         {
             throw new IllegalStateException("Response is already committed");
         }
-        this.status = HttpServletResponse.SC_MOVED_TEMPORARILY;
+        setStatus(HttpServletResponse.SC_FOUND);
+        setHeader("Location", location);
         this.message = location;
         this.committed = true;
     }
