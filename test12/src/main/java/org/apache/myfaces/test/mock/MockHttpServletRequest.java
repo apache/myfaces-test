@@ -294,6 +294,24 @@ public class MockHttpServletRequest implements HttpServletRequest
     {
         this.servletPath = servletPath;
     }
+    
+    public void addUserRole(String role)
+    {
+        if (this.roles == null)
+        {
+            this.roles = new ArrayList<String>();
+        }
+        this.roles.add(role);
+    }
+        
+    public void clearUserRoles()
+    {
+        if (this.roles == null)
+        {
+            return;
+        }
+        this.roles.clear();
+    }
 
     // ------------------------------------------------------ Instance Variables
 
@@ -314,6 +332,7 @@ public class MockHttpServletRequest implements HttpServletRequest
     private List cookies = new ArrayList();
     private Vector locales = null;
     private String method = null;
+    private List<String> roles = null;
 
     // ---------------------------------------------- HttpServletRequest Methods
 
@@ -607,9 +626,7 @@ public class MockHttpServletRequest implements HttpServletRequest
     /** {@inheritDoc} */
     public boolean isUserInRole(String role)
     {
-
-        throw new UnsupportedOperationException();
-
+        return (this.roles != null) ? this.roles.contains(role) : false;
     }
 
     // ------------------------------------------------- ServletRequest Methods
