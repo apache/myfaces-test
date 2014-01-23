@@ -25,6 +25,7 @@ import javax.el.ELException;
 import javax.el.ELResolver;
 import javax.el.MethodExpression;
 import javax.el.MethodInfo;
+import javax.el.MethodNotFoundException;
 import javax.faces.context.FacesContext;
 
 /**
@@ -200,6 +201,10 @@ public class MockMethodExpression extends MethodExpression
         catch (RuntimeException e)
         {
             throw e;
+        }
+        catch (NoSuchMethodException e)
+        {
+            throw new MethodNotFoundException(e);
         }
         catch (Exception e)
         {
