@@ -16,14 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.myfaces.test.mock;
 
+import java.util.Locale;
 import javax.faces.FactoryFinder;
 import javax.faces.application.ApplicationFactory;
 import javax.faces.component.UIViewRoot;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.faces.render.RenderKitFactory;
+import javax.servlet.ServletRequestEvent;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 import org.apache.myfaces.test.config.ResourceBundleVarNames;
 import org.apache.myfaces.test.mock.lifecycle.MockLifecycle;
 import org.apache.myfaces.test.mock.lifecycle.MockLifecycleFactory;
@@ -31,7 +34,7 @@ import org.apache.myfaces.test.mock.lifecycle.MockLifecycleFactory;
 /**
  *
  */
-public class MockedJsfTestContainer
+public class MockedJsfTestContainer implements HttpSessionListener
 {
 
     // ------------------------------------------------------------ Constructors
@@ -50,10 +53,10 @@ public class MockedJsfTestContainer
     /**
      * <p>Set up instance variables required by this test case.</p>
      */
-    public void setUp() throws Exception
+    public void setUp()
     {
         // Set up Servlet API Objects
-        setUpServletObjects();
+        setUpServletContext();
 
         // Set up JSF API Objects
         FactoryFinder.releaseFactories();
@@ -62,28 +65,34 @@ public class MockedJsfTestContainer
 
         setUpJSFObjects();
     }
+    
+    public void setUpAll()
+    {
+        setUp();
+        startRequest();
+    }
+    
+    public void tearDownAll()
+    {
+        endRequest();
+        tearDownRequest();
+    }
 
     /**
      * <p>Setup JSF object used for the test. By default it calls to the following
      * methods in this order:</p>
      * 
      * <ul>
-     * <li><code>setUpExternalContext();</code></li>
      * <li><code>setUpLifecycle();</code></li>
-     * <li><code>setUpFacesContext();</code></li>
-     * <li><code>setUpView();</code></li>
      * <li><code>setUpApplication();</code></li>
      * <li><code>setUpRenderKit();</code></li>
      * </ul>
      * 
      * @throws Exception
      */
-    protected void setUpJSFObjects() throws Exception
+    protected void setUpJSFObjects()
     {
-        setUpExternalContext();
         setUpLifecycle();
-        setUpFacesContext();
-        setUpView();
         setUpApplication();
         setUpRenderKit();
     }
@@ -94,30 +103,92 @@ public class MockedJsfTestContainer
      * <ul>
      * <li><code>config</code> (<code>MockServletConfig</code>)</li>
      * <li><code>servletContext</code> (<code>MockServletContext</code>)</li>
-     * <li><code>request</code> (<code>MockHttpServletRequest</code></li>
-     * <li><code>response</code> (<code>MockHttpServletResponse</code>)</li>
-     * <li><code>session</code> (<code>MockHttpSession</code>)</li>
      * </ul>
      * 
      * @throws Exception
      */
-    protected void setUpServletObjects() throws Exception
+    protected void setUpServletContext()
     {
         servletContext = new MockServletContext();
         config = new MockServletConfig(servletContext);
-        session = new MockHttpSession();
-        session.setServletContext(servletContext);
-        request = new MockHttpServletRequest(session);
+        webContainer = new MockWebContainer();
+        servletContext.setWebContainer(webContainer);
+        // Subscribe the container to receive session creation and destroy events.
+        webContainer.subscribeListener(this);
+    }
+    
+    /**
+     * <p>Setup servlet objects that will be used for the test:</p>
+     * 
+     * <ul>
+     * <li><code>request</code> (<code>MockHttpServletRequest</code></li>
+     * <li><code>response</code> (<code>MockHttpServletResponse</code>)</li>
+     * </ul>
+     * 
+     * @throws Exception
+     */
+    protected void setUpRequest()
+    {
+        request = lastSession == null ? 
+            new MockHttpServletRequest() : new MockHttpServletRequest(lastSession);
+        requestInitializedCalled = false;
         request.setServletContext(servletContext);
         response = new MockHttpServletResponse();
     }
+    
+    protected void doRequestInitialized()
+    {
+        if (!requestInitializedCalled)
+        {
+            webContainer.requestInitialized(new ServletRequestEvent(servletContext, request));
+            requestInitializedCalled = true;
+        }
+    }
+    
+    public void startRequest()
+    {
+        setUpRequest();        
+        doRequestInitialized();
+        
+        setUpFacesContext();
+        setUpDefaultView();
+    }
+    
+    public void startSession()
+    {
+        if (request != null)
+        {
+            //Create it indirectly through call to getSession(...)
+            request.getSession(true);
+        }
+    }
+    
+    public void endSession()
+    {
+        MockHttpSession session = (MockHttpSession) request.getSession(false);
+        if (session != null)
+        {
+            session.invalidate();
+        }
+    }
+    
+    public void sessionCreated(HttpSessionEvent se)
+    {
+        lastSession = (MockHttpSession) se.getSession();
+        //No op
+    }
 
+    public void sessionDestroyed(HttpSessionEvent se)
+    {
+        lastSession = null;
+    }
+    
     /**
      * <p>Set JSF factories using FactoryFinder method setFactory.</p>
      * 
      * @throws Exception
      */
-    protected void setFactories() throws Exception
+    protected void setFactories()
     {
         FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY,
                 "org.apache.myfaces.test.mock.MockApplicationFactory");
@@ -138,24 +209,12 @@ public class MockedJsfTestContainer
     }
 
     /**
-     * Setup the <code>externalContext</code> variable, using the 
-     * servlet variables already initialized.
-     * 
-     * @throws Exception
-     */
-    protected void setUpExternalContext() throws Exception
-    {
-        externalContext = new MockExternalContext(servletContext, request,
-                response);
-    }
-
-    /**
      * Setup the <code>lifecycle</code> and <code>lifecycleFactory</code>
      * variables.
      * 
      * @throws Exception
      */
-    protected void setUpLifecycle() throws Exception
+    protected void setUpLifecycle()
     {
         lifecycleFactory = (MockLifecycleFactory) FactoryFinder
                 .getFactory(FactoryFinder.LIFECYCLE_FACTORY);
@@ -172,7 +231,7 @@ public class MockedJsfTestContainer
      * 
      * @throws Exception
      */
-    protected void setUpFacesContext() throws Exception
+    protected void setUpFacesContext()
     {
         facesContextFactory = (MockFacesContextFactory) FactoryFinder
                 .getFactory(FactoryFinder.FACES_CONTEXT_FACTORY);
@@ -183,6 +242,13 @@ public class MockedJsfTestContainer
             externalContext = (MockExternalContext) facesContext
                     .getExternalContext();
         }
+        else
+        {
+            externalContext = new MockExternalContext(servletContext, request,
+                response);
+            facesContext.setExternalContext(externalContext);
+        }
+        facesContext.setApplication(application);
     }
 
     /**
@@ -191,13 +257,19 @@ public class MockedJsfTestContainer
      * 
      * @throws Exception
      */
-    protected void setUpView() throws Exception
+    protected void setUpDefaultView()
     {
         UIViewRoot root = new UIViewRoot();
         root.setViewId("/viewId");
+        root.setLocale(getLocale());
         root.setRenderKitId(RenderKitFactory.HTML_BASIC_RENDER_KIT);
         facesContext.setViewRoot(root);
     }
+    
+    protected Locale getLocale()
+    {
+        return Locale.getDefault();
+    }    
 
     /**
      * Setup the <code>application</code> variable and before
@@ -206,12 +278,11 @@ public class MockedJsfTestContainer
      * 
      * @throws Exception
      */
-    protected void setUpApplication() throws Exception
+    protected void setUpApplication()
     {
         ApplicationFactory applicationFactory = (ApplicationFactory) FactoryFinder
                 .getFactory(FactoryFinder.APPLICATION_FACTORY);
         application = (MockApplication) applicationFactory.getApplication();
-        facesContext.setApplication(application);
     }
 
     /**
@@ -221,7 +292,7 @@ public class MockedJsfTestContainer
      * 
      * @throws Exception
      */
-    protected void setUpRenderKit() throws Exception
+    protected void setUpRenderKit()
     {
         RenderKitFactory renderKitFactory = (RenderKitFactory) FactoryFinder
                 .getFactory(FactoryFinder.RENDER_KIT_FACTORY);
@@ -230,19 +301,86 @@ public class MockedJsfTestContainer
                 renderKit);
     }
 
-    /**
-     * <p>Tear down instance variables required by this test case.</p>
-     */
-    public void tearDown() throws Exception
+    public MockApplication getApplication()
     {
+        return application;
+    }
+    
+    public MockExternalContext getExternalContext()
+    {
+        return externalContext;
+    }
 
-        application = null;
-        config = null;
-        externalContext = null;
+    public MockFacesContext getFacesContext()
+    {
+        return facesContext;
+    }
+
+    public MockHttpServletRequest getRequest()
+    {
+        return request;
+    }
+
+    public MockHttpServletResponse getResponse()
+    {
+        return response;
+    }
+
+    public MockServletContext getServletContext()
+    {
+        return servletContext;
+    }
+    
+    /**
+     * @return the webContainer
+     */
+    public MockWebContainer getWebContainer()
+    {
+        return webContainer;
+    }
+
+    /**
+     * This method call doRequestDestroyed() and then tearDownRequest(). 
+     */
+    public final void endRequest()
+    {
+        
+        doRequestDestroyed();
+        tearDownRequest();
+    }
+
+    protected void doRequestDestroyed()
+    {
+        if (request != null)
+        {
+            webContainer.requestDestroyed(new ServletRequestEvent(servletContext, request));
+        }
+    }
+
+    protected void tearDownRequest()
+    {
         if (facesContext != null)
         {
             facesContext.release();
         }
+        externalContext = null;
+        facesContext = null;
+        request = null;
+        response = null;
+    }
+    
+    /**
+     * <p>Tear down instance variables required by this test case.</p>
+     */
+    public void tearDown()
+    {
+        if (facesContext != null)
+        {
+            facesContext.release();
+        }
+        application = null;
+        config = null;
+        externalContext = null;
         facesContext = null;
         lifecycle = null;
         lifecycleFactory = null;
@@ -250,7 +388,8 @@ public class MockedJsfTestContainer
         request = null;
         response = null;
         servletContext = null;
-        session = null;
+        lastSession = null;
+        webContainer = null;
         FactoryFinder.releaseFactories();
         ResourceBundleVarNames.resetNames();
     }
@@ -267,9 +406,10 @@ public class MockedJsfTestContainer
     protected MockLifecycleFactory lifecycleFactory = null;
     protected MockRenderKit renderKit = null;
     protected MockHttpServletRequest request = null;
+    protected boolean requestInitializedCalled = false;
     protected MockHttpServletResponse response = null;
+    protected MockHttpSession lastSession = null;
     protected MockServletContext servletContext = null;
-    protected MockHttpSession session = null;
-
+    private MockWebContainer webContainer = null;
 
 }
