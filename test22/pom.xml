@@ -263,6 +263,6 @@
     </reporting>
     <properties>
         <jsf-ri.version>2.0.2-b10</jsf-ri.version>
-        <jsf-myfaces.version>2.2.0-beta</jsf-myfaces.version>
+        <jsf-myfaces.version>2.2.0</jsf-myfaces.version>
     </properties>
 </project>
