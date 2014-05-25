@@ -102,14 +102,8 @@ public abstract class AbstractJsfConfigurableMultipleRequestsTestCase
     @Before
     public void setUp() throws Exception
     {
-
         // Set up a new thread context class loader
-        threadContextClassLoader = Thread.currentThread()
-                .getContextClassLoader();
-        Thread.currentThread()
-                .setContextClassLoader(
-                        new URLClassLoader(new URL[0], this.getClass()
-                                .getClassLoader()));
+        setUpClassloader();
 
         // Set up JSF Factories
         FactoryFinder.releaseFactories();
@@ -124,6 +118,24 @@ public abstract class AbstractJsfConfigurableMultipleRequestsTestCase
         setUpApplication();
         
         setUpRenderKit();
+    }
+    
+    /**
+     * Set up the thread context classloader. JSF uses the this classloader
+     * in order to find related factory classes and other resources, but in
+     * some selected cases, the default classloader cannot be properly set.
+     * 
+     * @throws Exception 
+     */
+    protected void setUpClassloader() throws Exception
+    {
+        threadContextClassLoader = Thread.currentThread()
+                .getContextClassLoader();
+        Thread.currentThread()
+                .setContextClassLoader(
+                        new URLClassLoader(new URL[0], this.getClass()
+                                .getClassLoader()));
+        classLoaderSet = true;
     }
 
     /**
@@ -333,10 +345,20 @@ public abstract class AbstractJsfConfigurableMultipleRequestsTestCase
         FactoryFinder.releaseFactories();
         ResourceBundleVarNames.resetNames();
 
-        Thread.currentThread().setContextClassLoader(threadContextClassLoader);
-        threadContextClassLoader = null;
+        tearDownClassloader();
+    }
+    
+    protected void tearDownClassloader() throws Exception
+    {
+        if (classLoaderSet)
+        {
+            Thread.currentThread().setContextClassLoader(threadContextClassLoader);
+            threadContextClassLoader = null;
+            classLoaderSet = false;
+        }
     }
 
+    
     /**
      * This method ends the current request.
      */
@@ -370,5 +392,6 @@ public abstract class AbstractJsfConfigurableMultipleRequestsTestCase
 
     // Thread context class loader saved and restored after each test
     private ClassLoader threadContextClassLoader = null;
+    private boolean classLoaderSet = false;
 
 }
