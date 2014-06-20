@@ -183,37 +183,54 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.myfaces.buildtools</groupId>
-                <artifactId>myfaces-builder-plugin</artifactId>
-                <version>1.0.10</version>
-                <executions>
-                  <execution>
-                    <id>unpack-test12</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                      <goal>unpack</goal>
-                    </goals>
-                    <configuration>
-                      <scanModel>false</scanModel>
-                      <artifactItems>
-                        <artifactItem>
-                          <groupId>org.apache.myfaces.test</groupId>
-                          <artifactId>myfaces-test20</artifactId>
-                          <version>${project.version}</version>
-                          <classifier>sources</classifier>                   
-                          <outputDirectory>${project.build.directory}/test20_sources</outputDirectory>
-                          <includes>org/apache/myfaces/**/*.java</includes>
-                          <excludes>**/*.class,**/META-INF/**</excludes>
-                        </artifactItem>
-                      </artifactItems>
-                    </configuration>
-                  </execution>
-                </executions>
-            </plugin>            
+            
         </plugins>    
     </build>
     <profiles>
+        <!-- To avoid this error: 
+                ArchiverException: The source must not be a directory. 
+             we need to disable unpack when site generation is done.
+             -->
+        <profile>
+            <id>unpack-sources</id>
+            <activation>
+                <property>
+                    <name>!generateSite</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.myfaces.buildtools</groupId>
+                        <artifactId>myfaces-builder-plugin</artifactId>
+                        <version>1.0.10</version>
+                        <executions>
+                          <execution>
+                            <id>unpack-test12</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                              <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                              <scanModel>false</scanModel>
+                              <artifactItems>
+                                <artifactItem>
+                                  <groupId>org.apache.myfaces.test</groupId>
+                                  <artifactId>myfaces-test20</artifactId>
+                                  <version>${project.version}</version>
+                                  <classifier>sources</classifier>                   
+                                  <outputDirectory>${project.build.directory}/test20_sources</outputDirectory>
+                                  <includes>org/apache/myfaces/**/*.java</includes>
+                                  <excludes>**/*.class,**/META-INF/**</excludes>
+                                </artifactItem>
+                              </artifactItems>
+                            </configuration>
+                          </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>generate-assembly</id>
             <activation>
