@@ -42,7 +42,7 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
      * 
      * Used on getLibraryVersion to filter resource directories
      **/
-    protected static Pattern VERSION_CHECKER = Pattern
+    protected static final Pattern VERSION_CHECKER = Pattern
             .compile("/\\p{Digit}+(_\\p{Digit}*)*/");
 
     /**
@@ -50,7 +50,7 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
      * 
      * Used on getResourceVersion to filter resources
      **/
-    protected static Pattern RESOURCE_VERSION_CHECKER = Pattern
+    protected static final Pattern RESOURCE_VERSION_CHECKER = Pattern
             .compile("/\\p{Digit}+(_\\p{Digit}*)*\\..*");
 
     public MockExternalContextResourceLoader(String prefix)
@@ -70,7 +70,9 @@ public class MockExternalContextResourceLoader extends MockResourceLoader
         String resourceVersion = null;
         Set<String> resourcePaths = this.getResourcePaths(path);
         if (getPrefix() != null)
+        {
             path = getPrefix() + '/' + path;
+        }
 
         if (null != resourcePaths && !resourcePaths.isEmpty())
         {

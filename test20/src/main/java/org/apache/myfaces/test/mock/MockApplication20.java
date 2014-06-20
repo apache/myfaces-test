@@ -1,18 +1,20 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to you under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 package org.apache.myfaces.test.mock;
@@ -214,7 +216,8 @@ public class MockApplication20 extends MockApplication12
 
     private static final Log log = LogFactory.getLog(MockApplication20.class);
 
-    private final Map<Class<? extends SystemEvent>, SystemListenerEntry> _systemEventListenerClassMap = new ConcurrentHashMap<Class<? extends SystemEvent>, SystemListenerEntry>();
+    private final Map<Class<? extends SystemEvent>, SystemListenerEntry> _systemEventListenerClassMap = 
+        new ConcurrentHashMap<Class<? extends SystemEvent>, SystemListenerEntry>();
 
     private Map<String, String> _defaultValidatorsIds = new HashMap<String, String>();
 
@@ -245,7 +248,8 @@ public class MockApplication20 extends MockApplication12
         _handleResourceDependencyAnnotations(context, inspectedClass, component, isProduction);
     }
     
-    private void _handleListenerForAnnotations(FacesContext context, Object inspected, Class<?> inspectedClass, UIComponent component, boolean isProduction)
+    private void _handleListenerForAnnotations(FacesContext context, Object inspected, Class<?> inspectedClass, 
+        UIComponent component, boolean isProduction)
     {
         List<ListenerFor> listenerForList = null;
         
@@ -259,10 +263,14 @@ public class MockApplication20 extends MockApplication12
                 listenerForList = new ArrayList<ListenerFor>();
                 
                 if(listener != null)
+                {
                     listenerForList.add(listener);
+                }
                 
                 if(listeners != null)
+                {
                     listenerForList.addAll(Arrays.asList(listeners.value()));
+                }
             }
         }        
  
@@ -341,7 +349,8 @@ public class MockApplication20 extends MockApplication12
         }
     }
 
-    private void _handleResourceDependencyAnnotations(FacesContext context, Class<?> inspectedClass, UIComponent component, boolean isProduction)
+    private void _handleResourceDependencyAnnotations(FacesContext context, Class<?> inspectedClass, 
+        UIComponent component, boolean isProduction)
     {
         List<ResourceDependency> dependencyList = null;
         
@@ -355,10 +364,14 @@ public class MockApplication20 extends MockApplication12
                 dependencyList = new ArrayList<ResourceDependency>();
                 
                 if(dependency != null)
+                {
                     dependencyList.add(dependency);
+                }
                 
                 if(dependencies != null)
+                {
                     dependencyList.addAll(Arrays.asList(dependencies.value()));
+                }
             }
         }        
  
@@ -385,7 +398,8 @@ public class MockApplication20 extends MockApplication12
             String name = annotation.name();
             if (name != null && name.length() > 0)
             {
-                name = _ELText.parse(getExpressionFactory(), context.getELContext(), name).toString(context.getELContext());
+                name = _ELText.parse(getExpressionFactory(), context.getELContext(), name).toString(
+                    context.getELContext());
             }
 
             // Obtain the renderer-type for the resource name by passing name to
@@ -406,7 +420,8 @@ public class MockApplication20 extends MockApplication12
             String library = annotation.library();
             if (library != null && library.length() > 0)
             {
-                library = _ELText.parse(getExpressionFactory(), context.getELContext(), library).toString(context.getELContext());
+                library = _ELText.parse(getExpressionFactory(), context.getELContext(), library).toString(
+                    context.getELContext());
                 // If library is non-null, store it under the key "library".
                 if ("this".equals(library))
                 {
@@ -427,7 +442,8 @@ public class MockApplication20 extends MockApplication12
             String target = annotation.target();
             if (target != null && target.length() > 0)
             {
-                target = _ELText.parse(getExpressionFactory(), context.getELContext(), target).toString(context.getELContext());
+                target = _ELText.parse(getExpressionFactory(), context.getELContext(), target).toString(
+                    context.getELContext());
                 // If target is non-null, store it under the key "target".
                 attributes.put("target", target);
                 context.getViewRoot().addComponentResource(context, output, target);
@@ -441,7 +457,8 @@ public class MockApplication20 extends MockApplication12
         }
     }
     
-    private void _inspectRenderer(FacesContext context, UIComponent component, String componentType, String rendererType)
+    private void _inspectRenderer(FacesContext context, UIComponent component, String componentType,
+        String rendererType)
     {
         /*
          * The Renderer instance to inspect must be obtained by calling FacesContext.getRenderKit() and calling
@@ -575,7 +592,8 @@ public class MockApplication20 extends MockApplication12
                 SystemEventListenerHolder holder = (SystemEventListenerHolder) source;
 
                 // If the source argument implements SystemEventListenerHolder, call 
-                // SystemEventListenerHolder.getListenersForEventClass(java.lang.Class) on it, passing the systemEventClass 
+                // SystemEventListenerHolder.getListenersForEventClass(java.lang.Class) on it, 
+                // passing the systemEventClass 
                 // argument. If the list is not empty, perform algorithm traverseListenerList on the list.
                 event = _traverseListenerList(holder
                         .getListenersForEventClass(systemEventClass),
@@ -914,7 +932,8 @@ public class MockApplication20 extends MockApplication12
          */
         UIViewRoot view = context.getViewRoot();
         Application application = context.getApplication();
-        ViewDeclarationLanguage vdl = application.getViewHandler().getViewDeclarationLanguage(context, view.getViewId());
+        ViewDeclarationLanguage vdl = application.getViewHandler().getViewDeclarationLanguage(
+            context, view.getViewId());
 
         /*
          * Obtain a reference to the composite component metadata for this composite component by calling
@@ -1063,7 +1082,10 @@ public class MockApplication20 extends MockApplication12
     private static Class classForName(String type)
         throws ClassNotFoundException
     {
-        if (type == null) throw new NullPointerException("type");
+        if (type == null)
+        {
+            throw new NullPointerException("type");
+        }
         try
         {
             // Try WebApp ClassLoader first
@@ -1082,7 +1104,8 @@ public class MockApplication20 extends MockApplication12
     
     private void _handleAttachedResourceDependencyAnnotations(FacesContext context, Object inspected)
     {
-        if (inspected == null) {
+        if (inspected == null)
+        {
             return;
         }
         
@@ -1127,7 +1150,8 @@ public class MockApplication20 extends MockApplication12
             String name = annotation.name();
             if (name != null && name.length() > 0)
             {
-                name = _ELText.parse(getExpressionFactory(), context.getELContext(), name).toString(context.getELContext());
+                name = _ELText.parse(getExpressionFactory(), context.getELContext(), name).toString(
+                    context.getELContext());
             }
             
             // Obtain the renderer-type for the resource name by passing name to 
@@ -1147,7 +1171,8 @@ public class MockApplication20 extends MockApplication12
             String library = annotation.library();
             if (library != null && library.length() > 0)
             {
-                library = _ELText.parse(getExpressionFactory(), context.getELContext(), library).toString(context.getELContext());
+                library = _ELText.parse(getExpressionFactory(), context.getELContext(), library).toString(
+                    context.getELContext());
                 // If library is non-null, store it under the key "library".
                 attributes.put("library", library);
             }
@@ -1156,7 +1181,8 @@ public class MockApplication20 extends MockApplication12
             String target = annotation.target();
             if (target != null && target.length() > 0)
             {
-                target = _ELText.parse(getExpressionFactory(), context.getELContext(), target).toString(context.getELContext());
+                target = _ELText.parse(getExpressionFactory(), context.getELContext(), target).toString(
+                    context.getELContext());
                 // If target is non-null, store it under the key "target".
                 attributes.put("target", target);
                 context.getViewRoot().addComponentResource(context, output, target);

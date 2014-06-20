@@ -1,18 +1,20 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to you under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 package org.apache.myfaces.test.mock;
@@ -89,11 +91,13 @@ public class MockPropertyResolver extends PropertyResolver
             throws PropertyNotFoundException
     {
 
-        if (base instanceof List) {
+        if (base instanceof List)
+        {
             List l = (List) base;
             return index < l.size() ? l.get(index) : null;
         }
-        if (base != null && base.getClass().isArray()) {
+        if (base != null && base.getClass().isArray())
+        {
             return index < Array.getLength(base) ? Array.get(base, index) : null;
         }
         return getValue(base, "" + index);
@@ -136,16 +140,20 @@ public class MockPropertyResolver extends PropertyResolver
             throws PropertyNotFoundException
     {
 
-        if (base instanceof List) {
+        if (base instanceof List)
+        {
             List l = (List) base;
-            if (index > l.size()) {
+            if (index > l.size())
+            {
                 throw new PropertyNotFoundException();
             }
             l.set(index, value);
             return;
         }
-        if (base != null && base.getClass().isArray()) {
-            if (index < Array.getLength(base)) {
+        if (base != null && base.getClass().isArray())
+        {
+            if (index < Array.getLength(base))
+            {
                 Array.set(base, index, value);
                 return;
             }

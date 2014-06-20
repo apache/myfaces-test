@@ -68,7 +68,9 @@ public class FullVisitContext extends VisitContext
     public FullVisitContext(FacesContext facesContext, Set<VisitHint> hints)
     {
         if (facesContext == null)
+        {
             throw new NullPointerException();
+        }
 
         _facesContext = facesContext;
 

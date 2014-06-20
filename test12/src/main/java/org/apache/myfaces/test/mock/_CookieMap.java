@@ -61,7 +61,9 @@ final class _CookieMap extends _AbstractAttributeMap<Object>
 
         final Cookie[] cookies = _httpServletRequest.getCookies();
         if (cookies == null)
+        {
             return false;
+        }
         for (int i = 0, len = cookies.length; i < len; i++)
         {
             if (findValue.equals(cookies[i]))
@@ -98,7 +100,9 @@ final class _CookieMap extends _AbstractAttributeMap<Object>
     {
         final Cookie[] cookies = _httpServletRequest.getCookies();
         if (cookies == null)
+        {
             return null;
+        }
         for (int i = 0, len = cookies.length; i < len; i++)
         {
             if (cookies[i].getName().equals(key))

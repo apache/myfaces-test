@@ -50,8 +50,9 @@ final class _RequestHeaderValuesMap extends _AbstractAttributeMap<String[]>
         String[] ret = _valueCache.get(key);
         if (ret == null)
         {
-            _valueCache.put(key, ret = toArray(_httpServletRequest
-                    .getHeaders(key)));
+            ret = toArray(_httpServletRequest
+                    .getHeaders(key));
+            _valueCache.put(key, ret);
         }
 
         return ret;

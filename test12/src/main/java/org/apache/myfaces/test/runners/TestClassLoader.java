@@ -1,18 +1,20 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to you under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.myfaces.test.runners;
 
@@ -117,7 +119,9 @@ public class TestClassLoader extends ClassLoader
 
         Class c = findLoadedClass(name);
         if (c != null)
+        {
             return c;
+        }
         //
         // Delegate the loading of excluded classes to the
         // standard class loader.
@@ -138,11 +142,15 @@ public class TestClassLoader extends ClassLoader
         {
             byte[] data = lookupClassData(name);
             if (data == null)
+            {
                 throw new ClassNotFoundException();
+            }
             c = defineClass(name, data, 0, data.length);
         }
         if (resolve)
+        {
             resolveClass(c);
+        }
         return c;
     }
 
@@ -172,7 +180,9 @@ public class TestClassLoader extends ClassLoader
                 data = loadFileData(path, fileName);
             }
             if (data != null)
+            {
                 return data;
+            }
         }
         throw new ClassNotFoundException(className);
     }
@@ -216,7 +226,9 @@ public class TestClassLoader extends ClassLoader
             byte[] b = new byte[1000];
             int n;
             while ((n = stream.read(b)) != -1)
+            {
                 out.write(b, 0, n);
+            }
             stream.close();
             out.close();
             return out.toByteArray();
@@ -242,7 +254,9 @@ public class TestClassLoader extends ClassLoader
         InputStream stream = null;
         File archive = new File(path);
         if (!archive.exists())
+        {
             return null;
+        }
         try
         {
             zipFile = new ZipFile(archive);
@@ -253,7 +267,9 @@ public class TestClassLoader extends ClassLoader
         }
         ZipEntry entry = zipFile.getEntry(fileName);
         if (entry == null)
+        {
             return null;
+        }
         int size = (int) entry.getSize();
         try
         {
@@ -276,7 +292,9 @@ public class TestClassLoader extends ClassLoader
             try
             {
                 if (stream != null)
+                {
                     stream.close();
+                }
             }
             catch (IOException e)
             {
@@ -292,11 +310,15 @@ public class TestClassLoader extends ClassLoader
     {
         fExcluded = new Vector<String>(10);
         for (int i = 0; i < defaultExclusions.length; i++)
+        {
             fExcluded.addElement(defaultExclusions[i]);
+        }
 
         InputStream is = getClass().getResourceAsStream(EXCLUDED_FILE);
         if (is == null)
+        {
             return;
+        }
         Properties p = new Properties();
         try
         {
@@ -324,9 +346,13 @@ public class TestClassLoader extends ClassLoader
                 String path = p.getProperty(key);
                 path = path.trim();
                 if (path.endsWith("*"))
+                {
                     path = path.substring(0, path.length() - 1);
+                }
                 if (path.length() > 0)
+                {
                     fExcluded.addElement(path);
+                }
             }
         }
     }
