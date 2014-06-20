@@ -33,18 +33,18 @@ Download Apache MyFaces Test
   created using GNU tar extensions. Thus they must be untarred with a GNU compatible
   version of tar.
 
-  << Apache MyFaces Test 1.0.5 Distribution >>
+  << Apache MyFaces Test 1.0.7 Distribution >>
 
 *-------------------------+---------+----------+-----------+
 |                         | Mirrors | Checksum | Signature |
 *-------------------------+---------+----------+-----------+
-| MyFaces Test 1.0.5 (tar.gz)     | {{{http://www.apache.org/dyn/closer.cgi/myfaces/binaries/myfaces-test-assembly-1.0.5-bin.tar.gz} myfaces-test-assembly-1.0.5-bin.tar.gz}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.5-bin.tar.gz.md5} myfaces-test-assembly-1.0.5-bin.tar.gz.md5}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.5-bin.tar.gz.asc} myfaces-test-assembly-1.0.5-bin.tar.gz.asc}} |
+| MyFaces Test 1.0.7 (tar.gz)     | {{{http://www.apache.org/dyn/closer.cgi/myfaces/binaries/myfaces-test-assembly-1.0.7-bin.tar.gz} myfaces-test-assembly-1.0.7-bin.tar.gz}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.7-bin.tar.gz.md5} myfaces-test-assembly-1.0.7-bin.tar.gz.md5}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.7-bin.tar.gz.asc} myfaces-test-assembly-1.0.7-bin.tar.gz.asc}} |
 *-------------------------+---------+----------+-----------+
-| MyFaces Test 1.0.5 (zip)      | {{{http://www.apache.org/dyn/closer.cgi/myfaces/binaries/myfaces-test-assembly-1.0.5-bin.zip} myfaces-test-assembly-1.0.5-bin.zip}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.5-bin.zip.md5} myfaces-test-assembly-1.0.5-bin.zip.md5}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.5-bin.zip.asc} myfaces-test-assembly-1.0.5-bin.zip.asc}} |
+| MyFaces Test 1.0.7 (zip)      | {{{http://www.apache.org/dyn/closer.cgi/myfaces/binaries/myfaces-test-assembly-1.0.7-bin.zip} myfaces-test-assembly-1.0.7-bin.zip}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.7-bin.zip.md5} myfaces-test-assembly-1.0.7-bin.zip.md5}} | {{{http://www.apache.org/dist/myfaces/binaries/myfaces-test-assembly-1.0.7-bin.zip.asc} myfaces-test-assembly-1.0.7-bin.zip.asc}} |
 *-------------------------+---------+----------+-----------+
-| MyFaces Test 1.0.5 Source (tar.gz)     | {{{http://www.apache.org/dyn/closer.cgi/myfaces/source/myfaces-test-assembly-1.0.5-src.tar.gz} myfaces-test-assembly-1.0.5-src.tar.gz}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.5-src.tar.gz.md5} myfaces-test-assembly-1.0.5-src.tar.gz.md5}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.5-src.tar.gz.asc} myfaces-test-assembly-1.0.5-src.tar.gz.asc}} |
+| MyFaces Test 1.0.7 Source (tar.gz)     | {{{http://www.apache.org/dyn/closer.cgi/myfaces/source/myfaces-test-assembly-1.0.7-src.tar.gz} myfaces-test-assembly-1.0.7-src.tar.gz}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.7-src.tar.gz.md5} myfaces-test-assembly-1.0.7-src.tar.gz.md5}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.7-src.tar.gz.asc} myfaces-test-assembly-1.0.7-src.tar.gz.asc}} |
 *-------------------------+---------+----------+-----------+
-| MyFaces Test 1.0.5 Source (zip)      | {{{http://www.apache.org/dyn/closer.cgi/myfaces/source/myfaces-test-assembly-1.0.5-src.zip} myfaces-test-assembly-1.0.5-src.zip}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.5-src.zip.md5} myfaces-test-assembly-1.0.5-src.zip.md5}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.5-src.zip.asc} myfaces-test-assembly-1.0.5-src.zip.asc}} |
+| MyFaces Test 1.0.7 Source (zip)      | {{{http://www.apache.org/dyn/closer.cgi/myfaces/source/myfaces-test-assembly-1.0.7-src.zip} myfaces-test-assembly-1.0.7-src.zip}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.7-src.zip.md5} myfaces-test-assembly-1.0.7-src.zip.md5}} | {{{http://www.apache.org/dist/myfaces/source/myfaces-test-assembly-1.0.7-src.zip.asc} myfaces-test-assembly-1.0.7-src.zip.asc}} |
 *-------------------------+---------+----------+-----------+
 
 Latest source code from SVN repository
@@ -82,19 +82,19 @@ Verifying signatures
 
 	  <<<
 	  % pgpk -a KEYS
-	  % pgpv myfaces-test-assembly-1.0.5-bin.tar.gz.asc myfaces-test-assembly-1.0.5-bin.tar.gz
+	  % pgpv myfaces-test-assembly-1.0.7-bin.tar.gz.asc myfaces-test-assembly-1.0.7-bin.tar.gz
 	  >>>
 
 	  <or>
 
 	  <<<
 	  % pgp -ka KEYS
-	  % pgp myfaces-test-assembly-1.0.5-bin.tar.gz.asc myfaces-test-assembly-1.0.5-bin.tar.gz
+	  % pgp myfaces-test-assembly-1.0.7-bin.tar.gz.asc myfaces-test-assembly-1.0.7-bin.tar.gz
 	  >>>
 
 	  <or>
 
 	  <<<
   	% gpg --import KEYS
-	  % gpg --verify myfaces-test-assembly-1.0.5-bin.tar.gz.asc myfaces-test-assembly-1.0.5-bin.tar.gz
+	  % gpg --verify myfaces-test-assembly-1.0.7-bin.tar.gz.asc myfaces-test-assembly-1.0.7-bin.tar.gz
 	  >>>
