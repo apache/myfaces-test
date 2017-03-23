@@ -46,6 +46,7 @@
       <module>test12</module>
       <module>test20</module>
       <module>test22</module>
+	  <module>test23</module>
     </modules>
     <!--
     <repositories>
