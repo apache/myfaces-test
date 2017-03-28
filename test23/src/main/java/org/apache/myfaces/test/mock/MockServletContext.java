@@ -635,7 +635,7 @@ public class MockServletContext implements ServletContext
 
             public Collection<String> getMappings()
             {
-                String[] mappings = {"*.jsf", "/faces/*", "*.xhtml"};
+                String[] mappings = {"/faces/*", "*.jsf", "*.xhtml"};
                 return Arrays.asList(mappings);
             }
 
