@@ -155,6 +155,10 @@ public class MockServletContext implements ServletContext
     private Hashtable parameters = new Hashtable();
     private List attributeListeners = new ArrayList();
     private MockWebContainer webContainer;
+    private Map<String, ServletRegistration> servletRegistrations = 
+            new HashMap<String, ServletRegistration>();
+    
+    private ClassLoader classLoader;
 
     // -------------------------------------------------- ServletContext Methods
 
@@ -588,24 +592,25 @@ public class MockServletContext implements ServletContext
         }
     }
 
-    public boolean setInitParameter(String string, String string1)
+    public boolean setInitParameter(String name, String value)
     {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        addInitParameter(name, value);
+        return true;
     }
 
-    public ServletRegistration.Dynamic addServlet(String string, String string1) 
+    public ServletRegistration.Dynamic addServlet(String name, String string1) 
             throws IllegalArgumentException, IllegalStateException
     {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
-    public ServletRegistration.Dynamic addServlet(String string, Servlet srvlt) 
+    public ServletRegistration.Dynamic addServlet(String name, Servlet srvlt) 
             throws IllegalArgumentException, IllegalStateException
     {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
-    public ServletRegistration.Dynamic addServlet(String string, Class<? extends Servlet> type) 
+    public ServletRegistration.Dynamic addServlet(String name, Class<? extends Servlet> type) 
             throws IllegalArgumentException, IllegalStateException
     {
         throw new UnsupportedOperationException("Not supported yet."); 
@@ -616,65 +621,20 @@ public class MockServletContext implements ServletContext
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
-    public ServletRegistration getServletRegistration(String string)
+    public ServletRegistration getServletRegistration(String name)
     {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return servletRegistrations.get(name);
     }
 
     public Map<String, ? extends ServletRegistration> getServletRegistrations()
     {
-        Map map = new HashMap<String, ServletRegistration>();
-                
-        map.put("Faces Servlet", new ServletRegistration()
-        {
-
-            public Set<String> addMapping(String... strings)
-            {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public Collection<String> getMappings()
-            {
-                String[] mappings = {"/faces/*", "*.jsf", "*.xhtml"};
-                return Arrays.asList(mappings);
-            }
-
-            public String getRunAsRole()
-            {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public String getClassName()
-            {
-                return FacesServlet.class.getName();
-            }
-
-            public String getInitParameter(String string)
-            {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public Map<String, String> getInitParameters()
-            {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public String getName()
-            {
-                return "Faces Servlet";
-            }
-
-            public boolean setInitParameter(String string, String string1)
-            {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public Set<String> setInitParameters(Map<String, String> map)
-            {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        });
-        return map;
+        return servletRegistrations;
+    }
+    
+    public void addServletRegistration(String name, String servletClassName, String ... mappings)
+    {
+        ServletRegistration sr = new MockServletRegistration(name, servletClassName, mappings);
+        this.servletRegistrations.put(name, sr);
     }
 
     public FilterRegistration.Dynamic addFilter(String string, String string1) 
@@ -767,7 +727,19 @@ public class MockServletContext implements ServletContext
 
     public ClassLoader getClassLoader()
     {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        if (classLoader != null)
+        {
+            return classLoader;
+        }
+        else
+        {
+            return Thread.currentThread().getContextClassLoader();
+        }
+    }
+    
+    public void setClassLoader(ClassLoader classLoader)
+    {
+        this.classLoader = classLoader;
     }
 
     public JspConfigDescriptor getJspConfigDescriptor()
