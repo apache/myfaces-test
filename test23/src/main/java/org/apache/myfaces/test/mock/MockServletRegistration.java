@@ -30,7 +30,7 @@ import javax.servlet.ServletRegistration;
  */
 public class MockServletRegistration implements ServletRegistration
 {
-    public static String[] FACES_SERVLET_MAPPINGS = {"/faces/*", "*.jsf", "*.xhtml"};
+    public static String[] facesServletMappings = {"/faces/*", "*.jsf", "*.xhtml"};
     
     private Set<String> mappings = new LinkedHashSet<String>();
     private String name;

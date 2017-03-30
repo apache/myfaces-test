@@ -26,8 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -37,7 +35,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.faces.webapp.FacesServlet;
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 
