@@ -55,6 +55,7 @@ public class MockPartialViewContext extends PartialViewContext
     private Boolean _partialRequest = null;
     private Boolean _renderAll = null;
     private PartialResponseWriter _partialResponseWriter = null;
+    private List<String> _evalScripts = new ArrayList<String>();
 
     public MockPartialViewContext(FacesContext context)
     {
@@ -312,6 +313,12 @@ public class MockPartialViewContext extends PartialViewContext
         _partialRequest = null;
         _renderAll = null;
         _facesContext = null;
+        _evalScripts = new ArrayList<String>();
+    }
+    
+    public List<String> getEvalScripts()
+    {
+        return _evalScripts;
     }
 
     private static String[] splitShortString(String str, char separator)

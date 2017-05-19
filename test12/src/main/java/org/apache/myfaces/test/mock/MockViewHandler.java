@@ -158,5 +158,12 @@ public class MockViewHandler extends ViewHandler
     {
 
     }
+    
+    public String getWebsocketURL(FacesContext context, String channelAndToken)
+    {
+        String url = context.getExternalContext().getRequestContextPath() + 
+                "/javax.faces.push/"+channelAndToken;
+        return url;
+    }
 
 }

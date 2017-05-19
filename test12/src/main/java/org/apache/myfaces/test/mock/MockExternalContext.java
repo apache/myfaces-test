@@ -465,6 +465,34 @@ public class MockExternalContext extends ExternalContext
         response.sendRedirect(requestURI);
         FacesContext.getCurrentInstance().responseComplete();
     }
+    
+    public String encodeWebsocketURL(String baseUrl)
+    {
+        Integer port = 8080;
+        port = (port == 0) ? null : port;
+        if (port != null && 
+            !port.equals(request.getServerPort()))
+        {
+            String scheme = "http";
+            String serverName = request.getServerName();
+            String url;
+            try
+            {
+                url = new URL(scheme, serverName, port, baseUrl).toExternalForm();
+                url = url.replaceFirst("http", "ws");
+                return url;
+            }
+            catch (MalformedURLException ex)
+            {
+                //If cannot build the url, return the base one unchanged
+                return baseUrl;
+            }
+        }
+        else
+        {
+            return baseUrl;
+        }
+    }
 
     /**
      * <p>Iterator implementation that wraps an enumeration
