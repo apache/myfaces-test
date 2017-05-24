@@ -257,6 +257,30 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>generate-assembly-2</id>
+            <activation>
+                <property>
+                    <name>prepareRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <reporting>
       <plugins>
