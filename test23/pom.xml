@@ -262,17 +262,18 @@
       <plugins>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
+		  <!--
           <reportSets>
             <reportSet>
               <id>non-aggregate</id>
               <configuration>
-                <!-- Specific configuration for the non aggregate report -->
               </configuration>
               <reports>
                 <report>javadoc</report>
               </reports>
             </reportSet>
           </reportSets>
+		  -->
         </plugin>
       </plugins>
     </reporting>
