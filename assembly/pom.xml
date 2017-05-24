@@ -63,6 +63,12 @@
                   <version>${project.version}</version>
                   <classifier>javadoc</classifier>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.myfaces.test</groupId>
+                  <artifactId>myfaces-test23</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>javadoc</classifier>
+                </artifactItem>
               </artifactItems>
               <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
             </configuration>
@@ -90,6 +96,12 @@
                 <artifactItem>
                   <groupId>org.apache.myfaces.test</groupId>
                   <artifactId>myfaces-test22</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>sources</classifier>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.myfaces.test</groupId>
+                  <artifactId>myfaces-test23</artifactId>
                   <version>${project.version}</version>
                   <classifier>sources</classifier>
                 </artifactItem>
@@ -205,6 +217,12 @@
     <dependency>
       <groupId>org.apache.myfaces.test</groupId>
       <artifactId>myfaces-test22</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+	
+    <dependency>
+      <groupId>org.apache.myfaces.test</groupId>
+      <artifactId>myfaces-test23</artifactId>
       <version>${project.version}</version>
     </dependency>
 
