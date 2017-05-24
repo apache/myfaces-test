@@ -236,7 +236,6 @@
 
                     <plugin>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.8</version>
                         <executions>
                             <execution>
                                 <id>attach-javadoc</id>
@@ -255,7 +254,6 @@
       <plugins>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.8</version>
           <reportSets>
             <reportSet>
               <id>non-aggregate</id>
