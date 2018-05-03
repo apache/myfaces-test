@@ -38,9 +38,9 @@
       <url>http://issues.apache.org/jira/browse/MYFACESTEST</url>
     </issueManagement>
     <scm>
-      <connection>scm:svn:http://svn.apache.org/repos/asf/myfaces/test/trunk</connection>
-      <developerConnection>scm:svn:https://svn.apache.org/repos/asf/myfaces/test/trunk</developerConnection>
-      <url>http://svn.apache.org/repos/asf/myfaces/test/trunk</url>
+      <connection>scm:git:https://gitbox.apache.org/repos/asf/myfaces-test.git</connection>
+      <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/myfaces-test.git</developerConnection>
+      <url>https://gitbox.apache.org/repos/asf?p=myfaces-test.git</url>
     </scm>
     <modules>
       <module>test12</module>
