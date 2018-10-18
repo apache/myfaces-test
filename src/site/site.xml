@@ -22,15 +22,15 @@
     <src>img/banners/MyFaces_logo.jpg</src>
     <href>http://myfaces.apache.org/index.html</href>
   </bannerLeft>
-    
+
   <bannerRight>
     <name>Apache Banner</name>
     <src>img/banners/apache_banner.png</src>
     <href>http://www.apache.org</href>
   </bannerRight>
-    
+
   <publishDate format="dd MMM yyyy" />
-    
+
   <skin>
     <groupId>org.apache.myfaces.maven</groupId>
     <artifactId>myfaces-site-skin</artifactId>
@@ -44,11 +44,13 @@
       <item name="1.2 Javadocs"  href="./myfaces-test12/apidocs/index.html"/>
       <item name="2.0 Javadocs"  href="./myfaces-test20/apidocs/index.html"/>
       <item name="2.2 Javadocs"  href="./myfaces-test22/apidocs/index.html"/>
+      <item name="2.3 Javadocs"  href="./myfaces-test23/apidocs/index.html"/>
+      <item name="3.0 Javadocs"  href="./myfaces-test30/apidocs/index.html"/>
       <item name="Download Myfaces Test" href="./download.html"/>
       <item name="Apache" href="http://www.apache.org"/>
       <item name="MyFaces" href="http://myfaces.apache.org/index.html"/>
     </links>
-  
+
     <menu name="Apache MyFaces" inherit="top">
       <item name="Overview"       href="http://myfaces.apache.org/index.html"/>
       <item name="Download"       href="http://myfaces.apache.org/download.html"/>
@@ -68,7 +70,7 @@
           <item name="dummy"        href="dummy"/>
         </item>
     </menu>
-    
+
     <menu name="UI-Component Sets" inherit="top">
         <item name="Trinidad"       href="../trinidad/index.html"/>
         <item name="Tobago"         href="../tobago/index.html"/>
@@ -76,7 +78,7 @@
           <item name="dummy"        href="dummy"/>
         </item>
     </menu>
-    
+
     <menu name="Add-ons and Extensions" inherit="top">
         <item name="CODI"           href="../extensions/cdi/index.html"/>
         <item name="Orchestra"      href="../orchestra/index.html"/>

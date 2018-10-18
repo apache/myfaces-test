@@ -69,6 +69,12 @@
                   <version>${project.version}</version>
                   <classifier>javadoc</classifier>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.myfaces.test</groupId>
+                  <artifactId>myfaces-test30</artifactId>
+                  <version>${project.version}</version>
+                  <classifier>javadoc</classifier>
+                </artifactItem>
               </artifactItems>
               <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
             </configuration>
@@ -111,7 +117,7 @@
                   <version>${project.version}</version>
                   <type>zip</type>
                   <classifier>source-release</classifier>
-                </artifactItem>                
+                </artifactItem>
                </artifactItems>
                <outputDirectory>${project.build.directory}/src</outputDirectory>
              </configuration>
@@ -137,7 +143,7 @@
                 <phase>package</phase>
                 <goals>
                    <goal>attached</goal>
-                </goals>                
+                </goals>
             </execution>
             <execution>
                 <id>make_assembly_bin</id>
@@ -219,7 +225,7 @@
       <artifactId>myfaces-test22</artifactId>
       <version>${project.version}</version>
     </dependency>
-	
+
     <dependency>
       <groupId>org.apache.myfaces.test</groupId>
       <artifactId>myfaces-test23</artifactId>
