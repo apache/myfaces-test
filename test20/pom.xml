@@ -269,6 +269,6 @@
     </reporting>
     <properties>
         <jsf-ri.version>2.0.2-b10</jsf-ri.version>
-        <jsf-myfaces.version>2.0.0</jsf-myfaces.version>
+        <jsf-myfaces.version>2.0.1</jsf-myfaces.version>
     </properties>
 </project>
